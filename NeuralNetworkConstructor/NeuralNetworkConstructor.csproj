@@ -35,11 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Network\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Layer.cs" />
+    <Compile Include="Network\INetwork.cs" />
+    <Compile Include="Network\Network.cs" />
+    <Compile Include="Node\Bias.cs" />
     <Compile Include="Node\INode.cs" />
-    <Compile Include="Network.cs" />
     <Compile Include="IInput.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="IOutput.cs" />

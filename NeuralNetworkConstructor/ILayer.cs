@@ -6,7 +6,7 @@ namespace NeuralNetworkConstructor
     public interface ILayer
     {
 
-        IEnumerable<INode> Nodes { get; }
+        ICollection<INode> Nodes { get; }
 
     }
 }

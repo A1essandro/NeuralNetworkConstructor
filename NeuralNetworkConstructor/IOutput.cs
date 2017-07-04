@@ -1,9 +1,9 @@
 ﻿namespace NeuralNetworkConstructor
 {
-    public interface IOutput
+    public interface IOutput<out T>
     {
 
-        double Output();
+        T Output();
 
     }
 }

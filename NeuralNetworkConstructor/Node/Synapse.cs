@@ -6,12 +6,15 @@ namespace NeuralNetworkConstructor.Node
     public class Synapse : ISynapse
     {
 
-        public INode MasterNode { get; private set; }
+        public INode MasterNode { get; }
 
         public double Weight { get; private set; }
 
-        private static Random _random = new Random();
-        private static double _randomWeight => (_random.NextDouble() - 0.5) * 2;
+        private static readonly Random Random = new Random();
+        /// <summary>
+        /// Random value from -1.0 to 1.0
+        /// </summary>
+        private static double RandomWeight => (Random.NextDouble() - 0.5) * 2;
 
         public void ChangeWeight(double delta)
         {
@@ -25,7 +28,7 @@ namespace NeuralNetworkConstructor.Node
         }
 
         public Synapse(INode masterNode)
-            : this(masterNode, _randomWeight)
+            : this(masterNode, RandomWeight)
         {
             //empty
         }

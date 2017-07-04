@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
+
 namespace NeuralNetworkConstructor.Network
 {
-    public class Network
+    public interface INetwork : IOutput<IEnumerable<double>>, IInput<ICollection<double>>
     {
-
-        IEnumerable<ILayer> Layers { get; private set; }
-
     }
 }

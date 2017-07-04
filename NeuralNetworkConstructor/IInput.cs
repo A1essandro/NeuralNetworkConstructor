@@ -1,9 +1,9 @@
 ﻿namespace NeuralNetworkConstructor
 {
-    public interface IInput
+    public interface IInput<in T>
     {
 
-        void Input(double input);
+        void Input(T input);
 
     }
 }

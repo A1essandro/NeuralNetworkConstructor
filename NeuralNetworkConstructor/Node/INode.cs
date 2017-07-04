@@ -1,9 +1,6 @@
 ﻿namespace NeuralNetworkConstructor.Node
 {
-    public interface INode : IOutput
+    public interface INode : IOutput<double>
     {
-
-        
-
     }
 }
