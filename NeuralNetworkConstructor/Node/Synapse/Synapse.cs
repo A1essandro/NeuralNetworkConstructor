@@ -21,6 +21,12 @@ namespace NeuralNetworkConstructor.Node.Synapse
             Weight += delta;
         }
 
+        /// <summary>
+        /// Calculate output data from master node via weight
+        /// </summary>
+        /// <returns></returns>
+        public double Output() => Weight * MasterNode.Output();
+
         public Synapse(INode masterNode, double weight)
         {
             MasterNode = masterNode;

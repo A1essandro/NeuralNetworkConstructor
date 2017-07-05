@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetworkConstructor.Node.Synapse
 {
-    public interface ISynapse
+    public interface ISynapse : IOutput<double>
     {
 
         void ChangeWeight(double delta);
