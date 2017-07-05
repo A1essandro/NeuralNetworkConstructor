@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NeuralNetworkConstructor.Node;
+using NeuralNetworkConstructor.Node.Synapse;
 
 namespace Tests
 {

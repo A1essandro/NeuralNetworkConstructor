@@ -40,14 +40,16 @@
     <Compile Include="Layer.cs" />
     <Compile Include="Network\INetwork.cs" />
     <Compile Include="Network\Network.cs" />
+    <Compile Include="Node\ActivationFunction\IActivationFunction.cs" />
+    <Compile Include="Node\ActivationFunction\SimpleActivationFunction.cs" />
     <Compile Include="Node\Bias.cs" />
     <Compile Include="Node\INode.cs" />
     <Compile Include="IInput.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="IOutput.cs" />
     <Compile Include="Node\InputNode.cs" />
-    <Compile Include="Node\ISynapse.cs" />
-    <Compile Include="Node\Synapse.cs" />
+    <Compile Include="Node\Synapse\ISynapse.cs" />
+    <Compile Include="Node\Synapse\Synapse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

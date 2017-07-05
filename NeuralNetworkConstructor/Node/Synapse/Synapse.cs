@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetworkConstructor.Node
+namespace NeuralNetworkConstructor.Node.Synapse
 {
 
     public class Synapse : ISynapse

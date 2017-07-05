@@ -1,4 +1,4 @@
-﻿namespace NeuralNetworkConstructor.Node
+﻿namespace NeuralNetworkConstructor.Node.Synapse
 {
     public interface ISynapse
     {
