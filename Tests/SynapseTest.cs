@@ -2,6 +2,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NeuralNetworkConstructor.Node;
 using NeuralNetworkConstructor.Node.Synapse;
+using NeuralNetworkConstructor;
+using System.Collections.Generic;
+using NeuralNetworkConstructor.Node.ActivationFunction;
+using System.Linq;
 
 namespace Tests
 {
@@ -24,6 +28,21 @@ namespace Tests
 
             Assert.AreNotEqual(synapse2.Weight, synapse1.Weight);
             Assert.IsTrue(Math.Abs(synapse1.Weight) <= 1);
+        }
+
+        [TestMethod]
+        public void TestGeneratorEachToEach()
+        {
+            var master = new Layer(new List<INode> {
+                new Bias(), new Neuron(new SimpleActivationFunction())
+            });
+            var slave = new Layer(new List<INode> {
+                new Neuron(new SimpleActivationFunction()), new Neuron(new SimpleActivationFunction())
+            });
+
+            Synapse.Generator.EachToEach(master, slave);
+
+            Assert.AreEqual(2, (slave.Nodes.First() as Neuron).Synapses.Count);
         }
     }
 }

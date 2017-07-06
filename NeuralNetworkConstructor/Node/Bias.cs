@@ -1,10 +1,7 @@
 ﻿namespace NeuralNetworkConstructor.Node
 {
-    public class Bias : INode
+    public struct Bias : INode
     {
-        public double Output()
-        {
-            return 1;
-        }
+        public double Output() => 1;
     }
 }

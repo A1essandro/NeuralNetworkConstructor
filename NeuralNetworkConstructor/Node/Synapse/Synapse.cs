@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NeuralNetworkConstructor.Node.Synapse
 {
@@ -37,6 +39,23 @@ namespace NeuralNetworkConstructor.Node.Synapse
             : this(masterNode, RandomWeight)
         {
             //empty
+        }
+
+        public static class Generator
+        {
+
+            public static void EachToEach(ILayer master, ILayer slave)
+            {
+                foreach (var mNode in master.Nodes)
+                {
+                    foreach (Neuron sNode in slave.Nodes.Where(n => n is Neuron))
+                    {
+                        var synapse = new Synapse(mNode);
+                        sNode.AddSynapse(synapse);
+                    }
+                }
+            }
+
         }
 
     }

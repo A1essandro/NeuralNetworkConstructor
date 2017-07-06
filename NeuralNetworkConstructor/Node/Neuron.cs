@@ -10,7 +10,8 @@ namespace NeuralNetworkConstructor.Node
 
         private IActivationFunction _activationFunction;
         private double? _calculatedOutput = null;
-        private ICollection<ISynapse> _synapses;
+
+        public ICollection<ISynapse> Synapses { get; private set; } = new List<ISynapse>();
 
         public Neuron(IActivationFunction function)
         {
@@ -20,12 +21,12 @@ namespace NeuralNetworkConstructor.Node
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)
             : this(function)
         {
-            _synapses = synapses;
+            Synapses = synapses;
         }
 
         public void AddSynapse(ISynapse synapse)
         {
-            _synapses.Add(synapse);
+            Synapses.Add(synapse);
         }
 
         public double Output()
@@ -35,7 +36,7 @@ namespace NeuralNetworkConstructor.Node
                 return _calculatedOutput.Value;
             }
 
-            _calculatedOutput = _synapses.Sum(x => x.Output());
+            _calculatedOutput = Synapses.Sum(x => x.Output());
             return _calculatedOutput.Value;
         }
 
