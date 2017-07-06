@@ -1,4 +1,6 @@
-﻿namespace NeuralNetworkConstructor.Node
+﻿using NeuralNetworkConstructor.Common;
+
+namespace NeuralNetworkConstructor.Node
 {
     public class InputNode : IInput<double>, INode
     {

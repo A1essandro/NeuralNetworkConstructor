@@ -1,4 +1,4 @@
-﻿namespace NeuralNetworkConstructor
+﻿namespace NeuralNetworkConstructor.Common
 {
     public interface IOutput<out T>
     {

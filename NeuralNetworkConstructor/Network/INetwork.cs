@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NeuralNetworkConstructor.Common;
+using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Network
 {

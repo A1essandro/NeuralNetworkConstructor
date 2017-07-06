@@ -44,9 +44,9 @@
     <Compile Include="Node\ActivationFunction\SimpleActivationFunction.cs" />
     <Compile Include="Node\Bias.cs" />
     <Compile Include="Node\INode.cs" />
-    <Compile Include="IInput.cs" />
+    <Compile Include="Common\IInput.cs" />
     <Compile Include="ILayer.cs" />
-    <Compile Include="IOutput.cs" />
+    <Compile Include="Common\IOutput.cs" />
     <Compile Include="Node\InputNode.cs" />
     <Compile Include="Node\Neuron.cs" />
     <Compile Include="Node\Synapse\ISynapse.cs" />
