@@ -40,7 +40,7 @@ namespace NeuralNetworkConstructor.Node
             return _calculatedOutput.Value;
         }
 
-        public void refresh()
+        public void Refresh()
         {
             _calculatedOutput = null;
         }
