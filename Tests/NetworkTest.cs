@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor;
 using NeuralNetworkConstructor.Network;
 using System.Linq;
 using NeuralNetworkConstructor.Network.Layer;

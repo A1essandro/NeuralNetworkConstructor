@@ -7,7 +7,6 @@ namespace NeuralNetworkConstructor.Network.Layer
 {
     public class Layer : ILayer
     {
-        private Func<INode> p;
 
         public Layer(IList<INode> nodes)
         {

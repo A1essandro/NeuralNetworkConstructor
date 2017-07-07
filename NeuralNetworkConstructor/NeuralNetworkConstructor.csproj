@@ -41,6 +41,7 @@
     <Compile Include="Network\INetwork.cs" />
     <Compile Include="Network\Network.cs" />
     <Compile Include="Network\Node\ActivationFunction\IActivationFunction.cs" />
+    <Compile Include="Network\Node\ActivationFunction\Logistic.cs" />
     <Compile Include="Network\Node\ActivationFunction\SimpleActivationFunction.cs" />
     <Compile Include="Network\Node\Bias.cs" />
     <Compile Include="Network\Node\INode.cs" />

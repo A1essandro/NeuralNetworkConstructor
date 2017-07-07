@@ -13,7 +13,6 @@ namespace NeuralNetworkConstructor.Network
 
         private readonly INode[] _inputs;
         private readonly ILayer _outputLayer;
-        private IList<Task<double>> _outputCalculationTasks;
 
         public ICollection<ILayer> Layers { get; }
 
@@ -36,7 +35,7 @@ namespace NeuralNetworkConstructor.Network
 
         public IEnumerable<double> Output()
         {
-            return _outputCalculationTasks.Select(t => t.Result);
+            return _outputLayer.Nodes.Select(n => n.Output());
         }
 
         public void Input(ICollection<double> input)
@@ -53,14 +52,6 @@ namespace NeuralNetworkConstructor.Network
             foreach (var inputVal in input)
             {
                 (_inputs[index++] as IInput<double>)?.Input(inputVal);
-            }
-
-            _outputCalculationTasks = new List<Task<double>>();
-            foreach (var node in _outputLayer.Nodes)
-            {
-                var task = new Task<double>(() => node.Output());
-                _outputCalculationTasks.Add(task);
-                task.Start();
             }
         }
     }
