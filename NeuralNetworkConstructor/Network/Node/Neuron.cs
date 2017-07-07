@@ -1,9 +1,9 @@
-﻿using NeuralNetworkConstructor.Node.ActivationFunction;
-using NeuralNetworkConstructor.Node.Synapse;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+using NeuralNetworkConstructor.Network.Node.Synapse;
 
-namespace NeuralNetworkConstructor.Node
+namespace NeuralNetworkConstructor.Network.Node
 {
     public class Neuron : INode
     {

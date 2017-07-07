@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using NeuralNetworkConstructor.Network.Layer;
 
-namespace NeuralNetworkConstructor.Node.Synapse
+namespace NeuralNetworkConstructor.Network.Node.Synapse
 {
 
     public class Synapse : ISynapse

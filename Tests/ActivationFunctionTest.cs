@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor.Node.ActivationFunction;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 
 namespace Tests
 {

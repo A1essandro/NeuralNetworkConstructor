@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using NeuralNetworkConstructor.Node;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NeuralNetworkConstructor.Network.Node;
 
-namespace NeuralNetworkConstructor
+namespace NeuralNetworkConstructor.Network.Layer
 {
     public class Layer : ILayer
     {

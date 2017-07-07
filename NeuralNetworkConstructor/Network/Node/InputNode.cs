@@ -1,6 +1,6 @@
 ﻿using NeuralNetworkConstructor.Common;
 
-namespace NeuralNetworkConstructor.Node
+namespace NeuralNetworkConstructor.Network.Node
 {
     public class InputNode : IInput<double>, INode
     {

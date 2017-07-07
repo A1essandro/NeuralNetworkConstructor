@@ -1,4 +1,4 @@
-﻿namespace NeuralNetworkConstructor.Node
+﻿namespace NeuralNetworkConstructor.Network.Node
 {
     public struct Bias : INode
     {

@@ -37,20 +37,20 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Layer.cs" />
+    <Compile Include="Network\Layer\Layer.cs" />
     <Compile Include="Network\INetwork.cs" />
     <Compile Include="Network\Network.cs" />
-    <Compile Include="Node\ActivationFunction\IActivationFunction.cs" />
-    <Compile Include="Node\ActivationFunction\SimpleActivationFunction.cs" />
-    <Compile Include="Node\Bias.cs" />
-    <Compile Include="Node\INode.cs" />
+    <Compile Include="Network\Node\ActivationFunction\IActivationFunction.cs" />
+    <Compile Include="Network\Node\ActivationFunction\SimpleActivationFunction.cs" />
+    <Compile Include="Network\Node\Bias.cs" />
+    <Compile Include="Network\Node\INode.cs" />
     <Compile Include="Common\IInput.cs" />
-    <Compile Include="ILayer.cs" />
+    <Compile Include="Network\Layer\ILayer.cs" />
     <Compile Include="Common\IOutput.cs" />
-    <Compile Include="Node\InputNode.cs" />
-    <Compile Include="Node\Neuron.cs" />
-    <Compile Include="Node\Synapse\ISynapse.cs" />
-    <Compile Include="Node\Synapse\Synapse.cs" />
+    <Compile Include="Network\Node\InputNode.cs" />
+    <Compile Include="Network\Node\Neuron.cs" />
+    <Compile Include="Network\Node\Synapse\ISynapse.cs" />
+    <Compile Include="Network\Node\Synapse\Synapse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -1,10 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NeuralNetworkConstructor;
 using NeuralNetworkConstructor.Network;
-using NeuralNetworkConstructor.Node;
-using NeuralNetworkConstructor.Node.ActivationFunction;
-using NeuralNetworkConstructor.Node.Synapse;
 using System.Linq;
+using NeuralNetworkConstructor.Network.Layer;
+using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+using NeuralNetworkConstructor.Network.Node.Synapse;
 
 namespace Tests
 {

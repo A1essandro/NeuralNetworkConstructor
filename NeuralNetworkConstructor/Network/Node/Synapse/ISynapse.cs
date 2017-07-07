@@ -1,6 +1,6 @@
 ﻿using NeuralNetworkConstructor.Common;
 
-namespace NeuralNetworkConstructor.Node.Synapse
+namespace NeuralNetworkConstructor.Network.Node.Synapse
 {
     public interface ISynapse : IOutput<double>
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor.Node;
-using NeuralNetworkConstructor.Node.ActivationFunction;
-using NeuralNetworkConstructor.Node.Synapse;
+using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+using NeuralNetworkConstructor.Network.Node.Synapse;
 
 namespace Tests
 {
