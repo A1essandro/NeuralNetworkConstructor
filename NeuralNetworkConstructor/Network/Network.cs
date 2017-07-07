@@ -3,6 +3,7 @@ using NeuralNetworkConstructor.Node;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network
 {
@@ -11,6 +12,7 @@ namespace NeuralNetworkConstructor.Network
 
         private INode[] _inputs;
         private ILayer _outputLayer;
+        private IList<Task<double>> _outputCalculationTasks;
 
         public ICollection<ILayer> Layers { get; private set; }
 
@@ -18,22 +20,24 @@ namespace NeuralNetworkConstructor.Network
         {
             Contract.Requires(layers != null, nameof(layers));
             Contract.Requires(layers.Count() >= 2, nameof(layers));
+            Contract.Requires(layers.First().Nodes.Where(n => n is IInput<double>).Count() > 0);
 
             _inputs = layers.First().Nodes.Where(n => n is IInput<double>).ToArray();
             _outputLayer = layers.Last();
             Layers = layers;
         }
 
+        public Network(params ILayer[] layers)
+            : this(layers.ToList())
+        {
+
+        }
+
         public IEnumerable<double> Output()
         {
-            var result = new double[_outputLayer.Nodes.Count];
+            Task.WaitAll(_outputCalculationTasks.ToArray());
 
-            var index = 0;
-            foreach (var node in _outputLayer.Nodes)
-            {
-                result[index++] = node.Output();
-            }
-            return result;
+            return _outputCalculationTasks.Select(t => t.Result);
         }
 
         public void Input(ICollection<double> input)
@@ -50,6 +54,14 @@ namespace NeuralNetworkConstructor.Network
             foreach (var inputVal in input)
             {
                 (_inputs[index++] as IInput<double>).Input(inputVal);
+            }
+
+            _outputCalculationTasks = new List<Task<double>>();
+            foreach (var node in _outputLayer.Nodes)
+            {
+                var task = new Task<double>(() => node.Output());
+                _outputCalculationTasks.Add(task);
+                task.Start();
             }
         }
     }

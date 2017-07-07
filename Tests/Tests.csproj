@@ -57,6 +57,7 @@
     <Compile Include="NodeTest.cs" />
     <Compile Include="ActivationFunctionTest.cs" />
     <Compile Include="LayerTest.cs" />
+    <Compile Include="NetworkTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeuralNetworkConstructor\NeuralNetworkConstructor.csproj">
