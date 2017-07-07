@@ -8,10 +8,10 @@ namespace NeuralNetworkConstructor.Node
     public class Neuron : INode
     {
 
-        private IActivationFunction _activationFunction;
-        private double? _calculatedOutput = null;
+        private readonly IActivationFunction _activationFunction;
+        private double? _calculatedOutput;
 
-        public ICollection<ISynapse> Synapses { get; private set; } = new List<ISynapse>();
+        public ICollection<ISynapse> Synapses { get; } = new List<ISynapse>();
 
         public Neuron(IActivationFunction function)
         {
@@ -36,11 +36,16 @@ namespace NeuralNetworkConstructor.Node
                 return _calculatedOutput.Value;
             }
 
-            _calculatedOutput = Synapses.Sum(x => x.Output());
+            _calculatedOutput = _activationFunction
+                .Calculate(Synapses.Sum(x => x.Output()));
             return _calculatedOutput.Value;
         }
 
-        public void Refresh()
+        /// <summary>
+        /// Zeroing of output calculation
+        /// Should be called after entry new Input data
+        /// </summary>
+        internal void Refresh()
         {
             _calculatedOutput = null;
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace NeuralNetworkConstructor.Node.Synapse
@@ -8,6 +7,9 @@ namespace NeuralNetworkConstructor.Node.Synapse
     public class Synapse : ISynapse
     {
 
+        /// <summary>
+        /// "From" node
+        /// </summary>
         public INode MasterNode { get; }
 
         public double Weight { get; private set; }
@@ -18,6 +20,10 @@ namespace NeuralNetworkConstructor.Node.Synapse
         /// </summary>
         private static double RandomWeight => (Random.NextDouble() - 0.5) * 2;
 
+        /// <summary>
+        /// Change weight 
+        /// </summary>
+        /// <param name="delta"></param>
         public void ChangeWeight(double delta)
         {
             Weight += delta;
@@ -44,14 +50,19 @@ namespace NeuralNetworkConstructor.Node.Synapse
         public static class Generator
         {
 
+            /// <summary>
+            /// Generates synapses each to each nodes between layers 
+            /// </summary>
+            /// <param name="master"></param>
+            /// <param name="slave"></param>
             public static void EachToEach(ILayer master, ILayer slave)
             {
                 foreach (var mNode in master.Nodes)
                 {
-                    foreach (Neuron sNode in slave.Nodes.Where(n => n is Neuron))
+                    foreach (var sNode in slave.Nodes.Where(n => n is Neuron))
                     {
                         var synapse = new Synapse(mNode);
-                        sNode.AddSynapse(synapse);
+                        (sNode as Neuron)?.AddSynapse(synapse);
                     }
                 }
             }

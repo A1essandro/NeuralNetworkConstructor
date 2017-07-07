@@ -19,7 +19,7 @@ namespace Tests
             var outputLayer = new Layer(() => new Neuron(new SimpleActivationFunction()), 2);
 
             Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
+            Synapse.Generator.EachToEach(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
