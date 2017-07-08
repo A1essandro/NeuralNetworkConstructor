@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NeuralNetworkConstructor.Network.Layer;
+using System.Diagnostics.Contracts;
 
 namespace NeuralNetworkConstructor.Network.Node.Synapse
 {
@@ -38,6 +39,8 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
 
         public Synapse(INode masterNode, double weight)
         {
+            Contract.Requires(masterNode != null, nameof(masterNode));
+
             MasterNode = masterNode;
             Weight = weight;
         }

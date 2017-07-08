@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Threading.Tasks;
 using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
