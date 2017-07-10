@@ -35,5 +35,22 @@ namespace Tests
             var neuron = new Neuron(new SimpleActivationFunction(), new[] { synapse });
             Assert.AreEqual(0.5, neuron.Output());
         }
+
+        [TestMethod]
+        public void TestNeuronEvent()
+        {
+            var synapse = new Synapse(new Bias(), 0.5);
+            var neuron = new Neuron(new Logistic(), new[] { synapse });
+
+            var testBool = false;
+            var testDouble = Double.MinValue;
+
+            neuron.OnOutputCalculated += (n) => { testBool = true; };
+            neuron.OnOutputCalculated += (n) => { testDouble = n.Output(); };
+            var output = neuron.Output();
+
+            Assert.IsTrue(testBool);
+            Assert.AreEqual(output, testDouble);
+        }
     }
 }

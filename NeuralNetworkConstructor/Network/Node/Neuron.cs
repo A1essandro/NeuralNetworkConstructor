@@ -14,6 +14,8 @@ namespace NeuralNetworkConstructor.Network.Node
 
         public ICollection<ISynapse> Synapses { get; } = new List<ISynapse>();
 
+        public event Action<Neuron> OnOutputCalculated;
+
         public Neuron(IActivationFunction function)
             : this(function.Calculate)
         {
@@ -43,6 +45,7 @@ namespace NeuralNetworkConstructor.Network.Node
             }
 
             _calculatedOutput = _activationFunction(Synapses.Sum(x => x.Output()));
+            OnOutputCalculated?.Invoke(this);
             return _calculatedOutput.Value;
         }
 
