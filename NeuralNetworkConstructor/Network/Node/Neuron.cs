@@ -9,7 +9,7 @@ namespace NeuralNetworkConstructor.Network.Node
     public class Neuron : INode
     {
 
-        private readonly Func<double, double> _activationFunction;
+        protected readonly Func<double, double> _activationFunction;
         private double? _calculatedOutput;
 
         public ICollection<ISynapse> Synapses { get; } = new List<ISynapse>();
@@ -37,16 +37,23 @@ namespace NeuralNetworkConstructor.Network.Node
             Synapses.Add(synapse);
         }
 
-        public double Output()
+        public virtual double Output()
         {
             if (_calculatedOutput != null)
             {
                 return _calculatedOutput.Value;
             }
 
-            _calculatedOutput = _activationFunction(Synapses.Sum(x => x.Output()));
-            OnOutputCalculated?.Invoke(this);
+            _calculatedOutput = _activationFunction == null
+                ? _activationFunction.Invoke(Synapses.Sum(x => x.Output()))
+                : Synapses.Sum(x => x.Output());
+            NotifyOutputCalculated();
             return _calculatedOutput.Value;
+        }
+
+        protected void NotifyOutputCalculated()
+        {
+            OnOutputCalculated?.Invoke(this);
         }
 
         /// <summary>

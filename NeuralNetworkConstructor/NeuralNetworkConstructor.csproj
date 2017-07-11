@@ -44,6 +44,7 @@
     <Compile Include="Network\Node\ActivationFunction\Logistic.cs" />
     <Compile Include="Network\Node\ActivationFunction\Rectifier.cs" />
     <Compile Include="Network\Node\Bias.cs" />
+    <Compile Include="Network\Node\Context.cs" />
     <Compile Include="Network\Node\INode.cs" />
     <Compile Include="Common\IInput.cs" />
     <Compile Include="Network\Layer\ILayer.cs" />
