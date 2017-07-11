@@ -52,7 +52,7 @@ namespace NeuralNetworkConstructor.Network
 
             foreach (var node in Layers.SelectMany(l => l.Nodes).Where(n => n is Neuron))
             {
-                (node as Neuron)?.Refresh();
+                (node as IRefreshable)?.Refresh();
             }
 
             var index = 0;

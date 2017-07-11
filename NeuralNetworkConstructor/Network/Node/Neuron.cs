@@ -3,10 +3,11 @@ using System.Linq;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System;
+using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class Neuron : INode
+    public class Neuron : INode, IRefreshable
     {
 
         protected readonly Func<double, double> _activationFunction;
@@ -60,9 +61,10 @@ namespace NeuralNetworkConstructor.Network.Node
         /// Zeroing of output calculation
         /// Should be called after entry new Input data
         /// </summary>
-        internal void Refresh()
+        public void Refresh()
         {
             _calculatedOutput = null;
         }
+
     }
 }
