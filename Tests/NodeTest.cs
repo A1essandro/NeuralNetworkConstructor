@@ -32,7 +32,7 @@ namespace Tests
         public void TestNeuron()
         {
             var synapse = new Synapse(new Bias(), 0.5);
-            var neuron = new Neuron(new SimpleActivationFunction(), new[] { synapse });
+            var neuron = new Neuron(new Rectifier(), new[] { synapse });
             Assert.AreEqual(0.5, neuron.Output());
         }
 
@@ -43,7 +43,7 @@ namespace Tests
             var neuron = new Neuron(new Logistic(), new[] { synapse });
 
             var testBool = false;
-            var testDouble = Double.MinValue;
+            var testDouble = double.MinValue;
 
             neuron.OnOutputCalculated += (n) => { testBool = true; };
             neuron.OnOutputCalculated += (n) => { testDouble = n.Output(); };

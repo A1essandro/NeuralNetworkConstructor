@@ -36,7 +36,7 @@ namespace Tests
                 { new double[] { 0, 0 }, new double[] { 0 } }
             };
 
-            for (var i = 0; i < 2000; i++)
+            for (var i = 0; i < 3000; i++)
             {
                 foreach (var t in teachKit)
                 {

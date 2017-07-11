@@ -9,7 +9,7 @@ namespace Tests
         [TestMethod]
         public void TestSimpleFunction()
         {
-            var foo = new SimpleActivationFunction();
+            var foo = new Rectifier();
             var val = 0.75;
 
             Assert.AreEqual(val, foo.Calculate(val));

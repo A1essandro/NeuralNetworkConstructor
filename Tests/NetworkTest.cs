@@ -15,8 +15,8 @@ namespace Tests
         public void TestInput()
         {
             var inputLayer = new Layer(() => new InputNode(), 2, new Bias());
-            var innerLayer = new Layer(() => new Neuron(new SimpleActivationFunction()), 3, new Bias());
-            var outputLayer = new Layer(() => new Neuron(new SimpleActivationFunction()), 2);
+            var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
+            var outputLayer = new Layer(() => new Neuron(new Rectifier()), 2);
 
             Synapse.Generator.EachToEach(inputLayer, innerLayer);
             Synapse.Generator.EachToEach(innerLayer, outputLayer);

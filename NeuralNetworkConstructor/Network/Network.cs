@@ -32,11 +32,19 @@ namespace NeuralNetworkConstructor.Network
 
         }
 
+        /// <summary>
+        /// Start calculation for current input values and get result.
+        /// </summary>
+        /// <returns>Output value of each neuron in output-layer</returns>
         public IEnumerable<double> Output()
         {
             return _outputLayer.Nodes.Select(n => n.Output());
         }
 
+        /// <summary>
+        /// Write input value to each input-neuron (<see cref="IInput{double}"/>) in input-layer.
+        /// </summary>
+        /// <param name="input"></param>
         public void Input(ICollection<double> input)
         {
             Contract.Requires(input != null, nameof(input));

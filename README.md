@@ -27,9 +27,7 @@ Interface [implementations](https://github.com/A1essandro/NeuralNetworkConstruct
 
 #### Synapses
 
-`Synapse` - is a connection between two nodes (`INode`). [Synapse](https://github.com/A1essandro/NeuralNetworkConstructor/tree/master/NeuralNetworkConstructor/Network/Node/Synapse) takes the result (call `Output()`) of leading node 
-(implementation `INode` interface), it output is handled by the [activation function](https://github.com/A1essandro/NeuralNetworkConstructor/tree/master/NeuralNetworkConstructor/Network/Node/ActivationFunction) (`IActivationFunction` or `Func<double, double>`), 
-the result is transmitted to the slave node.
+`Synapse` - is a connection between two nodes (`INode`). [Synapse](https://github.com/A1essandro/NeuralNetworkConstructor/tree/master/NeuralNetworkConstructor/Network/Node/Synapse) gets output (call `Output()`) from neuron-transmitter (implementation `INode` interface) and convert the value via its weight. Result value gets neuron-reciever (it call `Output()` of `ISynapse`).
 
 ## Contribute
 

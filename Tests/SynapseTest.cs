@@ -35,10 +35,10 @@ namespace Tests
         public void TestGeneratorEachToEach()
         {
             var master = new Layer(new List<INode> {
-                new Bias(), new Neuron(new SimpleActivationFunction())
+                new Bias(), new Neuron(new Rectifier())
             });
             var slave = new Layer(new List<INode> {
-                new Neuron(new SimpleActivationFunction()), new Neuron(new SimpleActivationFunction())
+                new Neuron(new Rectifier()), new Neuron(new Rectifier())
             });
 
             Synapse.Generator.EachToEach(master, slave);

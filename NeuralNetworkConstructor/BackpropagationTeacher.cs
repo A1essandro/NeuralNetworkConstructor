@@ -7,8 +7,6 @@ namespace NeuralNetworkConstructor
 {
     public class BackpropagationTeacher
     {
-        private readonly INetwork _network;
-        private readonly double _theta;
 
         public BackpropagationTeacher(INetwork network, double theta)
         {
@@ -42,6 +40,11 @@ namespace NeuralNetworkConstructor
                 outputLayer = false;
             }
         }
+
+        #region Private
+
+        private readonly INetwork _network;
+        private readonly double _theta;
 
         private static double SigmaCalcForInnerLayers(double neuronOutput, IEnumerable<NeuronSigma> sigmas, INode neuron)
         {
@@ -86,6 +89,8 @@ namespace NeuralNetworkConstructor
             public Neuron Neuron { get; }
             public double Sigma { get; }
         }
+
+        #endregion
 
     }
 }

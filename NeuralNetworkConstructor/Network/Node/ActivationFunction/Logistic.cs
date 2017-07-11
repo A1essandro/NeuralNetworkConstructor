@@ -2,6 +2,10 @@
 
 namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public  class Logistic : IActivationFunction
     {
 
