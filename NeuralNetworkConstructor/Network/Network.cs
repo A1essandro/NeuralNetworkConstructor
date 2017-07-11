@@ -18,7 +18,7 @@ namespace NeuralNetworkConstructor.Network
         public Network(ICollection<ILayer> layers)
         {
             Contract.Requires(layers != null, nameof(layers));
-            Contract.Requires(layers.Count() >= 2, nameof(layers));
+            Contract.Requires(layers.Count >= 2, nameof(layers));
             Contract.Requires(layers.First().Nodes.Any(n => n is IInput<double>));
 
             _inputs = layers.First().Nodes.Where(n => n is IInput<double>).ToArray();
@@ -40,7 +40,7 @@ namespace NeuralNetworkConstructor.Network
         public void Input(ICollection<double> input)
         {
             Contract.Requires(input != null, nameof(input));
-            Contract.Requires(input.Count() == _inputs.Count(), nameof(input));
+            Contract.Requires(input.Count == _inputs.Length, nameof(input));
 
             foreach (var node in Layers.SelectMany(l => l.Nodes).Where(n => n is Neuron))
             {

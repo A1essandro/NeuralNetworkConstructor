@@ -5,7 +5,7 @@ namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
     public  class Logistic : IActivationFunction
     {
 
-        private double _param;
+        private readonly double _param;
 
         public Logistic(double param = 1)
         {

@@ -64,8 +64,6 @@ namespace NeuralNetworkConstructor
         private static double GetChildSigmas(IEnumerable<NeuronSigma> sigmas, INode neuron)
         {
             double sigma = 0;
-
-            //TODO: Need refactoring:
             foreach (var neuronSigma in sigmas)
             {
                 foreach (var synapse in neuronSigma.Neuron.Synapses.Where(s => s.MasterNode == neuron))
