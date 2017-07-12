@@ -3,40 +3,75 @@ using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using System.Collections.Generic;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System.Linq;
+using System.Diagnostics.Contracts;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class Context : Neuron
+
+    /// <summary>
+    /// Node with memory for Elman networks or Jordan networks
+    /// </summary>
+    public class Context : ISlaveNode
     {
 
-        private readonly ushort _delay = 1;
+        private readonly Func<double, double> _activationFunction;
         private readonly Queue<double[]> _memory;
-        private readonly Neuron[] _masterNodes;
+        private Neuron[] _masterNodes;
         private double[] _currentMemoryChunk;
 
-        public Context(IActivationFunction function, ICollection<ISynapse> synapses, ushort delay = 1)
-            : base(function, synapses)
+        /// <summary>
+        /// Collection of synapses to this node
+        /// </summary>
+        public ICollection<ISynapse> Synapses { get; }
+
+        /// <summary>
+        /// Delay between input and appropriate output
+        /// </summary>
+        public ushort Delay { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="delay"><see cref="Delay"/></param>
+        /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
+        public Context(IActivationFunction function, ushort delay = 1, ICollection<ISynapse> synapses = null)
         {
+            _activationFunction = function.Calculate;
+            Synapses = synapses;
             _memory = new Queue<double[]>();
-            _masterNodes = Synapses.Select(s => s.MasterNode as Neuron).ToArray();
-            foreach(var neuron in _masterNodes)
-            {
-                neuron.OnOutputCalculated += _onMasterNeuronCalculated;
-            }
-            _delay = delay;
+            Delay = delay;
+            Synapses = synapses ?? new List<ISynapse>();
+            _calculateMasterNeurons();
         }
 
-        public override double Output()
+        /// <summary>
+        /// Calculates output with delay <see cref="Delay"/>
+        /// </summary>
+        /// <returns></returns>
+        public double Output()
         {
             double output = 0;
             _currentMemoryChunk = new double[_masterNodes.Length];
-            if (_memory.Count == _delay)
+            if (_memory.Count == Delay)
             {
                 output = _memory.Dequeue().Sum();
             }
             _memory.Enqueue(_currentMemoryChunk);
 
-            return output;
+            return _activationFunction?.Invoke(output) ?? output;
+        }
+
+        /// <summary>
+        /// Adding synapse from master node to this node
+        /// </summary>
+        /// <param name="synapse">Synapse adding to synapses <see cref="Synapses"/></param>
+        public void AddSynapse(ISynapse synapse)
+        {
+            Contract.Requires(synapse != null, nameof(synapse));
+
+            Synapses.Add(synapse);
+            _calculateMasterNeurons();
         }
 
         private void _onMasterNeuronCalculated(Neuron neuron)
@@ -45,5 +80,13 @@ namespace NeuralNetworkConstructor.Network.Node
             _currentMemoryChunk[index] = neuron.Output();
         }
 
+        private void _calculateMasterNeurons()
+        {
+            _masterNodes = Synapses.Select(s => s.MasterNode as Neuron).ToArray();
+            foreach (var neuron in _masterNodes)
+            {
+                neuron.OnOutputCalculated += _onMasterNeuronCalculated;
+            }
+        }
     }
 }

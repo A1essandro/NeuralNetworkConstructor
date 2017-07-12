@@ -10,9 +10,12 @@ namespace NeuralNetworkConstructor.Network.Node
     public class Neuron : ISlaveNode, IRefreshable
     {
 
-        protected readonly Func<double, double> _activationFunction;
+        private readonly Func<double, double> _activationFunction;
         private double? _calculatedOutput;
 
+        /// <summary>
+        /// Collection of synapses to this node
+        /// </summary>
         public ICollection<ISynapse> Synapses { get; } = new List<ISynapse>();
 
         public event Action<Neuron> OnOutputCalculated;
@@ -33,6 +36,10 @@ namespace NeuralNetworkConstructor.Network.Node
             Synapses = synapses;
         }
 
+        /// <summary>
+        /// Adding synapse from master node to this node
+        /// </summary>
+        /// <param name="synapse"></param>
         public void AddSynapse(ISynapse synapse)
         {
             Synapses.Add(synapse);
