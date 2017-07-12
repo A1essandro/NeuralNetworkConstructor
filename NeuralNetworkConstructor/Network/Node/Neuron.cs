@@ -45,7 +45,7 @@ namespace NeuralNetworkConstructor.Network.Node
                 return _calculatedOutput.Value;
             }
 
-            _calculatedOutput = _activationFunction == null
+            _calculatedOutput = _activationFunction != null
                 ? _activationFunction.Invoke(Synapses.Sum(x => x.Output()))
                 : Synapses.Sum(x => x.Output());
             NotifyOutputCalculated();
