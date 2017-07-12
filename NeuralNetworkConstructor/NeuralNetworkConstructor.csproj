@@ -51,6 +51,7 @@
     <Compile Include="Network\Layer\ILayer.cs" />
     <Compile Include="Common\IOutput.cs" />
     <Compile Include="Network\Node\InputNode.cs" />
+    <Compile Include="Network\Node\ISlaveNode.cs" />
     <Compile Include="Network\Node\Neuron.cs" />
     <Compile Include="Network\Node\Synapse\ISynapse.cs" />
     <Compile Include="Network\Node\Synapse\Synapse.cs" />
