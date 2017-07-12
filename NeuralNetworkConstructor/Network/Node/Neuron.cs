@@ -7,7 +7,7 @@ using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class Neuron : ISlaveNode, IRefreshable
+    public class Neuron : ISlaveNode, IRefreshable<Neuron>
     {
 
         private readonly Func<double, double> _activationFunction;

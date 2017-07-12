@@ -50,9 +50,9 @@ namespace NeuralNetworkConstructor.Network
             Contract.Requires(input != null, nameof(input));
             Contract.Requires(input.Count == _inputs.Length, nameof(input));
 
-            foreach (var node in Layers.SelectMany(l => l.Nodes).Where(n => n is IRefreshable))
+            foreach (var node in Layers.SelectMany(l => l.Nodes).Where(n => n is IRefreshable<INode>))
             {
-                (node as IRefreshable)?.Refresh();
+                (node as IRefreshable<INode>)?.Refresh();
             }
 
             var index = 0;

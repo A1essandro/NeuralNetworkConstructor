@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System.Linq;
 using System.Diagnostics.Contracts;
+using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -16,7 +17,7 @@ namespace NeuralNetworkConstructor.Network.Node
 
         private readonly Func<double, double> _activationFunction;
         private readonly Queue<double[]> _memory;
-        private Neuron[] _masterNodes;
+        private INode[] _masterNodes;
         private double[] _currentMemoryChunk;
 
         /// <summary>
@@ -36,8 +37,19 @@ namespace NeuralNetworkConstructor.Network.Node
         /// <param name="delay"><see cref="Delay"/></param>
         /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
         public Context(IActivationFunction function, ushort delay = 1, ICollection<ISynapse> synapses = null)
+            : this(function.Calculate, delay, synapses)
         {
-            _activationFunction = function.Calculate;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="delay"><see cref="Delay"/></param>
+        /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
+        public Context(Func<double, double> function, ushort delay = 1, ICollection<ISynapse> synapses = null)
+        {
+            _activationFunction = function;
             Synapses = synapses;
             _memory = new Queue<double[]>();
             Delay = delay;
@@ -52,13 +64,20 @@ namespace NeuralNetworkConstructor.Network.Node
         public double Output()
         {
             double output = 0;
-            _currentMemoryChunk = new double[_masterNodes.Length];
+
+            foreach (var mNode in _masterNodes.Where(n => !(n is IRefreshable<INode>)))
+            {
+                //TODO: if master node have master-relation only with Contexts nodes - this line out of reach:
+                _currentMemoryChunk[Array.IndexOf(_masterNodes, mNode)] = mNode.Output();
+            }
+
             if (_memory.Count == Delay)
             {
                 output = _memory.Dequeue().Sum();
             }
             _memory.Enqueue(_currentMemoryChunk);
 
+            _currentMemoryChunk = new double[_masterNodes.Length];
             return _activationFunction?.Invoke(output) ?? output;
         }
 
@@ -74,7 +93,7 @@ namespace NeuralNetworkConstructor.Network.Node
             _calculateMasterNeurons();
         }
 
-        private void _onMasterNeuronCalculated(Neuron neuron)
+        private void _onMasterNeuronCalculated(INode neuron)
         {
             var index = Array.IndexOf(_masterNodes, neuron);
             _currentMemoryChunk[index] = neuron.Output();
@@ -82,11 +101,13 @@ namespace NeuralNetworkConstructor.Network.Node
 
         private void _calculateMasterNeurons()
         {
-            _masterNodes = Synapses.Select(s => s.MasterNode as Neuron).ToArray();
-            foreach (var neuron in _masterNodes)
+            _masterNodes = Synapses.Select(s => s.MasterNode as INode).ToArray();
+            foreach (var neuron in _masterNodes.Where(n => n is IRefreshable<INode>))
             {
-                neuron.OnOutputCalculated += _onMasterNeuronCalculated;
+                (neuron as IRefreshable<INode>).OnOutputCalculated += _onMasterNeuronCalculated;
             }
+            _currentMemoryChunk = new double[_masterNodes.Length];
         }
+
     }
 }

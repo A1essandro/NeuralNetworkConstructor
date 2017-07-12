@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
+using System.Collections.Generic;
 
 namespace Tests
 {
@@ -51,6 +52,23 @@ namespace Tests
 
             Assert.IsTrue(testBool);
             Assert.AreEqual(output, testDouble);
+        }
+
+        [TestMethod]
+        public void TestContext()
+        {
+            var neuron = new Neuron(new Rectifier());
+            var input = new InputNode();
+            neuron.AddSynapse(new Synapse(input, 1));
+
+            var context = new Context((Func<double, double>) null, 1);
+            context.AddSynapse(new Synapse(neuron));
+
+            input.Input(1);
+            neuron.Output(); //Direct call
+            Assert.AreEqual(0, context.Output());
+            neuron.Output(); //Direct call
+            Assert.AreEqual(1, context.Output());
         }
     }
 }
