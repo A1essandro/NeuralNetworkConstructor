@@ -11,6 +11,14 @@ namespace NeuralNetworkConstructor.Network
     public class KohonenNetwork : Network
     {
 
+        /// <summary>
+        /// Create Kohonen network
+        /// </summary>
+        /// <remarks>
+        /// Network can contain only two layers - input and output(one-layer-network in classic view)
+        /// </remarks>
+        /// <param name="inputLayer"></param>
+        /// <param name="outputLayer"></param>
         public KohonenNetwork(ILayer inputLayer, ILayer outputLayer)
             : base(new List<ILayer> { inputLayer, outputLayer})
         {
@@ -18,6 +26,9 @@ namespace NeuralNetworkConstructor.Network
             Contract.Requires(outputLayer != null, nameof(outputLayer));
         }
 
+        /// <summary>
+        /// Class for learning network
+        /// </summary>
         public class SelfLearning
         {
 
@@ -30,6 +41,11 @@ namespace NeuralNetworkConstructor.Network
                 _network = network;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="input">Input data for learning</param>
+            /// <param name="force">Force of learning</param>
             public void Learn(ICollection<double> input, double force)
             {
                 Contract.Requires(force > 0, nameof(force));
@@ -49,12 +65,20 @@ namespace NeuralNetworkConstructor.Network
 
         }
 
+        /// <summary>
+        /// Class for self-organizing of network
+        /// </summary>
         public class SelfOrganizing
         {
 
-            private SelfLearning _learning;
-            private double _criticalRange;
+            private readonly SelfLearning _learning;
+            private readonly double _criticalRange;
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="learning"></param>
+            /// <param name="criticalRange">Critical range for decide to start training or add a new neuron</param>
             public SelfOrganizing(SelfLearning learning, double criticalRange)
             {
                 Contract.Requires(learning != null, nameof(learning));
@@ -64,8 +88,19 @@ namespace NeuralNetworkConstructor.Network
                 _criticalRange = criticalRange;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="input">Input data for learning</param>
+            /// <param name="creator">
+            /// Callback for creation new node if Euclid distance more then critical range <see cref="_criticalRange"/>
+            /// Note: if distance less then critical range - neural network will be trained
+            /// </param>
+            /// <param name="force">Force of learning</param>
             public void Organize(ICollection<double> input, Func<ISlaveNode> creator, double force)
             {
+                Contract.Requires(creator != null, nameof(creator));
+
                 var outputLayerNodes = _learning._network.Layers.Last().Nodes;
                 foreach (var neuron in outputLayerNodes)
                 {

@@ -101,7 +101,7 @@ namespace NeuralNetworkConstructor.Network.Node
 
         private void _calculateMasterNeurons()
         {
-            _masterNodes = Synapses.Select(s => s.MasterNode as INode).ToArray();
+            _masterNodes = Synapses.Select(s => s.MasterNode).ToArray();
             foreach (var neuron in _masterNodes.Where(n => n is IRefreshable<INode>))
             {
                 (neuron as IRefreshable<INode>).OnOutputCalculated += _onMasterNeuronCalculated;
