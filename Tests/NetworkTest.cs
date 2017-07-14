@@ -30,5 +30,30 @@ namespace Tests
 
             Assert.AreEqual(output1.First(), output2.First());
         }
+
+        [TestMethod]
+        public void TestKohonenNetwork()
+        {
+            var fo = new Linear();
+            var inputLayer = new Layer(() => new InputNode(), 2);
+            var outputLayer = new Layer(new Neuron(new Linear()));
+
+            Synapse.Generator.EachToEach(inputLayer, outputLayer);
+
+            var network = new KohonenNetwork(inputLayer, outputLayer);
+            var learning = new KohonenNetwork.SelfLearning(network);
+
+            var input = new[] { 0.0, 1.0 };
+
+            network.Input(input);
+            var output1 = network.Output().First();
+
+            learning.Learn(input, 0.33);
+
+            network.Input(input);
+            var output2 = network.Output().First();
+
+            Assert.IsTrue(output1 < output2);
+        }
     }
 }

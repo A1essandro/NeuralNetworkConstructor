@@ -41,7 +41,8 @@ namespace Tests
                 new Neuron(new Rectifier()), new Neuron(new Rectifier())
             });
 
-            Synapse.Generator.EachToEach(master, slave);
+            var rand = new Random();
+            Synapse.Generator.EachToEach(master, slave, () => rand.NextDouble() - 0.5);
 
             Assert.AreEqual(2, (slave.Nodes.First() as Neuron).Synapses.Count);
         }

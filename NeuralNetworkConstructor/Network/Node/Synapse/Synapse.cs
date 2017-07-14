@@ -48,23 +48,13 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         /// 
         /// </summary>
         /// <param name="masterNode">Node-transmitter</param>
-        /// <param name="weight">Initial weight</param>
-        public Synapse(INode masterNode, double weight)
+        /// <param name="weight">Initial weight. Random [-1, 1] if null</param>
+        public Synapse(INode masterNode, double? weight = null)
         {
             Contract.Requires(masterNode != null, nameof(masterNode));
 
             MasterNode = masterNode;
-            Weight = weight;
-        }
-
-        /// <summary>
-        /// Initial weight is calculated randomly from -1.0 to 1.0
-        /// </summary>
-        /// <param name="masterNode">Node-transmitter</param>
-        public Synapse(INode masterNode)
-            : this(masterNode, RandomWeight)
-        {
-            //empty
+            Weight = weight ?? RandomWeight;
         }
 
         /// <summary>
@@ -78,13 +68,14 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
             /// </summary>
             /// <param name="master"></param>
             /// <param name="slave"></param>
-            public static void EachToEach(ILayer master, ILayer slave)
+            public static void EachToEach(ILayer master, ILayer slave, Func<double> weightGenerator = null)
             {
                 foreach (var mNode in master.Nodes)
                 {
                     foreach (var sNode in slave.Nodes.Where(n => n is Neuron))
                     {
-                        var synapse = new Synapse(mNode);
+                        var weight = weightGenerator?.Invoke();
+                        var synapse = new Synapse(mNode, weight);
                         (sNode as Neuron)?.AddSynapse(synapse);
                     }
                 }
