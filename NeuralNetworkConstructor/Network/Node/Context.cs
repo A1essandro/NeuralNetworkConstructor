@@ -36,17 +36,6 @@ namespace NeuralNetworkConstructor.Network.Node
         /// <param name="function"></param>
         /// <param name="delay"><see cref="Delay"/></param>
         /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
-        public Context(IActivationFunction function, ushort delay = 1, ICollection<ISynapse> synapses = null)
-            : this(function.Calculate, delay, synapses)
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="delay"><see cref="Delay"/></param>
-        /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
         public Context(Func<double, double> function, ushort delay = 1, ICollection<ISynapse> synapses = null)
         {
             _activationFunction = function;
@@ -92,6 +81,8 @@ namespace NeuralNetworkConstructor.Network.Node
             Synapses.Add(synapse);
             _calculateMasterNeurons();
         }
+
+        public IActivationFunction Function { get; } = null;
 
         private void _onMasterNeuronCalculated(INode neuron)
         {

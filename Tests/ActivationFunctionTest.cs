@@ -12,8 +12,8 @@ namespace Tests
             var foo = new Rectifier();
             var val = 0.75;
 
-            Assert.AreEqual(val, foo.Calculate(val));
-            Assert.AreEqual(0, foo.Calculate(-val));
+            Assert.AreEqual(val, foo.GetEquation(val));
+            Assert.AreEqual(0, foo.GetEquation(-val));
         }
     }
 }

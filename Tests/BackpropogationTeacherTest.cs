@@ -26,7 +26,7 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var teacher = new BackpropagationTeacher(network, 0.999);
+            var teacher = new BackpropagationTeacher(network, 0.15);
 
             var teachKit = new Dictionary<double[], double[]>
             {
@@ -47,7 +47,7 @@ namespace Tests
             network.Input(new double[] { 1, 0 });
             var output = network.Output().First();
             Assert.AreEqual(1.0, Math.Round(output));
-            Assert.IsTrue(output > 0.9);
+            Assert.IsTrue(output > 0.75);
         }
     }
 }

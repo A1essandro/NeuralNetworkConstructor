@@ -10,7 +10,6 @@ namespace NeuralNetworkConstructor.Network.Node
     public class Neuron : ISlaveNode, IRefreshable<Neuron>
     {
 
-        private readonly Func<double, double> _activationFunction;
         private double? _calculatedOutput;
 
         /// <summary>
@@ -18,16 +17,13 @@ namespace NeuralNetworkConstructor.Network.Node
         /// </summary>
         public ICollection<ISynapse> Synapses { get; } = new List<ISynapse>();
 
+        public IActivationFunction Function { get; }
+
         public event Action<Neuron> OnOutputCalculated;
 
         public Neuron(IActivationFunction function)
-            : this(function.Calculate)
         {
-        }
-
-        public Neuron(Func<double, double> function)
-        {
-            _activationFunction = function;
+            Function = function;
         }
 
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)
@@ -52,8 +48,8 @@ namespace NeuralNetworkConstructor.Network.Node
                 return _calculatedOutput.Value;
             }
 
-            _calculatedOutput = _activationFunction != null
-                ? _activationFunction.Invoke(Synapses.Sum(x => x.Output()))
+            _calculatedOutput = Function != null
+                ? Function.GetEquation(Synapses.Sum(x => x.Output()))
                 : Synapses.Sum(x => x.Output());
             NotifyOutputCalculated();
             return _calculatedOutput.Value;

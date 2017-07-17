@@ -13,7 +13,11 @@
             _multiplier = multiplier;
         }
 
-        public double Calculate(double value) => _multiplier * value;
+        public double GetEquation(double value) => _multiplier * value;
 
+        public double GetDerivative(double value)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

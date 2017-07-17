@@ -10,7 +10,9 @@
     public class Rectifier : IActivationFunction
     {
 
-        public double Calculate(double value) => value > 0 ? value : 0;
+        public double GetEquation(double value) => value > 0 ? value : 0;
+
+        public double GetDerivative(double value) => value > 0 ? 1 : 0;
 
     }
 }

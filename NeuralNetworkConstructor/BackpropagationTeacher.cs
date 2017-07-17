@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using NeuralNetworkConstructor.Network;
 using NeuralNetworkConstructor.Network.Node;
 
@@ -14,7 +15,7 @@ namespace NeuralNetworkConstructor
             _theta = theta;
         }
 
-        public void Teach(ICollection<double> input, ICollection<double> expectation)
+        public void TeachOld(ICollection<double> input, ICollection<double> expectation)
         {
             _network.Input(input);
             var output = _network.Output().ToArray();
@@ -41,7 +42,34 @@ namespace NeuralNetworkConstructor
             }
         }
 
+        public void Teach(ICollection<double> input, ICollection<double> expectation)
+        {
+            _network.Input(input);
+            var expectationArr = expectation.ToArray();
+
+            var oIndex = 0;
+            foreach (ISlaveNode neuron in _network.Layers.Last().Nodes.Where(n => n is ISlaveNode))
+            {
+                var error = neuron.Output() - expectationArr[oIndex];
+                _calculateNeuronWeights(neuron, error);
+                oIndex++;
+            }
+        }
+
         #region Private
+
+        private void _calculateNeuronWeights(ISlaveNode neuron, double error)
+        {
+            var weightDelta = error * neuron.Function.GetDerivative(neuron.Output());
+            foreach (var synapse in neuron.Synapses)
+            {
+                synapse.ChangeWeight(-synapse.MasterNode.Output() * weightDelta * _theta);
+                if (synapse.MasterNode is ISlaveNode)
+                {
+                    _calculateNeuronWeights(synapse.MasterNode as ISlaveNode, synapse.Weight * weightDelta);
+                }
+            }
+        }
 
         private readonly INetwork _network;
         private readonly double _theta;
@@ -56,7 +84,7 @@ namespace NeuralNetworkConstructor
             return neuronOutput * (1 - neuronOutput) * (expectation[oIndex] - output[oIndex]);
         }
 
-        private void ChangeWeights(Neuron neuron, double sigma)
+        private void ChangeWeights(ISlaveNode neuron, double sigma)
         {
             foreach (var synapse in neuron.Synapses)
             {

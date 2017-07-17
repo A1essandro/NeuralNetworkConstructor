@@ -6,7 +6,7 @@ namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
     /// <summary>
     /// 
     /// </summary>
-    public  class Logistic : IActivationFunction
+    public class Logistic : IActivationFunction
     {
 
         private readonly double _param;
@@ -16,6 +16,13 @@ namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
             _param = param;
         }
 
-        public double Calculate(double value) => 1 / (1 + Math.Exp(-_param * value));
+        public double GetEquation(double value) => 1 / (1 + Math.Exp(-_param * value));
+
+        public double GetDerivative(double value)
+        {
+            var func = GetEquation(value);
+            return func * (1 - func);
+        } 
+
     }
 }

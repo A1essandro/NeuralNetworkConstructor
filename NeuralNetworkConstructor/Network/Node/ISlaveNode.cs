@@ -1,5 +1,6 @@
 ﻿using NeuralNetworkConstructor.Network.Node.Synapse;
 using System.Collections.Generic;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -20,6 +21,8 @@ namespace NeuralNetworkConstructor.Network.Node
         /// </summary>
         /// <param name="synapse"></param>
         void AddSynapse(ISynapse synapse);
+
+        IActivationFunction Function { get; }
 
     }
 }
