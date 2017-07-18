@@ -1,6 +1,7 @@
 ﻿using NeuralNetworkConstructor.Network.Node.Synapse;
 using System.Collections.Generic;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+using NeuralNetworkConstructor.Network.Node.Summator;
 
 namespace NeuralNetworkConstructor.Network.Node
 {

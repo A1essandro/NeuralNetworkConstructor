@@ -1,4 +1,4 @@
-﻿namespace NeuralNetworkConstructor.Network.Node
+﻿namespace NeuralNetworkConstructor.Network.Node.Summator
 {
     public interface ISummator
     {

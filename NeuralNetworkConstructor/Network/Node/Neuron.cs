@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
-using System;
+using NeuralNetworkConstructor.Network.Node.Summator;
 using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node
@@ -23,10 +23,10 @@ namespace NeuralNetworkConstructor.Network.Node
 
         public event Action<Neuron> OnOutputCalculated;
 
-        public Neuron(IActivationFunction function)
+        public Neuron(IActivationFunction function, ISummator summator = null)
         {
             Function = function;
-            Summator = new StandartSummator(this);
+            Summator = summator ?? new Summator.Summator(this);
         }
 
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)
@@ -70,23 +70,6 @@ namespace NeuralNetworkConstructor.Network.Node
         public void Refresh()
         {
             _calculatedOutput = null;
-        }
-
-        public class StandartSummator : ISummator
-        {
-
-            private readonly ISlaveNode _node;
-
-            public StandartSummator(ISlaveNode node)
-            {
-                _node = node;
-            }
-
-            public double GetSum()
-            {
-                return _node.Synapses.Sum(x => x.Output());
-            }
-
         }
 
     }

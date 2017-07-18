@@ -5,6 +5,7 @@ using NeuralNetworkConstructor.Network.Node.Synapse;
 using System.Linq;
 using System.Diagnostics.Contracts;
 using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Network.Node.Summator;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -38,13 +39,15 @@ namespace NeuralNetworkConstructor.Network.Node
         /// <param name="function"></param>
         /// <param name="delay"><see cref="Delay"/></param>
         /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
-        public Context(Func<double, double> function, ushort delay = 1, ICollection<ISynapse> synapses = null)
+        /// <param name="summator"></param>
+        public Context(Func<double, double> function, ushort delay = 1, 
+            ICollection<ISynapse> synapses = null, ISummator summator = null)
         {
             _activationFunction = function;
             Synapses = synapses;
             _memory = new Queue<double[]>();
             Delay = delay;
-            Summator = new Neuron.StandartSummator(this);
+            Summator = summator ?? new Summator.Summator(this);
             Synapses = synapses ?? new List<ISynapse>();
             _calculateMasterNeurons();
         }
