@@ -10,19 +10,20 @@ namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
     {
 
         private readonly double _param;
+        private static double _equation(double x, double alpha) => 1 / (1 + Math.Exp(-alpha * x));
 
         public Logistic(double param = 1)
         {
             _param = param;
         }
 
-        public double GetEquation(double value) => 1 / (1 + Math.Exp(-_param * value));
+        public double GetEquation(double value) => _equation(value, _param);
 
         public double GetDerivative(double value)
         {
-            var func = GetEquation(value);
-            return func * (1 - func);
-        } 
+            var func = _equation(value, 1);
+            return _param * func * (1 - func);
+        }
 
     }
 }

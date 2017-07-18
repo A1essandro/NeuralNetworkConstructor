@@ -8,6 +8,7 @@ using NeuralNetworkConstructor.Network;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Diagnostics;
 
 namespace Tests
 {
@@ -15,7 +16,7 @@ namespace Tests
     public class BackpropogationTeacherTest
     {
         [TestMethod]
-        public void TestTeach()
+        public void TestTeachXor()
         {
             var inputLayer = new Layer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
@@ -26,7 +27,7 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var teacher = new BackpropagationTeacher(network, 0.15);
+            var teacher = new BackpropagationTeacher(network, 0.5);
 
             var teachKit = new Dictionary<double[], double[]>
             {
@@ -44,10 +45,56 @@ namespace Tests
                 }
             }
 
+            const double delta = 0.15;
+
             network.Input(new double[] { 1, 0 });
             var output = network.Output().First();
-            Assert.AreEqual(1.0, Math.Round(output));
-            Assert.IsTrue(output > 0.75);
+            Assert.AreEqual(1.0, output, delta, "1 XOR 0");
+
+            network.Input(new double[] { 1, 1 });
+            output = network.Output().First();
+            Assert.AreEqual(0.0, output, delta, "1 XOR 1");
+
+            network.Input(new double[] { 0, 0 });
+            output = network.Output().First();
+            Assert.AreEqual(0.0, output, delta, "0 XOR 0");
+
+            network.Input(new double[] { 0, 1 });
+            output = network.Output().First();
+            Assert.AreEqual(1.0, output, delta, "0 XOR 1");
+        }
+
+        [TestMethod]
+        public void TestTeachLite()
+        {
+            var inputLayer = new Layer(new InputNode());
+            var innerLayer = new Layer(new Neuron(new Rectifier()));
+            var outputLayer = new Layer(new Neuron(new Rectifier()));
+
+            Synapse.Generator.EachToEach(inputLayer, innerLayer);
+            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+
+            var network = new Network(inputLayer, innerLayer, outputLayer);
+
+            var teacher = new BackpropagationTeacher(network, 0.15);
+
+            var teachKit = new Dictionary<double[], double[]>
+            {
+                { new double[] { 0 }, new double[] { 1 } },
+            };
+
+            for (var i = 0; i < 3000; i++)
+            {
+                foreach (var t in teachKit)
+                {
+                    teacher.Teach(t.Key, t.Value);
+                }
+            }
+
+            network.Input(new double[] { 1 });
+            var output = network.Output().First();
+            Assert.AreEqual(0, Math.Round(output));
+            Assert.IsTrue(output < 0.15);
         }
     }
 }

@@ -12,7 +12,7 @@
 
         public double GetEquation(double value) => value > 0 ? value : 0;
 
-        public double GetDerivative(double value) => value > 0 ? 1 : 0;
+        public double GetDerivative(double value) => value >= 0 ? 1 : 0;
 
     }
 }

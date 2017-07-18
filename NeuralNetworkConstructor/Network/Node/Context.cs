@@ -25,6 +25,8 @@ namespace NeuralNetworkConstructor.Network.Node
         /// </summary>
         public ICollection<ISynapse> Synapses { get; }
 
+        public ISummator Summator { get; }
+
         /// <summary>
         /// Delay between input and appropriate output
         /// </summary>
@@ -42,6 +44,7 @@ namespace NeuralNetworkConstructor.Network.Node
             Synapses = synapses;
             _memory = new Queue<double[]>();
             Delay = delay;
+            Summator = new Neuron.StandartSummator(this);
             Synapses = synapses ?? new List<ISynapse>();
             _calculateMasterNeurons();
         }

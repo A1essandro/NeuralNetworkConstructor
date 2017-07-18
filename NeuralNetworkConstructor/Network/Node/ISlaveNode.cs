@@ -16,6 +16,8 @@ namespace NeuralNetworkConstructor.Network.Node
         /// </summary>
         ICollection<ISynapse> Synapses { get; }
 
+        ISummator Summator { get; }
+
         /// <summary>
         /// Adding synapse from master node to this node
         /// </summary>
