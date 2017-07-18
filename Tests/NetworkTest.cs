@@ -5,6 +5,7 @@ using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
+using NeuralNetworkConstructor.Network.Node.Summator;
 
 namespace Tests
 {
@@ -34,9 +35,8 @@ namespace Tests
         [TestMethod]
         public void TestKohonenNetwork()
         {
-            var fo = new Linear();
             var inputLayer = new Layer(() => new InputNode(), 2);
-            var outputLayer = new Layer(new Neuron(new Linear()));
+            var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
 
             Synapse.Generator.EachToEach(inputLayer, outputLayer);
 
@@ -53,7 +53,7 @@ namespace Tests
             network.Input(input);
             var output2 = network.Output().First();
 
-            Assert.IsTrue(output1 < output2);
+            Assert.IsTrue(output1 < output2, $"{output1} > {output2}");
         }
     }
 }

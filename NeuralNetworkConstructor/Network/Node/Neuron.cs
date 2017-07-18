@@ -26,7 +26,7 @@ namespace NeuralNetworkConstructor.Network.Node
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
             Function = function;
-            Summator = summator ?? new Summator.Summator(this);
+            Summator = summator ?? new Summator.Summator();
         }
 
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)
@@ -52,8 +52,8 @@ namespace NeuralNetworkConstructor.Network.Node
             }
 
             _calculatedOutput = Function != null
-                ? Function.GetEquation(Summator.GetSum())
-                : Summator.GetSum();
+                ? Function.GetEquation(Summator.GetSum(this))
+                : Summator.GetSum(this);
             NotifyOutputCalculated();
             return _calculatedOutput.Value;
         }

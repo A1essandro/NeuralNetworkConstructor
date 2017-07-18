@@ -57,7 +57,7 @@ namespace NeuralNetworkConstructor
 
         private static double GetDerivative(ISlaveNode neuron)
         {
-            var x = neuron.Summator.GetSum();
+            var x = neuron.Summator.GetSum(neuron);
             var derivative = neuron.Function.GetDerivative(x);
             return derivative;
         }

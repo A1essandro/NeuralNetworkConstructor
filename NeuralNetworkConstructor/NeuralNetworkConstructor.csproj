@@ -44,6 +44,7 @@
     <Compile Include="Network\Layer\Layer.cs" />
     <Compile Include="Network\INetwork.cs" />
     <Compile Include="Network\Network.cs" />
+    <Compile Include="Network\Node\ActivationFunction\Gaussian.cs" />
     <Compile Include="Network\Node\ActivationFunction\IActivationFunction.cs" />
     <Compile Include="Network\Node\ActivationFunction\Linear.cs" />
     <Compile Include="Network\Node\ActivationFunction\Logistic.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Network\Node\ISlaveNode.cs" />
     <Compile Include="Network\Node\Summator\ISummator.cs" />
     <Compile Include="Network\Node\Neuron.cs" />
+    <Compile Include="Network\Node\Summator\EuclidRangeSummator.cs" />
     <Compile Include="Network\Node\Summator\Summator.cs" />
     <Compile Include="Network\Node\Synapse\ISynapse.cs" />
     <Compile Include="Network\Node\Synapse\Synapse.cs" />

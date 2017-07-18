@@ -3,7 +3,7 @@
     public interface ISummator
     {
 
-        double GetSum();
+        double GetSum(ISlaveNode node);
 
     }
 }

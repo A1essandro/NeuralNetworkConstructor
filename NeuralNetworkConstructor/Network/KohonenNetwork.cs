@@ -1,5 +1,6 @@
 ﻿using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Network.Node.Summator;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace NeuralNetworkConstructor.Network
                 var outputLayerNodes = _learning._network.Layers.Last().Nodes;
                 foreach (var neuron in outputLayerNodes)
                 {
-                    var euclidRange = GetEuclidRange(input.ToArray(), (neuron as ISlaveNode).Synapses);
+                    var euclidRange = EuclidRangeSummator.GetEuclidRange(neuron as ISlaveNode);
                     if(euclidRange < _criticalRange)
                     {
                         _learning.Learn(input, force);
@@ -120,19 +121,6 @@ namespace NeuralNetworkConstructor.Network
                 {
                     newNode.AddSynapse(new Synapse(inputNode, inputNode.Output()));
                 }
-            }
-
-            private static double GetEuclidRange(double[] input, ICollection<ISynapse> synapses)
-            {
-                double subSqrt = 0;
-                var index = 0;
-
-                foreach (var synapse in synapses)
-                {
-                    subSqrt += Math.Pow(input[index++] - synapse.Weight, 2);
-                }
-
-                return Math.Sqrt(subSqrt);
             }
 
         }

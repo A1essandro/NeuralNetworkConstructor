@@ -47,7 +47,7 @@ namespace NeuralNetworkConstructor.Network.Node
             Synapses = synapses;
             _memory = new Queue<double[]>();
             Delay = delay;
-            Summator = summator ?? new Summator.Summator(this);
+            Summator = summator ?? new Summator.Summator();
             Synapses = synapses ?? new List<ISynapse>();
             _calculateMasterNeurons();
         }
