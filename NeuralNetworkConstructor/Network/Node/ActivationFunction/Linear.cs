@@ -6,7 +6,7 @@
     public class Linear : IActivationFunction
     {
 
-        private double _multiplier;
+        private readonly double _multiplier;
 
         public Linear(double multiplier = 1)
         {
