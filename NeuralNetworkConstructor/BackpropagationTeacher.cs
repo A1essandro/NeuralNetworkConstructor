@@ -2,9 +2,12 @@
 using System.Linq;
 using NeuralNetworkConstructor.Network;
 using NeuralNetworkConstructor.Network.Node;
+using System;
 
 namespace NeuralNetworkConstructor
 {
+
+    [Obsolete("Use Learning with BackpropogationStrategy")]
     public class BackpropagationTeacher
     {
 

@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\IRefreshable.cs" />
+    <Compile Include="Learning\BackpropagationStrategy.cs" />
+    <Compile Include="Learning\Learning.cs" />
+    <Compile Include="Learning\LearningStrategy.cs" />
     <Compile Include="Network\KohonenNetwork.cs" />
     <Compile Include="Network\Layer\Layer.cs" />
     <Compile Include="Network\INetwork.cs" />
