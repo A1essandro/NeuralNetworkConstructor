@@ -1,19 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+﻿using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+using Xunit;
 
 namespace Tests
 {
-    [TestClass]
     public class ActivationFunctionTest
     {
-        [TestMethod]
+
+        [Fact]
         public void TestSimpleFunction()
         {
             var foo = new Rectifier();
             var val = 0.75;
 
-            Assert.AreEqual(val, foo.GetEquation(val));
-            Assert.AreEqual(0, foo.GetEquation(-val));
+            Assert.Equal(val, foo.GetEquation(val));
+            Assert.Equal(0, foo.GetEquation(-val));
         }
     }
 }

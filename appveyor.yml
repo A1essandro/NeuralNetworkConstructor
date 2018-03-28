@@ -1,7 +1,16 @@
+version: 0.2.{build}
+image: Previous Visual Studio 2017
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 before_build:
-  - nuget restore
-build_script:
-  - choco install "msbuild-sonarqube-runner" -y
-  - MSBuild.SonarQube.Runner.exe begin /k:"neural-network-constructor" /d:"sonar.host.url=https://sonarqube.com" /d:"sonar.organization=a1essandro-github" /d:"sonar.login=c2e717505450940ed52170d6a57adb92c475af69"
-  - msbuild "NeuralNetworkConstructor.sln"
-  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=c2e717505450940ed52170d6a57adb92c475af69"
+- cmd: >-
+    dotnet restore ./NeuralNetworkConstructor/NeuralNetworkConstructor.csproj
+    dotnet restore ./Tests/Tests.csproj
+build:
+  verbosity: minimal

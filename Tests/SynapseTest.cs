@@ -1,36 +1,36 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
-using NeuralNetworkConstructor.Network.Layer;
+﻿using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 namespace Tests
 {
-    [TestClass]
     public class SynapseTest
     {
-        [TestMethod]
+
+        [Fact]
         public void TestConstructorWithWeight()
         {
             var synapse = new Synapse(new Bias(), 0.5);
 
-            Assert.AreEqual(0.5, synapse.Weight);
+            Assert.Equal(0.5, synapse.Weight);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestConstructorWithRandomWeight()
         {
             var synapse1 = new Synapse(new Bias());
             var synapse2 = new Synapse(new Bias());
 
-            Assert.AreNotEqual(synapse2.Weight, synapse1.Weight);
-            Assert.IsTrue(Math.Abs(synapse1.Weight) <= 1);
+            Assert.NotEqual(synapse2.Weight, synapse1.Weight);
+            Assert.True(Math.Abs(synapse1.Weight) <= 1);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGeneratorEachToEach()
         {
             var master = new Layer(new List<INode> {
@@ -43,7 +43,7 @@ namespace Tests
             var rand = new Random();
             Synapse.Generator.EachToEach(master, slave, () => rand.NextDouble() - 0.5);
 
-            Assert.AreEqual(2, (slave.Nodes.First() as Neuron).Synapses.Count);
+            Assert.Equal(2, (slave.Nodes.First() as Neuron).Synapses.Count);
         }
     }
 }

@@ -1,18 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor.Network;
-using System.Linq;
+﻿using NeuralNetworkConstructor.Network;
 using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Synapse;
 using NeuralNetworkConstructor.Network.Node.Summator;
+using NeuralNetworkConstructor.Network.Node.Synapse;
+using System.Linq;
+using Xunit;
 
 namespace Tests
 {
-    [TestClass]
     public class NetworkTest
     {
-        [TestMethod]
+
+        [Fact]
         public void TestInput()
         {
             var inputLayer = new Layer(() => new InputNode(), 2, new Bias());
@@ -24,15 +24,15 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            network.Input(new []{0.1, 1.0});
+            network.Input(new[] { 0.1, 1.0 });
 
             var output1 = network.Output();
             var output2 = network.Output();
 
-            Assert.AreEqual(output1.First(), output2.First());
+            Assert.Equal(output1.First(), output2.First());
         }
 
-        [TestMethod]
+        [Fact]
         public void TestKohonenNetwork()
         {
             var inputLayer = new Layer(() => new InputNode(), 2);
@@ -53,7 +53,7 @@ namespace Tests
             network.Input(input);
             var output2 = network.Output().First();
 
-            Assert.IsTrue(output1 < output2, $"{output1} > {output2}");
+            Assert.True(output1 < output2, $"{output1} > {output2}");
         }
     }
 }

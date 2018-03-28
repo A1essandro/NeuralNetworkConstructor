@@ -1,42 +1,42 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor.Network.Node;
+﻿using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
+using System;
+using Xunit;
 
 namespace Tests
 {
-    [TestClass]
+
     public class NodeTest
     {
 
         private static Random Random => new Random();
 
-        [TestMethod]
+        [Fact]
         public void TestInputNode()
         {
             var node = new InputNode();
             var value = Random.NextDouble();
             node.Input(value);
 
-            Assert.AreEqual(value, node.Output());
+            Assert.Equal(value, node.Output());
         }
 
-        [TestMethod]
+        [Fact]
         public void TestBias()
         {
-            Assert.AreEqual(1, new Bias().Output());
+            Assert.Equal(1, new Bias().Output());
         }
 
-        [TestMethod]
+        [Fact]
         public void TestNeuron()
         {
             var synapse = new Synapse(new Bias(), 0.5);
             var neuron = new Neuron(new Rectifier(), new[] { synapse });
-            Assert.AreEqual(0.5, neuron.Output());
+            Assert.Equal(0.5, neuron.Output());
         }
 
-        [TestMethod]
+        [Fact]
         public void TestNeuronEvent()
         {
             var synapse = new Synapse(new Bias(), 0.5);
@@ -49,11 +49,11 @@ namespace Tests
             neuron.OnOutputCalculated += (n) => { testDouble = n.Output(); };
             var output = neuron.Output();
 
-            Assert.IsTrue(testBool);
-            Assert.AreEqual(output, testDouble);
+            Assert.True(testBool);
+            Assert.Equal(output, testDouble);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestContext()
         {
             var neuron = new Neuron(new Rectifier());
@@ -65,9 +65,9 @@ namespace Tests
 
             input.Input(1);
             neuron.Output(); //Direct call
-            Assert.AreEqual(0, context.Output());
+            Assert.Equal(0, context.Output());
             neuron.Output(); //Direct call
-            Assert.AreEqual(1, context.Output());
+            Assert.Equal(1, context.Output());
         }
     }
 }

@@ -1,20 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetworkConstructor;
-using NeuralNetworkConstructor.Network.Layer;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetworkConstructor;
 using NeuralNetworkConstructor.Network;
+using NeuralNetworkConstructor.Network.Layer;
+using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+using NeuralNetworkConstructor.Network.Node.Synapse;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Xunit;
 
 namespace Tests
 {
-    [TestClass]
     public class BackpropogationTeacherTest
     {
-        [TestMethod]
+
+        [Fact]
         public void TestTeachXor()
         {
             var inputLayer = new Layer(() => new InputNode(), 2, new Bias());
@@ -48,22 +48,22 @@ namespace Tests
 
             network.Input(new double[] { 1, 0 });
             var output = network.Output().First();
-            Assert.AreEqual(1.0, output, delta, "1 XOR 0");
+            Assert.True(Math.Abs(1 - output) < delta);
 
             network.Input(new double[] { 1, 1 });
             output = network.Output().First();
-            Assert.AreEqual(0.0, output, delta, "1 XOR 1");
+            Assert.True(Math.Abs(0 - output) < delta);
 
             network.Input(new double[] { 0, 0 });
             output = network.Output().First();
-            Assert.AreEqual(0.0, output, delta, "0 XOR 0");
+            Assert.True(Math.Abs(0 - output) < delta);
 
             network.Input(new double[] { 0, 1 });
             output = network.Output().First();
-            Assert.AreEqual(1.0, output, delta, "0 XOR 1");
+            Assert.True(Math.Abs(1 - output) < delta);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestTeachLite()
         {
             var inputLayer = new Layer(new InputNode());
@@ -92,8 +92,8 @@ namespace Tests
 
             network.Input(new double[] { 1 });
             var output = network.Output().First();
-            Assert.AreEqual(0, Math.Round(output));
-            Assert.IsTrue(output < 0.15);
+            Assert.Equal(0, Math.Round(output));
+            Assert.True(output < 0.15);
         }
     }
 }
