@@ -11,6 +11,7 @@ dotnet_csproj:
 before_build:
 - cmd: >-
     dotnet restore ./NeuralNetworkConstructor/NeuralNetworkConstructor.csproj
+    
     dotnet restore ./Tests/Tests.csproj
 build:
   verbosity: minimal
