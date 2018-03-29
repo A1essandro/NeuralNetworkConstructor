@@ -37,7 +37,8 @@ namespace Tests
                 { new double[] { 0, 0 }, new double[] { 0 } }
             };
 
-            var learning = new Learning<KeyValuePair<double[], double[]>>(new BackpropagationStrategy(THETA, DELTA, 5000), teachKit);
+            var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
+            var learning = new Learning<KeyValuePair<double[], double[]>>(strategy, teachKit);
             learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });
@@ -74,7 +75,8 @@ namespace Tests
                 { new double[] { 0 }, new double[] { 1 } },
             };
 
-            var learning = new Learning<KeyValuePair<double[], double[]>>(new BackpropagationStrategy(THETA, DELTA, 5000), teachKit);
+            var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
+            var learning = new Learning<KeyValuePair<double[], double[]>>(strategy, teachKit);
 
             learning.Learn(network);
 

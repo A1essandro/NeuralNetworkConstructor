@@ -22,6 +22,7 @@ namespace NeuralNetworkConstructor.Network.Node
         public IActivationFunction Function { get; }
 
         public event Action<Neuron> OnOutputCalculated;
+        public event Action<double> OnOutput;
 
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
@@ -55,6 +56,8 @@ namespace NeuralNetworkConstructor.Network.Node
                 ? Function.GetEquation(Summator.GetSum(this))
                 : Summator.GetSum(this);
             NotifyOutputCalculated();
+            OnOutput?.Invoke(_calculatedOutput.Value);
+
             return _calculatedOutput.Value;
         }
 

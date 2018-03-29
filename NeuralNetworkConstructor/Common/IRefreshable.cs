@@ -1,5 +1,4 @@
-﻿using NeuralNetworkConstructor.Network.Node;
-using System;
+﻿using System;
 
 namespace NeuralNetworkConstructor.Common
 {
@@ -7,12 +6,17 @@ namespace NeuralNetworkConstructor.Common
     /// <summary>
     /// Interface for refreshable members
     /// </summary>
-    public interface IRefreshable<out T> where T : INode
+    public interface IRefreshable
     {
-
-        event Action<T> OnOutputCalculated;
-
         void Refresh();
+    }
 
+    /// <summary>
+    /// Interface for refreshable members
+    /// </summary>
+    [Obsolete]
+    public interface IRefreshable<out T> : IRefreshable
+    {
+        event Action<T> OnOutputCalculated;
     }
 }

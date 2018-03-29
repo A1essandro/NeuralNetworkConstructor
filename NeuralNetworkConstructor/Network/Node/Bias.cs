@@ -1,7 +1,16 @@
-﻿namespace NeuralNetworkConstructor.Network.Node
+﻿using System;
+
+namespace NeuralNetworkConstructor.Network.Node
 {
     public struct Bias : INode
     {
-        public double Output() => 1;
+        public event Action<double> OnOutput;
+
+        public double Output()
+        {
+            OnOutput?.Invoke(1);
+
+            return 1;
+        }
     }
 }

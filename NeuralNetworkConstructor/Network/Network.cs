@@ -4,11 +4,15 @@ using System.Linq;
 using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
+using System;
 
 namespace NeuralNetworkConstructor.Network
 {
     public class Network : INetwork
     {
+
+        public event Action<IEnumerable<double>> OnOutput;
+        public event Action<ICollection<double>> OnInput;
 
         private readonly INode[] _inputs;
         private readonly ILayer _outputLayer;
@@ -38,7 +42,10 @@ namespace NeuralNetworkConstructor.Network
         /// <returns>Output value of each neuron in output-layer</returns>
         public IEnumerable<double> Output()
         {
-            return _outputLayer.Nodes.Select(n => n.Output());
+            var result = _outputLayer.Nodes.Select(n => n.Output());
+            OnOutput?.Invoke(result);
+
+            return result;
         }
 
         /// <summary>
@@ -50,15 +57,21 @@ namespace NeuralNetworkConstructor.Network
             Contract.Requires(input != null, nameof(input));
             Contract.Requires(input.Count == _inputs.Length, nameof(input));
 
-            foreach (var node in Layers.SelectMany(l => l.Nodes).Where(n => n is IRefreshable<INode>))
-            {
-                (node as IRefreshable<INode>)?.Refresh();
-            }
+            OnInput?.Invoke(input);
 
+            Refresh();
             var index = 0;
             foreach (var inputVal in input)
             {
                 (_inputs[index++] as IInput<double>)?.Input(inputVal);
+            }
+        }
+
+        public void Refresh()
+        {
+            foreach (IRefreshable node in Layers.SelectMany(l => l.Nodes).Where(n => n is IRefreshable))
+            {
+                node.Refresh();
             }
         }
     }

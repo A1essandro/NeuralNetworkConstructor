@@ -1,11 +1,11 @@
-﻿using System;
+﻿using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using System.Collections.Generic;
-using NeuralNetworkConstructor.Network.Node.Synapse;
-using System.Linq;
-using System.Diagnostics.Contracts;
-using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Node.Summator;
+using NeuralNetworkConstructor.Network.Node.Synapse;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -20,6 +20,8 @@ namespace NeuralNetworkConstructor.Network.Node
         private readonly Queue<double[]> _memory;
         private INode[] _masterNodes;
         private double[] _currentMemoryChunk;
+
+        public event Action<double> OnOutput;
 
         /// <summary>
         /// Collection of synapses to this node
@@ -73,7 +75,10 @@ namespace NeuralNetworkConstructor.Network.Node
             _memory.Enqueue(_currentMemoryChunk);
 
             _currentMemoryChunk = new double[_masterNodes.Length];
-            return _activationFunction?.Invoke(output) ?? output;
+            var result = _activationFunction?.Invoke(output) ?? output;
+            OnOutput?.Invoke(result);
+
+            return result;
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
-﻿namespace NeuralNetworkConstructor.Common
+﻿using System;
+
+namespace NeuralNetworkConstructor.Common
 {
-    public interface IInput<in T>
+    public interface IInput<T>
     {
 
         /// <summary>
@@ -8,6 +10,8 @@
         /// </summary>
         /// <param name="input">Input value to write</param>
         void Input(T input);
+
+        event Action<T> OnInput;
 
     }
 }

@@ -24,6 +24,9 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         public double Weight { get; private set; }
 
         private static readonly Random Random = new Random();
+
+        public event Action<double> OnOutput;
+
         /// <summary>
         /// Random value from -1.0 to 1.0
         /// </summary>
@@ -42,7 +45,13 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         /// Calculate output data from master node via weight
         /// </summary>
         /// <returns></returns>
-        public double Output() => Weight * MasterNode.Output();
+        public double Output()
+        {
+            var result = Weight * MasterNode.Output();
+            OnOutput?.Invoke(result);
+
+            return result;
+        }
 
         /// <summary>
         /// 

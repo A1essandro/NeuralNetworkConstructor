@@ -69,5 +69,28 @@ namespace Tests
             neuron.Output(); //Direct call
             Assert.Equal(1, context.Output());
         }
+
+        [Fact]
+        public void TestEvents()
+        {
+            var neuron = new Neuron(new Rectifier());
+            var inputNeuron = new InputNode();
+            neuron.AddSynapse(new Synapse(inputNeuron, 1));
+
+            var output = 0;
+            var input = 0;
+
+            inputNeuron.OnOutput += (result) => { output++; };
+            neuron.OnOutput += (result) => { output++; };
+            neuron.OnOutput += (result) => { output++; };
+            inputNeuron.OnInput += (result) => { input++; };
+            inputNeuron.OnInput += (result) => { input++; };
+
+            inputNeuron.Input(1);
+            neuron.Output();
+
+            Assert.True(output == 3);
+            Assert.True(input == 2);
+        }
     }
 }

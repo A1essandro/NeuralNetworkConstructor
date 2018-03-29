@@ -1,4 +1,6 @@
-﻿namespace NeuralNetworkConstructor.Common
+﻿using System;
+
+namespace NeuralNetworkConstructor.Common
 {
     public interface IOutput<out T>
     {
@@ -8,6 +10,8 @@
         /// </summary>
         /// <returns>Calculated output</returns>
         T Output();
+
+        event Action<T> OnOutput;
 
     }
 }

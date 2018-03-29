@@ -21,7 +21,7 @@ namespace NeuralNetworkConstructor.Network
         /// <param name="inputLayer"></param>
         /// <param name="outputLayer"></param>
         public KohonenNetwork(ILayer inputLayer, ILayer outputLayer)
-            : base(new List<ILayer> { inputLayer, outputLayer})
+            : base(new List<ILayer> { inputLayer, outputLayer })
         {
             Contract.Requires(inputLayer != null, nameof(inputLayer));
             Contract.Requires(outputLayer != null, nameof(outputLayer));
@@ -106,7 +106,7 @@ namespace NeuralNetworkConstructor.Network
                 foreach (var neuron in outputLayerNodes)
                 {
                     var euclidRange = EuclidRangeSummator.GetEuclidRange(neuron as ISlaveNode);
-                    if(euclidRange < _criticalRange)
+                    if (euclidRange < _criticalRange)
                     {
                         _learning.Learn(input, force);
                         return;
