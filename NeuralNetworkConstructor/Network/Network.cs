@@ -69,9 +69,9 @@ namespace NeuralNetworkConstructor.Network
 
         public void Refresh()
         {
-            foreach (IRefreshable node in Layers.SelectMany(l => l.Nodes).Where(n => n is IRefreshable))
+            foreach (IRefreshable layer in Layers)
             {
-                node.Refresh();
+                layer.Refresh();
             }
         }
     }

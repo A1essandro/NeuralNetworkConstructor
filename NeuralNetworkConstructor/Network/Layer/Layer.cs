@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Layer
 {
@@ -31,5 +32,14 @@ namespace NeuralNetworkConstructor.Network.Layer
         }
 
         public IList<INode> Nodes { get; } = new List<INode>();
+
+        public void Refresh()
+        {
+            foreach (IRefreshable node in Nodes.Where(n => n is IRefreshable))
+            {
+                node.Refresh();
+            }
+        }
+
     }
 }
