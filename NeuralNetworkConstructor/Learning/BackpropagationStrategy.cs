@@ -1,6 +1,5 @@
 ﻿using NeuralNetworkConstructor.Network;
 using NeuralNetworkConstructor.Network.Node;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

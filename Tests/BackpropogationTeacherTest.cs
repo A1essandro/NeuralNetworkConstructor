@@ -1,4 +1,4 @@
-﻿using NeuralNetworkConstructor;
+﻿using NeuralNetworkConstructor.Learning;
 using NeuralNetworkConstructor.Network;
 using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
@@ -14,6 +14,9 @@ namespace Tests
     public class BackpropogationTeacherTest
     {
 
+        private const double DELTA = 0.15;
+        private const double THETA = 0.33;
+
         [Fact]
         public void TestTeachXor()
         {
@@ -26,8 +29,6 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var teacher = new BackpropagationTeacher(network, 0.5);
-
             var teachKit = new Dictionary<double[], double[]>
             {
                 { new double[] { 0, 1 }, new double[] { 1 } },
@@ -36,31 +37,24 @@ namespace Tests
                 { new double[] { 0, 0 }, new double[] { 0 } }
             };
 
-            for (var i = 0; i < 3000; i++)
-            {
-                foreach (var t in teachKit)
-                {
-                    teacher.Teach(t.Key, t.Value);
-                }
-            }
-
-            const double delta = 0.15;
+            var learning = new Learning<KeyValuePair<double[], double[]>>(new BackpropagationStrategy(THETA, DELTA, 5000), teachKit);
+            learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });
             var output = network.Output().First();
-            Assert.True(Math.Abs(1 - output) < delta);
+            Assert.True(Math.Abs(1 - output) < DELTA);
 
             network.Input(new double[] { 1, 1 });
             output = network.Output().First();
-            Assert.True(Math.Abs(0 - output) < delta);
+            Assert.True(Math.Abs(0 - output) < DELTA);
 
             network.Input(new double[] { 0, 0 });
             output = network.Output().First();
-            Assert.True(Math.Abs(0 - output) < delta);
+            Assert.True(Math.Abs(0 - output) < DELTA);
 
             network.Input(new double[] { 0, 1 });
             output = network.Output().First();
-            Assert.True(Math.Abs(1 - output) < delta);
+            Assert.True(Math.Abs(1 - output) < DELTA);
         }
 
         [Fact]
@@ -75,25 +69,19 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var teacher = new BackpropagationTeacher(network, 0.15);
-
             var teachKit = new Dictionary<double[], double[]>
             {
                 { new double[] { 0 }, new double[] { 1 } },
             };
 
-            for (var i = 0; i < 3000; i++)
-            {
-                foreach (var t in teachKit)
-                {
-                    teacher.Teach(t.Key, t.Value);
-                }
-            }
+            var learning = new Learning<KeyValuePair<double[], double[]>>(new BackpropagationStrategy(THETA, DELTA, 5000), teachKit);
+
+            learning.Learn(network);
 
             network.Input(new double[] { 1 });
             var output = network.Output().First();
             Assert.Equal(0, Math.Round(output));
-            Assert.True(output < 0.15);
+            Assert.True(output < DELTA);
         }
     }
 }
