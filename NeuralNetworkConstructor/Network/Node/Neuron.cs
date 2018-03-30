@@ -7,7 +7,7 @@ using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class Neuron : ISlaveNode, IRefreshable<Neuron>
+    public class Neuron : ISlaveNode, IRefreshable
     {
 
         private double? _calculatedOutput;

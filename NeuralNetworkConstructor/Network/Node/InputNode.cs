@@ -1,9 +1,8 @@
 ﻿using System;
-using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class InputNode : IInput<double>, INode
+    public class InputNeuron : IInputNode
     {
 
         private double _data;

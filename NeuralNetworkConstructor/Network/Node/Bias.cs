@@ -2,7 +2,7 @@
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public struct Bias : INode
+    public class Bias : INode
     {
         public event Action<double> OnOutput;
 

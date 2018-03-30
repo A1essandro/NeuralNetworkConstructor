@@ -14,24 +14,24 @@ namespace NeuralNetworkConstructor.Network
         public event Action<IEnumerable<double>> OnOutput;
         public event Action<ICollection<double>> OnInput;
 
-        private readonly INode[] _inputs;
-        private readonly ILayer _outputLayer;
+        private readonly IInputLayer _inputLayer;
+        private readonly ILayer<INode> _outputLayer;
 
-        public ICollection<ILayer> Layers { get; }
+        public ICollection<ILayer<INode>> Layers { get; }
 
-        public Network(ICollection<ILayer> layers)
+        public Network(IInputLayer inputLayer, ICollection<ILayer<INode>> layers)
         {
             Contract.Requires(layers != null, nameof(layers));
-            Contract.Requires(layers.Count >= 2, nameof(layers));
-            Contract.Requires(layers.First().Nodes.Any(n => n is IInput<double>));
+            Contract.Requires(layers.Count >= 1, nameof(layers));
+            Contract.Requires(inputLayer.Nodes.Any(n => n is IInput<double>));
 
-            _inputs = layers.First().Nodes.Where(n => n is IInput<double>).ToArray();
+            _inputLayer = inputLayer;
             _outputLayer = layers.Last();
             Layers = layers;
         }
 
-        public Network(params ILayer[] layers)
-            : this(layers.ToList())
+        public Network(IInputLayer inputLayer, params ILayer<INode>[] layers)
+            : this(inputLayer, layers.ToList())
         {
 
         }
@@ -55,16 +55,11 @@ namespace NeuralNetworkConstructor.Network
         public void Input(ICollection<double> input)
         {
             Contract.Requires(input != null, nameof(input));
-            Contract.Requires(input.Count == _inputs.Length, nameof(input));
 
             OnInput?.Invoke(input);
 
             Refresh();
-            var index = 0;
-            foreach (var inputVal in input)
-            {
-                (_inputs[index++] as IInput<double>)?.Input(inputVal);
-            }
+            _inputLayer.Input(input);
         }
 
         public void Refresh()

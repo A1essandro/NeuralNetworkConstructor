@@ -2,6 +2,7 @@
 using System.Linq;
 using NeuralNetworkConstructor.Network.Layer;
 using System.Diagnostics.Contracts;
+using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Node.Synapse
 {
@@ -24,6 +25,8 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         public double Weight { get; private set; }
 
         private static readonly Random Random = new Random();
+        private IOutput<double> mNode;
+        private double? weight;
 
         public event Action<double> OnOutput;
 
@@ -77,9 +80,11 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
             /// </summary>
             /// <param name="master"></param>
             /// <param name="slave"></param>
-            public static void EachToEach(ILayer master, ILayer slave, Func<double> weightGenerator = null)
+            public static void EachToEach<TNodeMaster, TNodeSlave>(ILayer<TNodeMaster> master, ILayer<TNodeSlave> slave, Func<double> weightGenerator = null)
+                where TNodeMaster : INode
+                where TNodeSlave : INode
             {
-                foreach (var mNode in master.Nodes)
+                foreach (INode mNode in master.Nodes)
                 {
                     foreach (var sNode in slave.Nodes.Where(n => n is Neuron))
                     {

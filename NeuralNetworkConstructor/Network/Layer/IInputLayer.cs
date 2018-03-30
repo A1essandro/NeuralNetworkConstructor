@@ -4,13 +4,8 @@ using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Network.Layer
 {
-
-    public interface ILayer<TNode> : IRefreshable
-        where TNode : INode
+    public interface IInputLayer : ILayer<IInputNode>, IInput<ICollection<double>>
     {
-
-        IList<TNode> Nodes { get; }
-
     }
 
 }

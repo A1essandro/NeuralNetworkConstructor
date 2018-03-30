@@ -1,12 +1,12 @@
-﻿using System;
+﻿using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Network.Node;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NeuralNetworkConstructor.Network.Node;
-using NeuralNetworkConstructor.Common;
 
 namespace NeuralNetworkConstructor.Network.Layer
 {
-    public class Layer : ILayer
+    public class Layer : ILayer<INode>
     {
 
         public Layer(IList<INode> nodes)
@@ -25,7 +25,7 @@ namespace NeuralNetworkConstructor.Network.Layer
             {
                 Nodes.Add(getter());
             }
-            foreach(var node in other)
+            foreach (var node in other)
             {
                 Nodes.Add(node);
             }
@@ -35,11 +35,10 @@ namespace NeuralNetworkConstructor.Network.Layer
 
         public void Refresh()
         {
-            foreach (IRefreshable node in Nodes.Where(n => n is IRefreshable))
+            foreach (IRefreshable node in Nodes?.Where(n => n is IRefreshable))
             {
                 node.Refresh();
             }
         }
-
     }
 }

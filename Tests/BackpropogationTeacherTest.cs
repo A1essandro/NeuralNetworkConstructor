@@ -20,7 +20,7 @@ namespace Tests
         [Fact]
         public void TestTeachXor()
         {
-            var inputLayer = new Layer(() => new InputNode(), 2, new Bias());
+            IInputLayer inputLayer = new InputLayer(() => new InputNeuron(), 2, new InputBias());
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
             var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
 
@@ -61,7 +61,7 @@ namespace Tests
         [Fact]
         public void TestTeachLite()
         {
-            var inputLayer = new Layer(new InputNode());
+            var inputLayer = new InputLayer(new InputNeuron(), new InputBias());
             var innerLayer = new Layer(new Neuron(new Rectifier()));
             var outputLayer = new Layer(new Neuron(new Rectifier()));
 

@@ -20,8 +20,8 @@ namespace NeuralNetworkConstructor.Network
         /// </remarks>
         /// <param name="inputLayer"></param>
         /// <param name="outputLayer"></param>
-        public KohonenNetwork(ILayer inputLayer, ILayer outputLayer)
-            : base(new List<ILayer> { inputLayer, outputLayer })
+        public KohonenNetwork(IInputLayer inputLayer, ILayer<INode> outputLayer)
+            : base(inputLayer, outputLayer)
         {
             Contract.Requires(inputLayer != null, nameof(inputLayer));
             Contract.Requires(outputLayer != null, nameof(outputLayer));
@@ -115,9 +115,9 @@ namespace NeuralNetworkConstructor.Network
 
                 var networkLayers = _learning._network.Layers;
                 var newNode = creator();
-                networkLayers.Last().Nodes.Add(newNode);
+                networkLayers.Last().Nodes.ToList().Add(newNode);
                 _learning._network.Input(input); //write input data to nodes for read in loop
-                foreach (var inputNode in networkLayers.First().Nodes)
+                foreach (INode inputNode in networkLayers.First().Nodes)
                 {
                     newNode.AddSynapse(new Synapse(inputNode, inputNode.Output()));
                 }
