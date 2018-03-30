@@ -34,11 +34,11 @@ namespace NeuralNetworkConstructor.Network.Layer
 
         public IList<IInputNode> Nodes { get; } = new List<IInputNode>();
 
-        public event Action<ICollection<double>> OnInput;
+        public event Action<IEnumerable<double>> OnInput;
 
-        public void Input(ICollection<double> input)
+        public void Input(IEnumerable<double> input)
         {
-            Contract.Requires(input.Count == _getInputNodes().Count(), nameof(input));
+            Contract.Requires(input.Count() == _getInputNodes().Count(), nameof(input));
 
             OnInput?.Invoke(input);
 

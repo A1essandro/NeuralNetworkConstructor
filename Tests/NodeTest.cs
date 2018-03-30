@@ -15,7 +15,7 @@ namespace Tests
         [Fact]
         public void TestInputNode()
         {
-            var node = new InputNeuron();
+            var node = new InputNode();
             var value = Random.NextDouble();
             node.Input(value);
 
@@ -57,7 +57,7 @@ namespace Tests
         public void TestContext()
         {
             var neuron = new Neuron(new Rectifier());
-            var input = new InputNeuron();
+            var input = new InputNode();
             neuron.AddSynapse(new Synapse(input, 1));
 
             var context = new Context((Func<double, double>) null, 1);
@@ -74,7 +74,7 @@ namespace Tests
         public void TestEvents()
         {
             var neuron = new Neuron(new Rectifier());
-            var inputNeuron = new InputNeuron();
+            var inputNeuron = new InputNode();
             neuron.AddSynapse(new Synapse(inputNeuron, 1));
 
             var output = 0;

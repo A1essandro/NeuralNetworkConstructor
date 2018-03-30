@@ -15,7 +15,7 @@ namespace Tests
         [Fact]
         public void TestInput()
         {
-            var inputLayer = new InputLayer(() => new InputNeuron(), 2, new InputBias());
+            var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
             var outputLayer = new Layer(() => new Neuron(new Rectifier()), 2);
 
@@ -35,7 +35,7 @@ namespace Tests
         [Fact]
         public void TestKohonenNetwork()
         {
-            var inputLayer = new InputLayer(() => new InputNeuron(), 2);
+            var inputLayer = new InputLayer(() => new InputNode(), 2);
             var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
 
             Synapse.Generator.EachToEach(inputLayer, outputLayer);
@@ -59,7 +59,7 @@ namespace Tests
         [Fact]
         public void TestEvents()
         {
-            var inputLayer = new InputLayer(() => new InputNeuron(), 2, new InputBias());
+            var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
             var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
 
             Synapse.Generator.EachToEach(inputLayer, outputLayer);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Common
 {
@@ -14,4 +15,15 @@ namespace NeuralNetworkConstructor.Common
         event Action<T> OnInput;
 
     }
+
+    public interface IInput : IInput<double>
+    {
+
+    }
+
+    public interface IInputSet : IInput<IEnumerable<double>>
+    {
+
+    }
+
 }

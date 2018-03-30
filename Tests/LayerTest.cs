@@ -25,10 +25,10 @@ namespace Tests
         public void TestInputLayer()
         {
             ushort neuronsQty = 7;
-            var layer = new InputLayer(() => new InputNeuron(), neuronsQty, new InputBias());
+            var layer = new InputLayer(() => new InputNode(), neuronsQty, new InputBias());
 
             Assert.Equal(neuronsQty + 1, layer.Nodes.Count);
-            Assert.IsType<InputNeuron>(layer.Nodes.ToArray()[5]);
+            Assert.IsType<InputNode>(layer.Nodes.ToArray()[5]);
             Assert.IsType<InputBias>(layer.Nodes.Last());
             Assert.Throws<InvalidOperationException>(() => layer.Nodes.Last().Input(1));
         }

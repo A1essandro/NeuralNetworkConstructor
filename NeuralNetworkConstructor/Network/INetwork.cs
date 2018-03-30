@@ -5,7 +5,7 @@ using NeuralNetworkConstructor.Network.Node;
 
 namespace NeuralNetworkConstructor.Network
 {
-    public interface INetwork : IOutput<IEnumerable<double>>, IInput<ICollection<double>>, IRefreshable
+    public interface INetwork : IOutputSet, IInputSet, IRefreshable
     {
 
         ICollection<ILayer<INode>> Layers { get; }

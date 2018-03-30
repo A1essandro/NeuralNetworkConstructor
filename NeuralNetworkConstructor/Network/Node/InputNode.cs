@@ -2,7 +2,7 @@
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class InputNeuron : IInputNode
+    public class InputNode : IInputNode
     {
 
         private double _data;

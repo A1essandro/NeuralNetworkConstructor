@@ -12,7 +12,7 @@ namespace NeuralNetworkConstructor.Network
     {
 
         public event Action<IEnumerable<double>> OnOutput;
-        public event Action<ICollection<double>> OnInput;
+        public event Action<IEnumerable<double>> OnInput;
 
         private readonly IInputLayer _inputLayer;
         private readonly ILayer<INode> _outputLayer;
@@ -23,7 +23,7 @@ namespace NeuralNetworkConstructor.Network
         {
             Contract.Requires(layers != null, nameof(layers));
             Contract.Requires(layers.Count >= 1, nameof(layers));
-            Contract.Requires(inputLayer.Nodes.Any(n => n is IInput<double>));
+            Contract.Requires(inputLayer.Nodes.Any(n => n is IInput));
 
             _inputLayer = inputLayer;
             _outputLayer = layers.Last();
@@ -52,7 +52,7 @@ namespace NeuralNetworkConstructor.Network
         /// Write input value to each input-neuron (<see cref="IInput{double}"/>) in input-layer.
         /// </summary>
         /// <param name="input"></param>
-        public void Input(ICollection<double> input)
+        public void Input(IEnumerable<double> input)
         {
             Contract.Requires(input != null, nameof(input));
 
@@ -69,5 +69,6 @@ namespace NeuralNetworkConstructor.Network
                 layer.Refresh();
             }
         }
+
     }
 }
