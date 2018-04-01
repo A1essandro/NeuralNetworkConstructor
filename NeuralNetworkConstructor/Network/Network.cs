@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using NeuralNetworkConstructor.Common;
+﻿using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace NeuralNetworkConstructor.Network
 {
@@ -14,10 +14,9 @@ namespace NeuralNetworkConstructor.Network
         public event Action<IEnumerable<double>> OnOutput;
         public event Action<IEnumerable<double>> OnInput;
 
-        private readonly ILayer<INode> _outputLayer;
-
         public IInputLayer InputLayer { get; internal set; }
         public ICollection<ILayer<INode>> Layers { get; }
+        public ILayer<INode> OutputLayer { get => Layers.Last(); }
 
         public Network()
         {
@@ -32,14 +31,12 @@ namespace NeuralNetworkConstructor.Network
             Contract.Requires(inputLayer.Nodes.Any(n => n is IInput));
 
             InputLayer = inputLayer;
-            _outputLayer = layers.Last();
             Layers = layers;
         }
 
         public Network(IInputLayer inputLayer, params ILayer<INode>[] layers)
             : this(inputLayer, layers.ToList())
         {
-
         }
 
         /// <summary>
@@ -48,7 +45,7 @@ namespace NeuralNetworkConstructor.Network
         /// <returns>Output value of each neuron in output-layer</returns>
         public IEnumerable<double> Output()
         {
-            var result = _outputLayer.Nodes.Select(n => n.Output());
+            var result = OutputLayer.Nodes.Select(n => n.Output());
             OnOutput?.Invoke(result);
 
             return result;

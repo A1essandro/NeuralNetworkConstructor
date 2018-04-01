@@ -12,5 +12,7 @@ namespace NeuralNetworkConstructor.Network
 
         ICollection<ILayer<INode>> Layers { get; }
 
+        ILayer<INode> OutputLayer { get; }
+
     }
 }
