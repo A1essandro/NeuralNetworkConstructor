@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Synapse;
 using NeuralNetworkConstructor.Network.Node.Summator;
-using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Network.Node.Synapse;
+using System;
+using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -49,21 +49,17 @@ namespace NeuralNetworkConstructor.Network.Node
         {
             if (_calculatedOutput != null)
             {
+                OnOutput?.Invoke(_calculatedOutput.Value);
                 return _calculatedOutput.Value;
             }
 
             _calculatedOutput = Function != null
                 ? Function.GetEquation(Summator.GetSum(this))
                 : Summator.GetSum(this);
-            NotifyOutputCalculated();
+            OnOutputCalculated?.Invoke(this);
             OnOutput?.Invoke(_calculatedOutput.Value);
 
             return _calculatedOutput.Value;
-        }
-
-        protected void NotifyOutputCalculated()
-        {
-            OnOutputCalculated?.Invoke(this);
         }
 
         /// <summary>
@@ -76,4 +72,25 @@ namespace NeuralNetworkConstructor.Network.Node
         }
 
     }
+
+    public class Neuron<TActivationFunction> : Neuron
+        where TActivationFunction : IActivationFunction, new()
+    {
+
+        public Neuron()
+            : this((ISummator)null)
+        {
+        }
+
+        public Neuron(ISummator summator = null)
+            : base(new TActivationFunction(), summator)
+        {
+        }
+
+        public Neuron(ICollection<ISynapse> synapses)
+            : base(new TActivationFunction(), synapses)
+        {
+        }
+    }
+
 }

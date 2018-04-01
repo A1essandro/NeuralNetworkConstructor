@@ -17,12 +17,12 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         /// <summary>
         /// Node transmitter
         /// </summary>
-        public INode MasterNode { get; }
+        public INode MasterNode { get; set; }
 
         /// <summary>
         /// Current weight of synapse
         /// </summary>
-        public double Weight { get; private set; }
+        public double Weight { get; set; }
 
         private static readonly Random Random = new Random();
         private IOutput<double> mNode;
@@ -54,6 +54,11 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
             OnOutput?.Invoke(result);
 
             return result;
+        }
+
+        public Synapse()
+        {
+            Weight = RandomWeight;
         }
 
         /// <summary>

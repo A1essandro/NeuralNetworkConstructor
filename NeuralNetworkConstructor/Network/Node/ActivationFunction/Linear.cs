@@ -8,7 +8,12 @@
 
         private readonly double _multiplier;
 
-        public Linear(double multiplier = 1)
+        public Linear()
+            : this(1)
+        {
+        }
+
+        public Linear(double multiplier)
         {
             _multiplier = multiplier;
         }

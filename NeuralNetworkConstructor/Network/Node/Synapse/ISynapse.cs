@@ -19,12 +19,12 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         /// <summary>
         /// Current weight of synapse
         /// </summary>
-        double Weight { get; }
+        double Weight { get; set; }
 
         /// <summary>
         /// Node transmitter
         /// </summary>
-        INode MasterNode { get; }
+        INode MasterNode { get; set; }
 
     }
 }

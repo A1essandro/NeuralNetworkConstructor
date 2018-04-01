@@ -12,7 +12,12 @@
 
         private readonly double _alpha;
 
-        public Rectifier(double alpha = 0)
+        public Rectifier()
+            : this(0)
+        {
+        }
+
+        public Rectifier(double alpha)
         {
             _alpha = alpha;
         }

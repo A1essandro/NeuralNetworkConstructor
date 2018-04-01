@@ -12,7 +12,12 @@ namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
         private readonly double _param;
         private static double _equation(double x, double alpha) => 1 / (1 + Math.Exp(-alpha * x));
 
-        public Logistic(double param = 1)
+        public Logistic()
+            : this(1)
+        {
+        }
+
+        public Logistic(double param)
         {
             _param = param;
         }

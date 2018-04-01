@@ -14,10 +14,16 @@ namespace NeuralNetworkConstructor.Network
         public event Action<IEnumerable<double>> OnOutput;
         public event Action<IEnumerable<double>> OnInput;
 
-        private readonly IInputLayer _inputLayer;
         private readonly ILayer<INode> _outputLayer;
 
+        public IInputLayer InputLayer { get; internal set; }
         public ICollection<ILayer<INode>> Layers { get; }
+
+        public Network()
+        {
+            Layers = new List<ILayer<INode>>();
+            InputLayer = new InputLayer();
+        }
 
         public Network(IInputLayer inputLayer, ICollection<ILayer<INode>> layers)
         {
@@ -25,7 +31,7 @@ namespace NeuralNetworkConstructor.Network
             Contract.Requires(layers.Count >= 1, nameof(layers));
             Contract.Requires(inputLayer.Nodes.Any(n => n is IInput));
 
-            _inputLayer = inputLayer;
+            InputLayer = inputLayer;
             _outputLayer = layers.Last();
             Layers = layers;
         }
@@ -59,7 +65,7 @@ namespace NeuralNetworkConstructor.Network
             OnInput?.Invoke(input);
 
             Refresh();
-            _inputLayer.Input(input);
+            InputLayer.Input(input);
         }
 
         public void Refresh()

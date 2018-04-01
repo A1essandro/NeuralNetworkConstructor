@@ -9,6 +9,10 @@ namespace NeuralNetworkConstructor.Network.Layer
     public class Layer : ILayer<INode>
     {
 
+        public Layer()
+        {
+        }
+
         public Layer(IList<INode> nodes)
         {
             Nodes = nodes;
