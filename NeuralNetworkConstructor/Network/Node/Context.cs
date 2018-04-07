@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -111,5 +112,9 @@ namespace NeuralNetworkConstructor.Network.Node
             _currentMemoryChunk = new double[_masterNodes.Length];
         }
 
+        public Task<double> OutputAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

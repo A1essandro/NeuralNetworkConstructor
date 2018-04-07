@@ -3,6 +3,7 @@ using System.Linq;
 using NeuralNetworkConstructor.Network.Layer;
 using System.Diagnostics.Contracts;
 using NeuralNetworkConstructor.Common;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node.Synapse
 {
@@ -51,6 +52,14 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
         public double Output()
         {
             var result = Weight * MasterNode.Output();
+            OnOutput?.Invoke(result);
+
+            return result;
+        }
+
+        public async Task<double> OutputAsync()
+        {
+            var result = Weight * await MasterNode.OutputAsync().ConfigureAwait(false);
             OnOutput?.Invoke(result);
 
             return result;

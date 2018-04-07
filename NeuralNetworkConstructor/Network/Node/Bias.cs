@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
     public class Bias : INode
     {
         public event Action<double> OnOutput;
+        private const double VALUE = 1.0; 
 
         public double Output()
         {
-            OnOutput?.Invoke(1);
+            OnOutput?.Invoke(VALUE);
 
-            return 1;
+            return VALUE;
+        }
+
+        public Task<double> OutputAsync()
+        {
+            return Task.Run(() => VALUE);
         }
     }
 }

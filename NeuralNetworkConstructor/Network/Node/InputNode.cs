@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -22,5 +23,13 @@ namespace NeuralNetworkConstructor.Network.Node
             return _data;
         }
 
+        public async Task<double> OutputAsync()
+        {
+            return await Task.Run(() =>
+            {
+                OnOutput?.Invoke(_data);
+                return _data;
+            }).ConfigureAwait(false);
+        }
     }
 }

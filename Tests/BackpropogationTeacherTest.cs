@@ -7,6 +7,7 @@ using NeuralNetworkConstructor.Network.Node.Synapse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Tests
@@ -18,7 +19,7 @@ namespace Tests
         private const double THETA = 0.33;
 
         [Fact]
-        public void TestTeachXor()
+        public async Task TestTeachXor()
         {
             IInputLayer inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
@@ -43,19 +44,31 @@ namespace Tests
 
             network.Input(new double[] { 1, 0 });
             var output = network.Output().First();
+            network.Refresh();
+            var outputAsync = (await network.OutputAsync()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
+            Assert.True(Math.Abs(1 - outputAsync) < DELTA);
 
             network.Input(new double[] { 1, 1 });
             output = network.Output().First();
+            network.Refresh();
+            outputAsync = (await network.OutputAsync()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
+            Assert.True(Math.Abs(0 - outputAsync) < DELTA);
 
             network.Input(new double[] { 0, 0 });
             output = network.Output().First();
+            network.Refresh();
+            outputAsync = (await network.OutputAsync()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
+            Assert.True(Math.Abs(0 - outputAsync) < DELTA);
 
             network.Input(new double[] { 0, 1 });
             output = network.Output().First();
+            network.Refresh();
+            outputAsync = (await network.OutputAsync()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
+            Assert.True(Math.Abs(1 - outputAsync) < DELTA);
         }
 
         [Fact]

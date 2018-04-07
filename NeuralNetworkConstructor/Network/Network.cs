@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network
 {
@@ -73,5 +74,14 @@ namespace NeuralNetworkConstructor.Network
             }
         }
 
+        public async Task<IEnumerable<double>> OutputAsync()
+        {
+            var tasks = OutputLayer.Nodes.Select(async n => await n.OutputAsync());
+            var result = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            OnOutput?.Invoke(result);
+
+            return result;
+        }
     }
 }

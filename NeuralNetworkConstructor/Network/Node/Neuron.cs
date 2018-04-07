@@ -4,6 +4,7 @@ using NeuralNetworkConstructor.Network.Node.Summator;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
@@ -71,6 +72,24 @@ namespace NeuralNetworkConstructor.Network.Node
             _calculatedOutput = null;
         }
 
+        public async Task<double> OutputAsync()
+        {
+            if (_calculatedOutput != null)
+            {
+                OnOutput?.Invoke(_calculatedOutput.Value);
+                return await Task.Run(() => _calculatedOutput.Value);
+            }
+
+            var sum = await Summator.GetSumAsync(this);
+            _calculatedOutput = Function != null
+                ? Function.GetEquation(sum)
+                : sum;
+
+            OnOutputCalculated?.Invoke(this);
+            OnOutput?.Invoke(_calculatedOutput.Value);
+
+            return _calculatedOutput.Value;
+        }
     }
 
     public class Neuron<TActivationFunction> : Neuron

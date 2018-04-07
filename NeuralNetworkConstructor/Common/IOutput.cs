@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Common
 {
-    public interface IOutput<out T>
+    public interface IOutput<T>
     {
 
         /// <summary>
@@ -11,6 +12,12 @@ namespace NeuralNetworkConstructor.Common
         /// </summary>
         /// <returns>Calculated output</returns>
         T Output();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<T> OutputAsync();
 
         event Action<T> OnOutput;
 

@@ -5,6 +5,7 @@ using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Summator;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Tests
@@ -13,7 +14,7 @@ namespace Tests
     {
 
         [Fact]
-        public void TestInput()
+        public async Task TestInput()
         {
             var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
@@ -28,8 +29,11 @@ namespace Tests
 
             var output1 = network.Output();
             var output2 = network.Output();
+            network.Refresh();
+            var outputAsync = await network.OutputAsync();
 
             Assert.Equal(output1.First(), output2.First());
+            Assert.Equal(output1.First(), outputAsync.First());
         }
 
         [Fact]
