@@ -88,15 +88,14 @@ namespace Tests
                 { new double[] { 0 }, new double[] { 1 } },
             };
 
-            var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
+            var strategy = new BackpropagationStrategy(THETA, DELTA, ushort.MaxValue);
             var learning = new Learning<KeyValuePair<double[], double[]>>(strategy, teachKit);
 
             learning.Learn(network);
 
             network.Input(new double[] { 1 });
             var output = network.Output().First();
-            Assert.Equal(0, Math.Round(output));
-            Assert.True(output < DELTA);
+            Assert.True(Math.Abs(output) < DELTA);
         }
     }
 }

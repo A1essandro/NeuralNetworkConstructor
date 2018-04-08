@@ -2,6 +2,7 @@
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Summator;
 using NeuralNetworkConstructor.Network.Node.Synapse;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace NeuralNetworkConstructor.Network.Node
     {
 
         private double? _calculatedOutput;
+
+        private readonly AsyncAutoResetEvent _waitHandle = new AsyncAutoResetEvent(true);
 
         public ISummator Summator { get; }
 
@@ -74,16 +77,19 @@ namespace NeuralNetworkConstructor.Network.Node
 
         public async Task<double> OutputAsync()
         {
+            await _waitHandle.WaitAsync();
             if (_calculatedOutput != null)
             {
+                _waitHandle.Set();
                 OnOutput?.Invoke(_calculatedOutput.Value);
-                return await Task.Run(() => _calculatedOutput.Value);
+                return _calculatedOutput.Value;
             }
 
             var sum = await Summator.GetSumAsync(this);
             _calculatedOutput = Function != null
                 ? Function.GetEquation(sum)
                 : sum;
+            _waitHandle.Set();
 
             OnOutputCalculated?.Invoke(this);
             OnOutput?.Invoke(_calculatedOutput.Value);
