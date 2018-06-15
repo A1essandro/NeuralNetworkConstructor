@@ -14,5 +14,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Nito.AsyncEx" Version="5.0.0-pre-05"/>
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0"/>
   </ItemGroup>
 </Project>
