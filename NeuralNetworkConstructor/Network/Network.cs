@@ -16,8 +16,8 @@ namespace NeuralNetworkConstructor.Network
         public event Action<IEnumerable<double>> OnInput;
 
         public IInputLayer InputLayer { get; internal set; }
-        public ICollection<ILayer<INode>> Layers { get; }
-        public ILayer<INode> OutputLayer { get => Layers.Last(); }
+        public virtual ICollection<ILayer<INode>> Layers { get; }
+        public virtual ILayer<INode> OutputLayer => Layers.Last();
 
         public Network()
         {
