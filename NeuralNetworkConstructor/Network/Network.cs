@@ -44,7 +44,7 @@ namespace NeuralNetworkConstructor.Network
         /// Start calculation for current input values and get result.
         /// </summary>
         /// <returns>Output value of each neuron in output-layer</returns>
-        public IEnumerable<double> Output()
+        public virtual IEnumerable<double> Output()
         {
             var result = OutputLayer.Nodes.Select(n => n.Output());
             OnOutput?.Invoke(result);
@@ -56,7 +56,7 @@ namespace NeuralNetworkConstructor.Network
         /// Write input value to each input-neuron (<see cref="IInput{double}"/>) in input-layer.
         /// </summary>
         /// <param name="input"></param>
-        public void Input(IEnumerable<double> input)
+        public virtual void Input(IEnumerable<double> input)
         {
             Contract.Requires(input != null, nameof(input));
 
@@ -74,7 +74,7 @@ namespace NeuralNetworkConstructor.Network
             }
         }
 
-        public async Task<IEnumerable<double>> OutputAsync()
+        public virtual async Task<IEnumerable<double>> OutputAsync()
         {
             var tasks = OutputLayer.Nodes.Select(async n => await n.OutputAsync());
             var result = await Task.WhenAll(tasks).ConfigureAwait(false);
