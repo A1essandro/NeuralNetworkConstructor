@@ -3,11 +3,21 @@ using NeuralNetworkConstructor.Network.Node;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace NeuralNetworkConstructor.Network.Layer
 {
+
+    [DataContract]
+    [KnownType(typeof(Neuron))]
+    [KnownType(typeof(Bias))]
     public class Layer : ILayer<INode>
     {
+
+        [DataMember]
+        private IList<INode> _nodes = new List<INode>();
+
+        public IList<INode> Nodes => _nodes;
 
         public Layer()
         {
@@ -15,7 +25,7 @@ namespace NeuralNetworkConstructor.Network.Layer
 
         public Layer(IList<INode> nodes)
         {
-            Nodes = nodes;
+            _nodes = nodes;
         }
 
         public Layer(params INode[] nodes)
@@ -27,19 +37,17 @@ namespace NeuralNetworkConstructor.Network.Layer
         {
             for (var i = 0; i < qty; i++)
             {
-                Nodes.Add(getter());
+                _nodes.Add(getter());
             }
             foreach (var node in other)
             {
-                Nodes.Add(node);
+                _nodes.Add(node);
             }
         }
 
-        public IList<INode> Nodes { get; } = new List<INode>();
-
         public void Refresh()
         {
-            foreach (IRefreshable node in Nodes?.Where(n => n is IRefreshable))
+            foreach (IRefreshable node in _nodes?.Where(n => n is IRefreshable))
             {
                 node.Refresh();
             }

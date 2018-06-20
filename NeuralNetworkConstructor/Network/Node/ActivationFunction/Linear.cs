@@ -1,11 +1,15 @@
-﻿namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
+﻿using System.Runtime.Serialization;
+
+namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
 {
     /// <summary>
     /// Function y(x) = a*x
     /// </summary>
+    [DataContract]
     public class Linear : IActivationFunction
     {
 
+        [DataMember]
         private readonly double _multiplier;
 
         public Linear()

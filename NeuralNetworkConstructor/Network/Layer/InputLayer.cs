@@ -4,15 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace NeuralNetworkConstructor.Network.Layer
 {
+
+    [DataContract]
+    [KnownType(typeof(InputNode))]
+    [KnownType(typeof(InputBias))]
     public class InputLayer : IInputLayer
     {
 
+        [DataMember]
+        private IList<IInputNode> _nodes = new List<IInputNode>();
+
+        public IList<IInputNode> Nodes => _nodes;
+
         public InputLayer(IList<IInputNode> nodes)
         {
-            Nodes = nodes;
+            _nodes = nodes;
         }
 
         public InputLayer(params IInputNode[] nodes)
@@ -24,15 +34,13 @@ namespace NeuralNetworkConstructor.Network.Layer
         {
             for (var i = 0; i < qty; i++)
             {
-                Nodes.Add(getter());
+                _nodes.Add(getter());
             }
             foreach (var node in other)
             {
-                Nodes.Add(node);
+                _nodes.Add(node);
             }
         }
-
-        public IList<IInputNode> Nodes { get; } = new List<IInputNode>();
 
         public event Action<IEnumerable<double>> OnInput;
 

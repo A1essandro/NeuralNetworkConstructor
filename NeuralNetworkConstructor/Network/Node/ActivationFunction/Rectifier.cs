@@ -1,4 +1,6 @@
-﻿namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
+﻿using System.Runtime.Serialization;
+
+namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
 {
 
     /// <summary>
@@ -7,9 +9,11 @@
     /// <remarks>
     /// Any negative number to alpha*x. Any positive number leaves unchanged.
     /// </remarks>
+    [DataContract]
     public class Rectifier : IActivationFunction
     {
 
+        [DataMember]
         private readonly double _alpha;
 
         public Rectifier()

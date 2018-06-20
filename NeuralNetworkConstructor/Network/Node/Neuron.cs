@@ -5,39 +5,55 @@ using NeuralNetworkConstructor.Network.Node.Synapse;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
+
+    [DataContract]
+    [KnownType(typeof(Summator.Summator))]
+    [KnownType(typeof(Synapse.Synapse))]
+    [KnownType(typeof(Rectifier))]
+    [KnownType(typeof(Logistic))]
+    [KnownType(typeof(Linear))]
+    [KnownType(typeof(Gaussian))]
     public class Neuron : ISlaveNode, IRefreshable
     {
+
+        [DataMember]
+        private ISummator _summator;
+
+        [DataMember]
+        private ICollection<ISynapse> _synapses = new List<ISynapse>();
+
+        [DataMember]
+        private IActivationFunction _actFunction;
 
         private double? _calculatedOutput;
 
         private readonly AsyncAutoResetEvent _waitHandle = new AsyncAutoResetEvent(true);
 
-        public ISummator Summator { get; }
-
         /// <summary>
         /// Collection of synapses to this node
         /// </summary>
-        public ICollection<ISynapse> Synapses { get; } = new List<ISynapse>();
-
-        public IActivationFunction Function { get; }
+        public ICollection<ISynapse> Synapses => _synapses;
+        public ISummator Summator => _summator;
+        public IActivationFunction Function => _actFunction;
 
         public event Action<Neuron> OnOutputCalculated;
         public event Action<double> OnOutput;
 
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
-            Function = function;
-            Summator = summator ?? new Summator.Summator();
+            _actFunction = function;
+            _summator = summator ?? new Summator.Summator();
         }
 
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)
             : this(function)
         {
-            Synapses = synapses;
+            _synapses = synapses;
         }
 
         /// <summary>
@@ -98,6 +114,7 @@ namespace NeuralNetworkConstructor.Network.Node
         }
     }
 
+    [DataContract]
     public class Neuron<TActivationFunction> : Neuron
         where TActivationFunction : IActivationFunction, new()
     {

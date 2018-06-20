@@ -1,8 +1,11 @@
 ﻿using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node.Summator
 {
+
+    [DataContract]
     public class Summator : ISummator
     {
 

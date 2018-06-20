@@ -4,6 +4,7 @@ using NeuralNetworkConstructor.Network.Layer;
 using System.Diagnostics.Contracts;
 using NeuralNetworkConstructor.Common;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace NeuralNetworkConstructor.Network.Node.Synapse
 {
@@ -12,24 +13,25 @@ namespace NeuralNetworkConstructor.Network.Node.Synapse
     /// Synapse gets output from neuron-transmitter and convert the value via its weight.
     /// Result value gets neuron-reciever.
     /// </summary>
+    [DataContract]
     public class Synapse : ISynapse
     {
 
         /// <summary>
         /// Node transmitter
         /// </summary>
+        [DataMember]
         public INode MasterNode { get; set; }
 
         /// <summary>
         /// Current weight of synapse
         /// </summary>
+        [DataMember]
         public double Weight { get; set; }
 
-        private static readonly Random Random = new Random();
-        private IOutput<double> mNode;
-        private double? weight;
-
         public event Action<double> OnOutput;
+
+        private static readonly Random Random = new Random();
 
         /// <summary>
         /// Random value from -1.0 to 1.0

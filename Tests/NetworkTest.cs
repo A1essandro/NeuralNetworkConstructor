@@ -4,7 +4,9 @@ using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Summator;
 using NeuralNetworkConstructor.Network.Node.Synapse;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -82,6 +84,31 @@ namespace Tests
 
             Assert.True(output == 2);
             Assert.True(input == 2);
+        }
+
+        [Fact]
+        public void TestClone()
+        {
+            var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
+            var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
+            var outputLayer = new Layer(() => new Neuron(new Rectifier()), 2);
+            Synapse.Generator.EachToEach(inputLayer, innerLayer);
+            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var network = new Network(inputLayer, innerLayer, outputLayer);
+
+            var clone = Network.Clone(network);
+
+            var input = new[] { 0.1, 1.0 };
+            network.Input(input);
+            clone.Input(input);
+            var networkOutput = network.Output().ToArray();
+            var cloneOutput = clone.Output().ToArray();
+
+            Assert.NotEqual(network, clone);
+            Assert.Equal((network.Layers.Last().Nodes.First() as ISlaveNode).Synapses.First().Weight,
+                (clone.Layers.Last().Nodes.First() as ISlaveNode).Synapses.First().Weight);
+            Assert.Equal(networkOutput.First(), cloneOutput.First());
+            Assert.Equal(networkOutput.Last(), cloneOutput.Last());
         }
 
     }

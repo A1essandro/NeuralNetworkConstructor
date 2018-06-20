@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
 {
@@ -6,9 +7,11 @@ namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
     /// <summary>
     /// 
     /// </summary>
+    [DataContract]
     public class Logistic : IActivationFunction
     {
 
+        [DataMember]
         private readonly double _param;
         private static double _equation(double x, double alpha) => 1 / (1 + Math.Exp(-alpha * x));
 

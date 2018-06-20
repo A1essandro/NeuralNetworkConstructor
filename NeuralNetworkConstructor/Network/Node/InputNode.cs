@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
+
+    [DataContract]
     public class InputNode : IInputNode
     {
 
+        [DataMember]
         private double _data;
 
         public event Action<double> OnOutput;

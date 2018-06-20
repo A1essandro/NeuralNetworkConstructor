@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node.Summator
 {
+
     public class EuclidRangeSummator : ISummator
     {
 
