@@ -2,13 +2,6 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/dsyj7gu551sg2jey?svg=true)](https://ci.appveyor.com/project/A1essandro/neuralnetworkconstructor)
 
-[![Quality gate status](https://sonarcloud.io/api/badges/measure?key=neural-network-constructor&metric=alert_status)](https://sonarqube.com/dashboard/index/neural-network-constructor)
-[![Reliability Rating](https://sonarcloud.io/api/badges/measure?key=neural-network-constructor&metric=reliability_rating)](https://sonarqube.com/dashboard/index/neural-network-constructor)
-[![Security Rating](https://sonarcloud.io/api/badges/measure?key=neural-network-constructor&metric=security_rating)](https://sonarqube.com/dashboard/index/neural-network-constructor)
-[![Maintainability Rating](https://sonarcloud.io/api/badges/measure?key=neural-network-constructor&metric=sqale_rating)](https://sonarqube.com/dashboard/index/neural-network-constructor)
-[![Issues](https://sonarcloud.io/api/badges/measure?key=neural-network-constructor&metric=violations)](https://sonarqube.com/dashboard/index/neural-network-constructor)
-[![Public documented API](https://sonarcloud.io/api/badges/measure?key=neural-network-constructor&metric=public_documented_api_density)](https://sonarqube.com/dashboard/index/neural-network-constructor)
-
 See also [similar realization on PHP](https://github.com/A1essandro/neural-network)
 
 ## Specification

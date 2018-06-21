@@ -48,7 +48,7 @@ namespace NeuralNetwork.Structure.Layers
 
         public void Refresh()
         {
-            foreach (IRefreshable node in _nodes?.Where(n => n is IRefreshable))
+            foreach (var node in _nodes?.Where(n => n is IRefreshable).Select(n => n as IRefreshable))
             {
                 node.Refresh();
             }

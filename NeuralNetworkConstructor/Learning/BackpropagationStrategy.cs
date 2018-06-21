@@ -7,13 +7,13 @@ namespace NeuralNetwork.Learning
 {
     public class BackpropagationStrategy : LearningStrategy<KeyValuePair<double[], double[]>>
     {
-        private double _maxCurrentEpochError;
+        private readonly double _maxCurrentEpochError;
         private bool _errorFlag = false;
 
         private readonly ushort _maxEpochRepeats;
         private readonly double _maxErrorDelta;
         private readonly double _force;
-        private Algorithm _algorithm;
+        private readonly Algorithm _algorithm;
 
         public BackpropagationStrategy(double force, double maxErrorDelta, ushort maxEpochRepeats = ushort.MaxValue)
         {

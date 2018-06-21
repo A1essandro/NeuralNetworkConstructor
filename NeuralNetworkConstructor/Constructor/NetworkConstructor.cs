@@ -12,7 +12,7 @@ namespace NeuralNetwork.Constructor
         where TNetwork : INetwork, new()
     {
 
-        private TNetwork _currentNetwork = new TNetwork();
+        private readonly TNetwork _currentNetwork = new TNetwork();
         private ILayer<INotInputNode> _currentLayer;
         private ISlaveNode _currentNode;
 
@@ -27,7 +27,7 @@ namespace NeuralNetwork.Constructor
                 return;
             }
 
-            throw new Exception();
+            throw new InvalidOperationException();
         }
 
         public NetworkConstructor<TNetwork> AddLayer<TLayer>(string identity, bool withBias = false)
