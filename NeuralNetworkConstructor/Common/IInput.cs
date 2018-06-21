@@ -16,14 +16,4 @@ namespace NeuralNetworkConstructor.Common
 
     }
 
-    public interface IInput : IInput<double>
-    {
-
-    }
-
-    public interface IInputSet : IInput<IEnumerable<double>>
-    {
-
-    }
-
 }

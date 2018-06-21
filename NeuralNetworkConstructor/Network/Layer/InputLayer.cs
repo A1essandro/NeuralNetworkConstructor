@@ -68,7 +68,7 @@ namespace NeuralNetworkConstructor.Network.Layer
             }
         }
 
-        private IEnumerable<IInput> _getInputNodes() => Nodes.Where(x => !(x is Bias)).Select(x => x as IInput);
+        private IEnumerable<IInputNode> _getInputNodes() => Nodes.Where(x => !(x is Bias)).Select(x => x as IInputNode);
 
     }
 }

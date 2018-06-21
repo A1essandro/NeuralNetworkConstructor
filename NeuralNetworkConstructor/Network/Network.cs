@@ -47,7 +47,7 @@ namespace NeuralNetworkConstructor.Network
         {
             Contract.Requires(layers != null, nameof(layers));
             Contract.Requires(layers.Count >= 1, nameof(layers));
-            Contract.Requires(inputLayer.Nodes.Any(n => n is IInput));
+            Contract.Requires(inputLayer.Nodes.Any(n => n is IInputNode));
 
             _inputLayer = inputLayer;
             _layers = layers;
