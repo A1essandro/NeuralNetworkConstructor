@@ -25,7 +25,7 @@ namespace NeuralNetworkConstructor.Network.Node
         /// <param name="synapse"></param>
         void AddSynapse(ISynapse synapse);
 
-        IActivationFunction Function { get; }
+        IActivationFunction Function { get; set; }
 
     }
 }

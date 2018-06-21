@@ -43,8 +43,14 @@ namespace NeuralNetworkConstructor.Network.Node
         /// Collection of synapses to this node
         /// </summary>
         public ICollection<ISynapse> Synapses => _synapses;
+
         public ISummator Summator => _summator;
-        public IActivationFunction Function => _actFunction;
+
+        public IActivationFunction Function
+        {
+            get => _actFunction;
+            set => _actFunction = value;
+        }
 
         #endregion
 
@@ -52,6 +58,11 @@ namespace NeuralNetworkConstructor.Network.Node
         public event Action<double> OnOutput;
 
         #region ctors
+
+        public Neuron()
+        {
+            _summator = new Summator.Summator();
+        }
 
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
@@ -128,28 +139,6 @@ namespace NeuralNetworkConstructor.Network.Node
             _calculatedOutput = null;
         }
 
-    }
-
-    [Obsolete]
-    [DataContract]
-    public class Neuron<TActivationFunction> : Neuron
-        where TActivationFunction : IActivationFunction, new()
-    {
-
-        public Neuron()
-            : this((ISummator)null)
-        {
-        }
-
-        public Neuron(ISummator summator = null)
-            : base(new TActivationFunction(), summator)
-        {
-        }
-
-        public Neuron(ICollection<ISynapse> synapses)
-            : base(new TActivationFunction(), synapses)
-        {
-        }
     }
 
 }

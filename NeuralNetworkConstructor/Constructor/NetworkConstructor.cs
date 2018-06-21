@@ -1,6 +1,7 @@
 ﻿using NeuralNetworkConstructor.Network;
 using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using NeuralNetworkConstructor.Network.Node.Synapse;
 using System;
 using System.Collections.Generic;
@@ -93,10 +94,11 @@ namespace NeuralNetworkConstructor.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork> AddNeuron<TNode>(string identity)
+        public NetworkConstructor<TNetwork> AddNeuron<TNode>(string identity, IActivationFunction func)
             where TNode : ISlaveNode, new()
         {
             var node = new TNode();
+            node.Function = func;
             _currentNode = node;
             _tryAddToDictionary(_nodes, identity, node);
             _currentLayer.Nodes.Add(node);
