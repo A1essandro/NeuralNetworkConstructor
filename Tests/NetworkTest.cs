@@ -39,30 +39,6 @@ namespace Tests
         }
 
         [Fact]
-        public void TestKohonenNetwork()
-        {
-            var inputLayer = new InputLayer(() => new InputNode(), 2);
-            var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
-
-            Synapse.Generator.EachToEach(inputLayer, outputLayer);
-
-            var network = new KohonenNetwork(inputLayer, outputLayer);
-            var learning = new KohonenNetwork.SelfLearning(network);
-
-            var input = new[] { 0.0, 1.0 };
-
-            network.Input(input);
-            var output1 = network.Output().First();
-
-            learning.Learn(input, 0.33);
-
-            network.Input(input);
-            var output2 = network.Output().First();
-
-            Assert.True(output1 < output2, $"{output1} > {output2}");
-        }
-
-        [Fact]
         public void TestEvents()
         {
             var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
@@ -70,7 +46,7 @@ namespace Tests
 
             Synapse.Generator.EachToEach(inputLayer, outputLayer);
 
-            var network = new KohonenNetwork(inputLayer, outputLayer);
+            var network = new Network(inputLayer, outputLayer);
 
             var output = 0;
             var input = 0;
