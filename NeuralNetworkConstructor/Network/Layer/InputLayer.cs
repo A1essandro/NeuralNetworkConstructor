@@ -11,26 +11,26 @@ namespace NeuralNetworkConstructor.Network.Layer
 
     [DataContract]
     [KnownType(typeof(InputNode))]
-    [KnownType(typeof(InputBias))]
+    [KnownType(typeof(Bias))]
     public class InputLayer : IInputLayer
     {
 
         [DataMember]
-        private IList<IInputNode> _nodes = new List<IInputNode>();
+        private IList<IMasterNode> _nodes = new List<IMasterNode>();
 
-        public IList<IInputNode> Nodes => _nodes;
+        public IList<IMasterNode> Nodes => _nodes;
 
-        public InputLayer(IList<IInputNode> nodes)
+        public InputLayer(IList<IMasterNode> nodes)
         {
             _nodes = nodes;
         }
 
-        public InputLayer(params IInputNode[] nodes)
+        public InputLayer(params IMasterNode[] nodes)
             : this(nodes.ToList())
         {
         }
 
-        public InputLayer(Func<IInputNode> getter, ushort qty, params IInputNode[] other)
+        public InputLayer(Func<IMasterNode> getter, ushort qty, params IMasterNode[] other)
         {
             for (var i = 0; i < qty; i++)
             {
@@ -52,6 +52,7 @@ namespace NeuralNetworkConstructor.Network.Layer
 
             var index = 0;
             var inputs = _getInputNodes().ToArray();
+
             foreach (var value in input)
             {
                 inputs[index].Input(value);
@@ -67,7 +68,7 @@ namespace NeuralNetworkConstructor.Network.Layer
             }
         }
 
-        private IEnumerable<IInputNode> _getInputNodes() => Nodes.Where(x => !(x is Bias));
+        private IEnumerable<IInput> _getInputNodes() => Nodes.Where(x => !(x is Bias)).Select(x => x as IInput);
 
     }
 }

@@ -2,7 +2,7 @@
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public interface IInputNode : INode, IInput
+    public interface IInputNode : IMasterNode, IInput
     {
     }
 }

@@ -18,7 +18,7 @@ namespace Tests
         [Fact]
         public async Task TestInput()
         {
-            var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
+            var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
             var outputLayer = new Layer(() => new Neuron(new Rectifier()), 2);
 
@@ -41,7 +41,7 @@ namespace Tests
         [Fact]
         public void TestEvents()
         {
-            var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
+            var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
 
             Synapse.Generator.EachToEach(inputLayer, outputLayer);
@@ -65,7 +65,7 @@ namespace Tests
         [Fact]
         public void TestClone()
         {
-            var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
+            var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
             var outputLayer = new Layer(() => new Neuron(new Logistic()), 2);
             Synapse.Generator.EachToEach(inputLayer, innerLayer);

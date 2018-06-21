@@ -3,7 +3,7 @@ using NeuralNetworkConstructor.Network.Node;
 
 namespace NeuralNetworkConstructor.Network.Layer
 {
-    public interface IInputLayer : ILayer<IInputNode>, IInputSet
+    public interface IInputLayer : ILayer<IMasterNode>, IInputSet
     {
     }
 

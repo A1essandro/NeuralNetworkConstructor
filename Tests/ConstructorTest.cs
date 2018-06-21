@@ -23,7 +23,7 @@ namespace Tests
         {
             var network = new NetworkConstructor<Network>()
                 .AddInputNodes<InputNode>("0_1", "0_2", "0_3")
-                .AddInputNode<InputBias>("0_4")
+                .AddInputNode<Bias>("0_4")
                 .AddLayer<Layer>("1")
                 .AddNeuron<Neuron>("1_1", new Rectifier())
                 .AddSynapses<Synapse>()
@@ -53,7 +53,7 @@ namespace Tests
         {
             var network = new NetworkConstructor<Network>()
                 .AddInputNodes<InputNode>("0_1", "0_2")
-                .AddInputNode<InputBias>("0_4")
+                .AddInputNode<Bias>("0_4")
                 .AddLayer<Layer>("1")
                 .AddNeuron<Neuron>("1_1", new Logistic())
                 .AddSynapses<Synapse>()

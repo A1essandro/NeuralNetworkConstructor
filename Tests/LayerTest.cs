@@ -1,4 +1,5 @@
-﻿using NeuralNetworkConstructor.Network.Layer;
+﻿using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Network.Layer;
 using NeuralNetworkConstructor.Network.Node;
 using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using System;
@@ -25,12 +26,12 @@ namespace Tests
         public void TestInputLayer()
         {
             ushort neuronsQty = 7;
-            var layer = new InputLayer(() => new InputNode(), neuronsQty, new InputBias());
+            var layer = new InputLayer(() => new InputNode(), neuronsQty, new Bias());
 
             Assert.Equal(neuronsQty + 1, layer.Nodes.Count);
             Assert.IsType<InputNode>(layer.Nodes.ToArray()[5]);
-            Assert.IsType<InputBias>(layer.Nodes.Last());
-            Assert.Throws<InvalidOperationException>(() => layer.Nodes.Last().Input(1));
+            Assert.IsType<Bias>(layer.Nodes.Last());
+            Assert.Throws<NullReferenceException>(() => (layer.Nodes.Last() as IInput).Input(1));
         }
 
     }

@@ -67,7 +67,7 @@ namespace NeuralNetworkConstructor.Constructor
         }
 
         public NetworkConstructor<TNetwork> AddInputNode<TNode>(string identity)
-            where TNode : IInputNode, new()
+            where TNode : IMasterNode, new()
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
