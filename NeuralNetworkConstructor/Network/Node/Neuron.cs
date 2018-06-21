@@ -21,6 +21,8 @@ namespace NeuralNetworkConstructor.Network.Node
     public class Neuron : ISlaveNode, IRefreshable
     {
 
+        #region serialization data
+
         [DataMember]
         private ISummator _summator;
 
@@ -30,9 +32,12 @@ namespace NeuralNetworkConstructor.Network.Node
         [DataMember]
         private IActivationFunction _actFunction;
 
-        private double? _calculatedOutput;
+        #endregion
 
+        private double? _calculatedOutput;
         private readonly AsyncAutoResetEvent _waitHandle = new AsyncAutoResetEvent(true);
+
+        #region public properties
 
         /// <summary>
         /// Collection of synapses to this node
@@ -41,8 +46,12 @@ namespace NeuralNetworkConstructor.Network.Node
         public ISummator Summator => _summator;
         public IActivationFunction Function => _actFunction;
 
+        #endregion
+
         public event Action<Neuron> OnOutputCalculated;
         public event Action<double> OnOutput;
+
+        #region ctors
 
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
@@ -56,40 +65,9 @@ namespace NeuralNetworkConstructor.Network.Node
             _synapses = synapses;
         }
 
-        /// <summary>
-        /// Adding synapse from master node to this node
-        /// </summary>
-        /// <param name="synapse"></param>
-        public void AddSynapse(ISynapse synapse)
-        {
-            Synapses.Add(synapse);
-        }
+        #endregion
 
-        public virtual double Output()
-        {
-            if (_calculatedOutput != null)
-            {
-                OnOutput?.Invoke(_calculatedOutput.Value);
-                return _calculatedOutput.Value;
-            }
-
-            _calculatedOutput = Function != null
-                ? Function.GetEquation(Summator.GetSum(this))
-                : Summator.GetSum(this);
-            OnOutputCalculated?.Invoke(this);
-            OnOutput?.Invoke(_calculatedOutput.Value);
-
-            return _calculatedOutput.Value;
-        }
-
-        /// <summary>
-        /// Zeroing of output calculation
-        /// Should be called after entry new Input data
-        /// </summary>
-        public void Refresh()
-        {
-            _calculatedOutput = null;
-        }
+        #region IOutput
 
         public async Task<double> OutputAsync()
         {
@@ -112,8 +90,47 @@ namespace NeuralNetworkConstructor.Network.Node
 
             return _calculatedOutput.Value;
         }
+
+        public virtual double Output()
+        {
+            if (_calculatedOutput != null)
+            {
+                OnOutput?.Invoke(_calculatedOutput.Value);
+                return _calculatedOutput.Value;
+            }
+
+            _calculatedOutput = Function != null
+                ? Function.GetEquation(Summator.GetSum(this))
+                : Summator.GetSum(this);
+            OnOutputCalculated?.Invoke(this);
+            OnOutput?.Invoke(_calculatedOutput.Value);
+
+            return _calculatedOutput.Value;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Adding synapse from master node to this node
+        /// </summary>
+        /// <param name="synapse"></param>
+        public void AddSynapse(ISynapse synapse)
+        {
+            Synapses.Add(synapse);
+        }
+
+        /// <summary>
+        /// Zeroing of output calculation
+        /// Should be called after entry new Input data
+        /// </summary>
+        public void Refresh()
+        {
+            _calculatedOutput = null;
+        }
+
     }
 
+    [Obsolete]
     [DataContract]
     public class Neuron<TActivationFunction> : Neuron
         where TActivationFunction : IActivationFunction, new()

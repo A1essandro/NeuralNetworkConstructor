@@ -1,5 +1,6 @@
 ﻿using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Network.Node;
+using NeuralNetworkConstructor.Network.Node.ActivationFunction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace NeuralNetworkConstructor.Network.Layer
 
     [DataContract]
     [KnownType(typeof(Neuron))]
+    [KnownType(typeof(Neuron<Linear>))]
+    [KnownType(typeof(Neuron<Gaussian>))]
+    [KnownType(typeof(Neuron<Logistic>))]
+    [KnownType(typeof(Neuron<Rectifier>))]
     [KnownType(typeof(Bias))]
     public class Layer : ILayer<INode>
     {

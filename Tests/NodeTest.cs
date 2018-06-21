@@ -60,7 +60,7 @@ namespace Tests
             var input = new InputNode();
             neuron.AddSynapse(new Synapse(input, 1));
 
-            var context = new Context((Func<double, double>) null, 1);
+            var context = new Context((Func<double, double>)null, 1);
             context.AddSynapse(new Synapse(neuron));
 
             input.Input(1);
@@ -92,5 +92,6 @@ namespace Tests
             Assert.True(output == 3);
             Assert.True(input == 2);
         }
+
     }
 }

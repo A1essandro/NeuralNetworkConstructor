@@ -9,6 +9,8 @@ using System.Linq;
 
 namespace NeuralNetworkConstructor.Network
 {
+
+    [Obsolete]
     public class KohonenNetwork : Network
     {
 

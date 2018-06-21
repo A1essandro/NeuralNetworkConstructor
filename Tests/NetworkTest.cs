@@ -91,7 +91,7 @@ namespace Tests
         {
             var inputLayer = new InputLayer(() => new InputNode(), 2, new InputBias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
-            var outputLayer = new Layer(() => new Neuron(new Rectifier()), 2);
+            var outputLayer = new Layer(() => new Neuron<Logistic>(), 2);
             Synapse.Generator.EachToEach(inputLayer, innerLayer);
             Synapse.Generator.EachToEach(innerLayer, outputLayer);
             var network = new Network(inputLayer, innerLayer, outputLayer);

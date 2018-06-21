@@ -19,10 +19,14 @@ namespace NeuralNetworkConstructor.Network
     public class Network : INetwork
     {
 
+        #region serialization data
+
         [DataMember]
         private ICollection<ILayer<INode>> _layers;
         [DataMember]
         private IInputLayer _inputLayer;
+
+        #endregion
 
         public event Action<IEnumerable<double>> OnOutput;
         public event Action<IEnumerable<double>> OnInput;
@@ -30,6 +34,8 @@ namespace NeuralNetworkConstructor.Network
         public IInputLayer InputLayer => _inputLayer;
         public virtual ICollection<ILayer<INode>> Layers => _layers;
         public virtual ILayer<INode> OutputLayer => Layers.Last();
+
+        #region ctors
 
         public Network()
         {
@@ -52,6 +58,10 @@ namespace NeuralNetworkConstructor.Network
         {
         }
 
+        #endregion
+
+        #region IOutputSet
+
         /// <summary>
         /// Start calculation for current input values and get result.
         /// </summary>
@@ -69,6 +79,18 @@ namespace NeuralNetworkConstructor.Network
 
             return result;
         }
+
+        public virtual async Task<IEnumerable<double>> OutputAsync()
+        {
+            var tasks = OutputLayer.Nodes.Select(async n => await n.OutputAsync());
+            var result = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            OnOutput?.Invoke(result);
+
+            return result;
+        }
+
+        #endregion
 
         /// <summary>
         /// Write input value to each input-neuron (<see cref="IInput{double}"/>) in input-layer.
@@ -92,26 +114,21 @@ namespace NeuralNetworkConstructor.Network
             }
         }
 
-        public virtual async Task<IEnumerable<double>> OutputAsync()
+        protected virtual T GetClone<T>() where T : Network
         {
-            var tasks = OutputLayer.Nodes.Select(async n => await n.OutputAsync());
-            var result = await Task.WhenAll(tasks).ConfigureAwait(false);
-
-            OnOutput?.Invoke(result);
-
-            return result;
+            using (var stream = new MemoryStream())
+            {
+                var serSettings = new DataContractSerializerSettings() { PreserveObjectReferences = true };
+                var ser = new DataContractSerializer(typeof(T), serSettings);
+                ser.WriteObject(stream, this);
+                stream.Position = 0;
+                return ser.ReadObject(stream) as T;
+            }
         }
 
         public static T Clone<T>(T network) where T : Network
         {
-            var serSettings = new DataContractSerializerSettings() { PreserveObjectReferences = true };
-            var ser = new DataContractSerializer(typeof(Network), serSettings);
-            using (var stream = new MemoryStream())
-            {
-                ser.WriteObject(stream, network);
-                stream.Position = 0;
-                return ser.ReadObject(stream) as T;
-            }
+            return network.GetClone<T>();
         }
 
     }
