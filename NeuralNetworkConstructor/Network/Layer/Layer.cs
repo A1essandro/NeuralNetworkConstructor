@@ -12,29 +12,29 @@ namespace NeuralNetworkConstructor.Network.Layer
     [DataContract]
     [KnownType(typeof(Neuron))]
     [KnownType(typeof(Bias))]
-    public class Layer : ILayer<INode>
+    public class Layer : ILayer<INotInputNode>
     {
 
         [DataMember]
-        private IList<INode> _nodes = new List<INode>();
+        private IList<INotInputNode> _nodes = new List<INotInputNode>();
 
-        public IList<INode> Nodes => _nodes;
+        public IList<INotInputNode> Nodes => _nodes;
 
         public Layer()
         {
         }
 
-        public Layer(IList<INode> nodes)
+        public Layer(IList<INotInputNode> nodes)
         {
             _nodes = nodes;
         }
 
-        public Layer(params INode[] nodes)
+        public Layer(params INotInputNode[] nodes)
             : this(nodes.ToList())
         {
         }
 
-        public Layer(Func<INode> getter, ushort qty, params INode[] other)
+        public Layer(Func<INotInputNode> getter, ushort qty, params INotInputNode[] other)
         {
             for (var i = 0; i < qty; i++)
             {

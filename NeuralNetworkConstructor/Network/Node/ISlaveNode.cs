@@ -9,7 +9,7 @@ namespace NeuralNetworkConstructor.Network.Node
     /// <summary>
     /// Node that has synapses
     /// </summary>
-    public interface ISlaveNode : INode
+    public interface ISlaveNode : INotInputNode
     {
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace NeuralNetworkConstructor.Network
         #region serialization data
 
         [DataMember]
-        private ICollection<ILayer<INode>> _layers;
+        private ICollection<ILayer<INotInputNode>> _layers;
         [DataMember]
         private IInputLayer _inputLayer;
 
@@ -32,18 +32,18 @@ namespace NeuralNetworkConstructor.Network
         public event Action<IEnumerable<double>> OnInput;
 
         public IInputLayer InputLayer => _inputLayer;
-        public virtual ICollection<ILayer<INode>> Layers => _layers;
-        public virtual ILayer<INode> OutputLayer => Layers.Last();
+        public virtual ICollection<ILayer<INotInputNode>> Layers => _layers;
+        public virtual ILayer<INotInputNode> OutputLayer => Layers.Last();
 
         #region ctors
 
         public Network()
         {
-            _layers = new List<ILayer<INode>>();
+            _layers = new List<ILayer<INotInputNode>>();
             _inputLayer = new InputLayer();
         }
 
-        public Network(IInputLayer inputLayer, ICollection<ILayer<INode>> layers)
+        public Network(IInputLayer inputLayer, ICollection<ILayer<INotInputNode>> layers)
         {
             Contract.Requires(layers != null, nameof(layers));
             Contract.Requires(layers.Count >= 1, nameof(layers));
@@ -53,7 +53,7 @@ namespace NeuralNetworkConstructor.Network
             _layers = layers;
         }
 
-        public Network(IInputLayer inputLayer, params ILayer<INode>[] layers)
+        public Network(IInputLayer inputLayer, params ILayer<INotInputNode>[] layers)
             : this(inputLayer, layers.ToList())
         {
         }

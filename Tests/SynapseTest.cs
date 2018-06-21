@@ -33,10 +33,10 @@ namespace Tests
         [Fact]
         public void TestGeneratorEachToEach()
         {
-            var master = new Layer(new List<INode> {
+            var master = new Layer(new List<INotInputNode> {
                 new Bias(), new Neuron(new Rectifier())
             });
-            var slave = new Layer(new List<INode> {
+            var slave = new Layer(new List<INotInputNode> {
                 new Neuron(new Rectifier()), new Neuron(new Rectifier())
             });
 

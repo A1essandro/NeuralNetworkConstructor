@@ -11,9 +11,9 @@ namespace NeuralNetworkConstructor.Network
 
         IInputLayer InputLayer { get; }
 
-        ICollection<ILayer<INode>> Layers { get; }
+        ICollection<ILayer<INotInputNode>> Layers { get; }
 
-        ILayer<INode> OutputLayer { get; }
+        ILayer<INotInputNode> OutputLayer { get; }
 
     }
 }

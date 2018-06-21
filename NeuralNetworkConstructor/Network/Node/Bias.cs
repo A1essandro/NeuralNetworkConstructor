@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Network.Node
 {
-    public class Bias : IMasterNode
+    public class Bias : IMasterNode, INotInputNode
     {
         public event Action<double> OnOutput;
         private const double VALUE = 1.0; 

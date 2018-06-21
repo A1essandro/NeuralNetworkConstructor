@@ -13,11 +13,11 @@ namespace NeuralNetworkConstructor.Constructor
     {
 
         private TNetwork _currentNetwork = new TNetwork();
-        private ILayer<INode> _currentLayer;
+        private ILayer<INotInputNode> _currentLayer;
         private ISlaveNode _currentNode;
 
         private readonly IDictionary<string, INode> _nodes = new Dictionary<string, INode>();
-        private readonly IDictionary<string, ILayer<INode>> _layers = new Dictionary<string, ILayer<INode>>();
+        private readonly IDictionary<string, ILayer<INotInputNode>> _layers = new Dictionary<string, ILayer<INotInputNode>>();
 
         private void _tryAddToDictionary<T>(IDictionary<string, T> dict, string key, T value)
         {
@@ -31,11 +31,11 @@ namespace NeuralNetworkConstructor.Constructor
         }
 
         public NetworkConstructor<TNetwork> AddLayer<TLayer>(string identity, bool withBias = false)
-            where TLayer : ILayer<INode>, new()
+            where TLayer : ILayer<INotInputNode>, new()
         {
             var layer = new TLayer();
             _currentLayer = layer;
-            _tryAddToDictionary(_layers, identity, layer);
+            _tryAddToDictionary<ILayer<INotInputNode>>(_layers, identity, layer);
             _currentNetwork.Layers.Add(layer);
 
             if (withBias)
@@ -49,7 +49,7 @@ namespace NeuralNetworkConstructor.Constructor
         #region Nodes
 
         public NetworkConstructor<TNetwork> AddNode<TNode>(string identity)
-            where TNode : INode, new()
+            where TNode : INotInputNode, new()
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
@@ -58,7 +58,7 @@ namespace NeuralNetworkConstructor.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork> AddNode(string identity, INode node)
+        public NetworkConstructor<TNetwork> AddNode(string identity, INotInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
             _currentLayer.Nodes.Add(node);
@@ -147,7 +147,7 @@ namespace NeuralNetworkConstructor.Constructor
             }
             else
             {
-                ILayer<INode> layer = _layers[masterNodesLayer];
+                var layer = _layers[masterNodesLayer];
                 foreach (var masterNode in layer.Nodes)
                 {
                     var synapse = new TSynapse
