@@ -1,9 +1,9 @@
-﻿using NeuralNetworkConstructor.Network;
-using NeuralNetworkConstructor.Network.Node;
+﻿using NeuralNetwork.Networks;
+using NeuralNetwork.Structure.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetworkConstructor.Learning
+namespace NeuralNetwork.Learning
 {
     public class BackpropagationStrategy : LearningStrategy<KeyValuePair<double[], double[]>>
     {

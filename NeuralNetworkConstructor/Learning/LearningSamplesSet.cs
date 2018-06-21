@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetworkConstructor.Learning
+namespace NeuralNetwork.Learning
 {
     public class LearningSamplesSet
     {

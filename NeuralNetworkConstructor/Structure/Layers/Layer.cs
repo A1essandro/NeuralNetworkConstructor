@@ -1,12 +1,12 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Network.Node;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+﻿using NeuralNetwork.Common;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.ActivationFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace NeuralNetworkConstructor.Network.Layer
+namespace NeuralNetwork.Structure.Layers
 {
 
     [DataContract]

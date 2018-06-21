@@ -1,8 +1,8 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Network.Node;
+﻿using NeuralNetwork.Common;
+using NeuralNetwork.Structure.Nodes;
 using System.Collections.Generic;
 
-namespace NeuralNetworkConstructor.Network.Layer
+namespace NeuralNetwork.Structure.Layers
 {
 
     public interface ILayer<TNode> : IRefreshable

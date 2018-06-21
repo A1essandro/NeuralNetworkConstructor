@@ -1,19 +1,19 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Summator;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetwork.Common;
+using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Summators;
+using NeuralNetwork.Structure.Synapses;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace NeuralNetworkConstructor.Network.Node
+namespace NeuralNetwork.Structure.Nodes
 {
 
     [DataContract]
-    [KnownType(typeof(Summator.Summator))]
-    [KnownType(typeof(Synapse.Synapse))]
+    [KnownType(typeof(Summator))]
+    [KnownType(typeof(Synapse))]
     [KnownType(typeof(Rectifier))]
     [KnownType(typeof(Logistic))]
     [KnownType(typeof(Linear))]
@@ -61,13 +61,13 @@ namespace NeuralNetworkConstructor.Network.Node
 
         public Neuron()
         {
-            _summator = new Summator.Summator();
+            _summator = new Summator();
         }
 
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
             _actFunction = function;
-            _summator = summator ?? new Summator.Summator();
+            _summator = summator ?? new Summator();
         }
 
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)

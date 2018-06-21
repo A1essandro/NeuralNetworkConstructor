@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
-using NeuralNetworkConstructor.Network.Layer;
+using NeuralNetwork.Structure.Layers;
 using System.Diagnostics.Contracts;
-using NeuralNetworkConstructor.Common;
+using NeuralNetwork.Common;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using NeuralNetwork.Structure.Nodes;
 
-namespace NeuralNetworkConstructor.Network.Node.Synapse
+namespace NeuralNetwork.Structure.Synapses
 {
 
     /// <summary>

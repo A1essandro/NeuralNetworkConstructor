@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NeuralNetwork.Structure.Nodes;
 
-namespace NeuralNetworkConstructor.Network.Node.Summator
+namespace NeuralNetwork.Structure.Summators
 {
 
     public class EuclidRangeSummator : ISummator

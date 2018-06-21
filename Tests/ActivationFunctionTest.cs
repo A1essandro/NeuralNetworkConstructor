@@ -1,4 +1,4 @@
-﻿using NeuralNetworkConstructor.Network.Node.ActivationFunction;
+﻿using NeuralNetwork.Structure.ActivationFunctions;
 using Xunit;
 
 namespace Tests

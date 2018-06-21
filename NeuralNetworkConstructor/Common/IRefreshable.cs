@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetworkConstructor.Common
+namespace NeuralNetwork.Common
 {
 
     /// <summary>
@@ -14,7 +14,6 @@ namespace NeuralNetworkConstructor.Common
     /// <summary>
     /// Interface for refreshable members
     /// </summary>
-    [Obsolete]
     public interface IRefreshable<out T> : IRefreshable
     {
         event Action<T> OnOutputCalculated;

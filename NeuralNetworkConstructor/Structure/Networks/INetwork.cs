@@ -1,9 +1,9 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Network.Layer;
-using NeuralNetworkConstructor.Network.Node;
+﻿using NeuralNetwork.Common;
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Nodes;
 using System.Collections.Generic;
 
-namespace NeuralNetworkConstructor.Network
+namespace NeuralNetwork.Networks
 {
 
     public interface INetwork : IOutputSet, IInput<IEnumerable<double>>, IRefreshable

@@ -1,6 +1,6 @@
-﻿using NeuralNetworkConstructor.Common;
+﻿using NeuralNetwork.Common;
 
-namespace NeuralNetworkConstructor.Network.Node
+namespace NeuralNetwork.Structure.Nodes
 {
 
     /// <summary>

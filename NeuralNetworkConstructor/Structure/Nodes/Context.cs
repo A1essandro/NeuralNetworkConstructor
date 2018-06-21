@@ -1,14 +1,14 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Summator;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetwork.Common;
+using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Summators;
+using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NeuralNetworkConstructor.Network.Node
+namespace NeuralNetwork.Structure.Nodes
 {
 
     /// <summary>
@@ -50,7 +50,7 @@ namespace NeuralNetworkConstructor.Network.Node
             Synapses = synapses;
             _memory = new Queue<double[]>();
             Delay = delay;
-            Summator = summator ?? new Summator.Summator();
+            Summator = summator ?? new Summator();
             Synapses = synapses ?? new List<ISynapse>();
             _calculateMasterNeurons();
         }

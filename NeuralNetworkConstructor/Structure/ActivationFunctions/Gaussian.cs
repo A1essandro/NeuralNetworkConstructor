@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NeuralNetworkConstructor.Network.Node.ActivationFunction
+namespace NeuralNetwork.Structure.ActivationFunctions
 {
 
     [DataContract]

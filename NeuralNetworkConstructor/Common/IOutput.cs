@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NeuralNetworkConstructor.Common
+namespace NeuralNetwork.Common
 {
     public interface IOutput<T>
     {

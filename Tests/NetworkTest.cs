@@ -1,9 +1,9 @@
-﻿using NeuralNetworkConstructor.Network;
-using NeuralNetworkConstructor.Network.Layer;
-using NeuralNetworkConstructor.Network.Node;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Summator;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetwork.Networks;
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Summators;
+using NeuralNetwork.Structure.Synapses;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;

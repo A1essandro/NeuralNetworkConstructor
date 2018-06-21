@@ -1,6 +1,6 @@
-﻿using NeuralNetworkConstructor.Network;
+﻿using NeuralNetwork.Networks;
 
-namespace NeuralNetworkConstructor.Learning
+namespace NeuralNetwork.Learning
 {
     public abstract class LearningStrategy<T>
     {

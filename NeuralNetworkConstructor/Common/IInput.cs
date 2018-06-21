@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NeuralNetworkConstructor.Common
+namespace NeuralNetwork.Common
 {
     public interface IInput<T>
     {

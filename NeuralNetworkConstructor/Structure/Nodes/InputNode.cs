@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace NeuralNetworkConstructor.Network.Node
+namespace NeuralNetwork.Structure.Nodes
 {
 
     [DataContract]

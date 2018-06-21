@@ -1,9 +1,9 @@
-﻿using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Summator;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Summators;
+using NeuralNetwork.Structure.Synapses;
 using System.Collections.Generic;
 
-namespace NeuralNetworkConstructor.Network.Node
+namespace NeuralNetwork.Structure.Nodes
 {
 
     /// <summary>

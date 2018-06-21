@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/A1essandro/NeuralNetworkConstructor</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/A1essandro/NeuralNetworkConstructor.git</RepositoryUrl>
-    <RootNamespace>NeuralNetworkConstructor</RootNamespace>
+    <RootNamespace>NeuralNetwork</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Nito.AsyncEx" Version="5.0.0-pre-05"/>

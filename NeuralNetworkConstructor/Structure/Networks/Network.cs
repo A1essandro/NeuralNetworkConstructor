@@ -1,7 +1,7 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Network.Layer;
-using NeuralNetworkConstructor.Network.Node;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetwork.Common;
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -10,12 +10,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace NeuralNetworkConstructor.Network
+namespace NeuralNetwork.Networks
 {
 
     [DataContract]
     [KnownType(typeof(InputLayer))]
-    [KnownType(typeof(Layer.Layer))]
+    [KnownType(typeof(Layer))]
     public class Network : INetwork
     {
 

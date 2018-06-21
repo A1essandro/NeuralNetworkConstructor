@@ -1,7 +1,7 @@
-﻿using NeuralNetworkConstructor.Network.Layer;
-using NeuralNetworkConstructor.Network.Node;
-using NeuralNetworkConstructor.Network.Node.ActivationFunction;
-using NeuralNetworkConstructor.Network.Node.Synapse;
+﻿using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

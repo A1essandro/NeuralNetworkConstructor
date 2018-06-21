@@ -1,7 +1,7 @@
-﻿using NeuralNetworkConstructor.Network;
+﻿using NeuralNetwork.Networks;
 using System.Collections.Generic;
 
-namespace NeuralNetworkConstructor.Learning
+namespace NeuralNetwork.Learning
 {
     public class Learning<T>
     {
