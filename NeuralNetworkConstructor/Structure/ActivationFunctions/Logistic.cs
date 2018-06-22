@@ -25,11 +25,11 @@ namespace NeuralNetwork.Structure.ActivationFunctions
             _param = param;
         }
 
-        public double GetEquation(double value) => _equation(value, _param);
+        public double GetEquation(double x) => _equation(x, _param);
 
-        public double GetDerivative(double value)
+        public double GetDerivative(double x)
         {
-            var func = _equation(value, 1);
+            var func = _equation(x, 1);
             return _param * func * (1 - func);
         }
 

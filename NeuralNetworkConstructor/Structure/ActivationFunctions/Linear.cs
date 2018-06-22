@@ -22,9 +22,9 @@ namespace NeuralNetwork.Structure.ActivationFunctions
             _multiplier = multiplier;
         }
 
-        public double GetEquation(double value) => _multiplier * value;
+        public double GetEquation(double x) => _multiplier * x;
 
-        public double GetDerivative(double value)
+        public double GetDerivative(double x)
         {
             throw new System.NotImplementedException();
         }

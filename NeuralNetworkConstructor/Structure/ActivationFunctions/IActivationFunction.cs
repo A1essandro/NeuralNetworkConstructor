@@ -3,9 +3,9 @@
     public interface IActivationFunction
     {
 
-        double GetEquation(double value);
+        double GetEquation(double x);
 
-        double GetDerivative(double value);
+        double GetDerivative(double x);
 
     }
 }

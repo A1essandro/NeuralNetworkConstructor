@@ -26,9 +26,9 @@ namespace NeuralNetwork.Structure.ActivationFunctions
             _alpha = alpha;
         }
 
-        public double GetEquation(double value) => value >= 0 ? value : _alpha * value;
+        public double GetEquation(double x) => x >= 0 ? x : _alpha * x;
 
-        public double GetDerivative(double value) => value >= 0 ? 1 : _alpha;
+        public double GetDerivative(double x) => x >= 0 ? 1 : _alpha;
 
     }
 }

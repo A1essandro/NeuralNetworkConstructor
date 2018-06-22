@@ -5,9 +5,12 @@ namespace NeuralNetworkConstructor.Structure.ActivationFunctions
 {
     public class Quadratic : IActivationFunction
     {
-        public double GetDerivative(double value) => 2 * value;
 
-        public double GetEquation(double value) => Math.Pow(value, 2);
+        
+
+        public double GetDerivative(double x) => 2 * x;
+
+        public double GetEquation(double x) => Math.Pow(x, 2);
 
     }
 }
