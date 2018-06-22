@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Tests
 {
-    public class ConstructorTest 
+    public class ConstructorTest
     {
 
         private const double DELTA = 0.15;
@@ -21,7 +21,7 @@ namespace Tests
         [Fact]
         public void ConstructorNetwokrStructureTest()
         {
-            var network = new NetworkConstructor<Network>()
+            var network = new NetworkConstructor<Network, double, double>()
                 .AddInputNodes<InputNode>("0_1", "0_2", "0_3")
                 .AddInputNode<Bias>("0_4")
                 .AddLayer<Layer>("1")
@@ -51,7 +51,7 @@ namespace Tests
         [Fact]
         public void ConstructorNetwokrXORTest()
         {
-            var network = new NetworkConstructor<Network>()
+            var network = new NetworkConstructor<Network, double, double>()
                 .AddInputNodes<InputNode>("0_1", "0_2")
                 .AddInputNode<Bias>("0_4")
                 .AddLayer<Layer>("1")
@@ -69,7 +69,7 @@ namespace Tests
                 .AddSynapses<Synapse>("1")
                 .Complete();
 
-            var teachKit = new Dictionary<double[], double[]>
+            var teachKit = new Dictionary<IEnumerable<double>, IEnumerable<double>>
             {
                 { new double[] { 0, 1 }, new double[] { 1 } },
                 { new double[] { 1, 0 }, new double[] { 1 } },
@@ -78,7 +78,7 @@ namespace Tests
             };
 
             var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
-            var learning = new Learning<KeyValuePair<double[], double[]>>(strategy, teachKit);
+            var learning = new Learning<double, double>(strategy, teachKit);
             learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });

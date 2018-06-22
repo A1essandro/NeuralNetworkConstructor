@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork.Learning
 {
-    public class Learning<T>
+    public class Learning<TInput, TOutput>
     {
 
-        private readonly LearningStrategy<T> _strategy;
-        private readonly IEnumerable<T> _learningSamples;
+        private readonly LearningStrategy<TInput, TOutput> _strategy;
+        private readonly IEnumerable<KeyValuePair<IEnumerable<TInput>, IEnumerable<TOutput>>> _learningSamples;
 
-        public Learning(LearningStrategy<T> strategy, IEnumerable<T> learningSamples)
+        public Learning(LearningStrategy<TInput, TOutput> strategy, IEnumerable<KeyValuePair<IEnumerable<TInput>, IEnumerable<TOutput>>> learningSamples)
         {
             _strategy = strategy;
             _learningSamples = learningSamples;
         }
 
-        public void Learn(INetwork network)
+        public void Learn(INetwork<TInput, TOutput> network)
         {
             var overallSamples = 0;
             for (var epochIndex = 0; ; epochIndex++)

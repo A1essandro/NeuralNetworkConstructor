@@ -23,14 +23,4 @@ namespace NeuralNetwork.Common
 
     }
 
-    public interface IOutput : IOutput<double>
-    {
-
-    }
-
-    public interface IOutputSet : IOutput<IEnumerable<double>>
-    {
-
-    }
-
 }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NeuralNetwork.Learning
 {
-    public class BackpropagationStrategy : LearningStrategy<KeyValuePair<double[], double[]>>
+    public class BackpropagationStrategy : LearningStrategy<double, double>
     {
         private readonly double _maxCurrentEpochError;
         private bool _errorFlag = false;
@@ -24,7 +24,7 @@ namespace NeuralNetwork.Learning
             _algorithm = new Algorithm();
         }
 
-        public override void LearnSample(INetwork network, KeyValuePair<double[], double[]> sample)
+        public override void LearnSample(INetwork<double, double> network, KeyValuePair<IEnumerable<double>, IEnumerable<double>> sample)
         {
             var input = sample.Key;
             var expectation = sample.Value;
@@ -47,7 +47,7 @@ namespace NeuralNetwork.Learning
         private class Algorithm
         {
 
-            public void Teach(INetwork network, ICollection<double> input, ICollection<double> expectation, double force)
+            public void Teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
             {
                 network.Input(input);
                 var output = network.Output().ToArray();

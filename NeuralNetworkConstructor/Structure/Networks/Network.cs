@@ -16,7 +16,7 @@ namespace NeuralNetwork.Networks
     [DataContract]
     [KnownType(typeof(InputLayer))]
     [KnownType(typeof(Layer))]
-    public class Network : INetwork
+    public class Network : INetwork<double, double>
     {
 
         #region serialization data
@@ -68,12 +68,6 @@ namespace NeuralNetwork.Networks
         /// <returns>Output value of each neuron in output-layer</returns>
         public virtual IEnumerable<double> Output()
         {
-            var r = new double[] { 0.0, 0.0 };
-            var i = 0;
-            foreach (var n in OutputLayer.Nodes)
-            {
-                r[i++] = n.Output();
-            }
             var result = OutputLayer.Nodes.Select(n => n.Output());
             OnOutput?.Invoke(result);
 

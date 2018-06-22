@@ -30,7 +30,7 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var teachKit = new Dictionary<double[], double[]>
+            var teachKit = new Dictionary<IEnumerable<double>, IEnumerable<double>>
             {
                 { new double[] { 0, 1 }, new double[] { 1 } },
                 { new double[] { 1, 0 }, new double[] { 1 } },
@@ -39,7 +39,7 @@ namespace Tests
             };
 
             var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
-            var learning = new Learning<KeyValuePair<double[], double[]>>(strategy, teachKit);
+            var learning = new Learning<double, double>(strategy, teachKit);
             learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });
@@ -83,13 +83,13 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var teachKit = new Dictionary<double[], double[]>
+            var teachKit = new Dictionary<IEnumerable<double>, IEnumerable<double>>
             {
                 { new double[] { 0 }, new double[] { 1 } },
             };
 
             var strategy = new BackpropagationStrategy(THETA, DELTA, ushort.MaxValue);
-            var learning = new Learning<KeyValuePair<double[], double[]>>(strategy, teachKit);
+            var learning = new Learning<double, double>(strategy, teachKit);
 
             learning.Learn(network);
 
