@@ -1,12 +1,14 @@
-﻿using NeuralNetwork.Networks;
+﻿using NeuralNetwork.Learning.Samples;
+using NeuralNetwork.Networks;
 using NeuralNetwork.Structure.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetwork.Learning
+namespace NeuralNetwork.Learning.Strategies
 {
-    public class BackpropagationStrategy : LearningStrategy<double, double>
+    public class BackpropagationStrategy : LearningStrategy<INetwork<double, double>, ILearningSample<double, double>>
     {
+
         private readonly double _maxCurrentEpochError;
         private bool _errorFlag = false;
 
@@ -24,12 +26,9 @@ namespace NeuralNetwork.Learning
             _algorithm = new Algorithm();
         }
 
-        public override void LearnSample(INetwork<double, double> network, KeyValuePair<IEnumerable<double>, IEnumerable<double>> sample)
+        public override void LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample)
         {
-            var input = sample.Key;
-            var expectation = sample.Value;
-
-            _algorithm.Teach(network, input, expectation, _force);
+            _algorithm.Teach(network, sample.Input, sample.Output, _force);
         }
 
         public override bool StopExpression(int epochIndex, int overallSamples)
@@ -42,7 +41,6 @@ namespace NeuralNetwork.Learning
             if (_maxErrorDelta > _maxCurrentEpochError)
                 _errorFlag = true;
         }
-
 
         private class Algorithm
         {

@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using NeuralNetwork.Learning.Samples;
+using NeuralNetwork.Learning.Strategies;
 
 namespace Tests
 {
@@ -69,16 +71,15 @@ namespace Tests
                 .AddSynapses<Synapse>("1")
                 .Complete();
 
-            var teachKit = new Dictionary<IEnumerable<double>, IEnumerable<double>>
+            var samples = new List<ILearningSample<double, double>>
             {
-                { new double[] { 0, 1 }, new double[] { 1 } },
-                { new double[] { 1, 0 }, new double[] { 1 } },
-                { new double[] { 1, 1 }, new double[] { 0 } },
-                { new double[] { 0, 0 }, new double[] { 0 } }
+                new LearningSample<double, double>(new double[] { 0, 1 }, new double[] { 1 }),
+                new LearningSample<double, double>(new double[] { 1, 0 }, new double[] { 1 }),
+                new LearningSample<double, double>(new double[] { 0, 0 }, new double[] { 0 }),
+                new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
             };
-
             var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
-            var learning = new Learning<double, double>(strategy, teachKit);
+            var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
             learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });

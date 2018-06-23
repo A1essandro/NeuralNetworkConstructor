@@ -1,21 +1,25 @@
-﻿using NeuralNetwork.Networks;
+﻿using NeuralNetwork.Learning.Samples;
+using NeuralNetwork.Learning.Strategies;
+using NeuralNetwork.Networks;
 using System.Collections.Generic;
 
 namespace NeuralNetwork.Learning
 {
-    public class Learning<TInput, TOutput>
+    public class Learning<TNetwork, TSample>
+        where TNetwork : INetwork
+        where TSample : ISample
     {
 
-        private readonly LearningStrategy<TInput, TOutput> _strategy;
-        private readonly IEnumerable<KeyValuePair<IEnumerable<TInput>, IEnumerable<TOutput>>> _learningSamples;
+        private readonly ILearningStrategy<TNetwork, TSample> _strategy;
+        private readonly IEnumerable<TSample> _learningSamples;
 
-        public Learning(LearningStrategy<TInput, TOutput> strategy, IEnumerable<KeyValuePair<IEnumerable<TInput>, IEnumerable<TOutput>>> learningSamples)
+        public Learning(ILearningStrategy<TNetwork, TSample> strategy, IEnumerable<TSample> learningSamples)
         {
             _strategy = strategy;
             _learningSamples = learningSamples;
         }
 
-        public void Learn(INetwork<TInput, TOutput> network)
+        public void Learn(TNetwork network)
         {
             var overallSamples = 0;
             for (var epochIndex = 0; ; epochIndex++)
