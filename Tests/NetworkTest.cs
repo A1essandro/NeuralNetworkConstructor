@@ -29,17 +29,17 @@ namespace Tests
 
             network.Input(new[] { 0.1, 1.0 });
 
-            var output1 = network.Output();
-            var output2 = network.Output();
+            var output1 = await network.Output();
+            var output2 = await network.Output();
             network.Refresh();
-            var outputAsync = await network.OutputAsync();
+            var outputAsync = await network.Output();
 
             Assert.Equal(output1.First(), output2.First());
             Assert.Equal(output1.First(), outputAsync.First());
         }
 
         [Fact]
-        public void TestEvents()
+        public async Task TestEvents()
         {
             var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
@@ -56,14 +56,14 @@ namespace Tests
             network.OnInput += (result) => { input++; };
 
             network.Input(new double[] { 1, 0 });
-            network.Output();
+            await network.Output();
 
             Assert.True(output == 2);
             Assert.True(input == 2);
         }
 
         [Fact]
-        public void TestClone()
+        public async Task TestClone()
         {
             var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
@@ -77,8 +77,8 @@ namespace Tests
             var input = new[] { 0.1, 1.0 };
             network.Input(input);
             clone.Input(input);
-            var networkOutput = network.Output().ToArray();
-            var cloneOutput = clone.Output().ToArray();
+            var networkOutput = (await network.Output()).ToArray();
+            var cloneOutput = (await clone.Output()).ToArray();
 
             Assert.NotEqual(network, clone);
             Assert.Equal((network.Layers.Last().Nodes.First() as ISlaveNode).Synapses.First().Weight,

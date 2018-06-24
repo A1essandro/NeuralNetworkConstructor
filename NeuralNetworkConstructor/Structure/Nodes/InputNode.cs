@@ -21,13 +21,7 @@ namespace NeuralNetwork.Structure.Nodes
             _data = input;
         }
 
-        public double Output()
-        {
-            OnOutput?.Invoke(_data);
-            return _data;
-        }
-
-        public async Task<double> OutputAsync()
+        public async Task<double> Output()
         {
             return await Task.Run(() =>
             {

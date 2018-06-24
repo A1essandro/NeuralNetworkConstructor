@@ -2,6 +2,7 @@
 using NeuralNetwork.Learning.Strategies;
 using NeuralNetwork.Networks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Learning
 {
@@ -19,7 +20,7 @@ namespace NeuralNetwork.Learning
             _learningSamples = learningSamples;
         }
 
-        public void Learn(TNetwork network)
+        public async Task Learn(TNetwork network)
         {
             var overallSamples = 0;
             for (var epochIndex = 0; ; epochIndex++)
@@ -29,7 +30,7 @@ namespace NeuralNetwork.Learning
                 {
                     if (_strategy.StopExpression(epochIndex, overallSamples))
                         return;
-                    _strategy.LearnSample(network, sample);
+                    await _strategy.LearnSample(network, sample).ConfigureAwait(false);
                     overallSamples++;
                 }
             }

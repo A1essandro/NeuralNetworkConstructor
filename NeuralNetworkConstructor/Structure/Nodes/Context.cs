@@ -59,14 +59,14 @@ namespace NeuralNetwork.Structure.Nodes
         /// Calculates output with delay <see cref="Delay"/>
         /// </summary>
         /// <returns></returns>
-        public double Output()
+        public async Task<double> Output()
         {
             double output = 0;
 
             foreach (var mNode in _masterNodes.Where(n => !(n is IRefreshable<INode>)))
             {
                 //TODO: if master node have master-relation only with Contexts nodes - this line out of reach:
-                _currentMemoryChunk[Array.IndexOf(_masterNodes, mNode)] = mNode.Output();
+                _currentMemoryChunk[Array.IndexOf(_masterNodes, mNode)] = await mNode.Output();
             }
 
             if (_memory.Count == Delay)
@@ -99,7 +99,7 @@ namespace NeuralNetwork.Structure.Nodes
         private void _onMasterNeuronCalculated(INode neuron)
         {
             var index = Array.IndexOf(_masterNodes, neuron);
-            _currentMemoryChunk[index] = neuron.Output();
+            _currentMemoryChunk[index] = neuron.Output().Result;
         }
 
         private void _calculateMasterNeurons()
@@ -112,9 +112,5 @@ namespace NeuralNetwork.Structure.Nodes
             _currentMemoryChunk = new double[_masterNodes.Length];
         }
 
-        public Task<double> OutputAsync()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NeuralNetwork.Learning.Samples;
 using NeuralNetwork.Networks;
 
@@ -8,7 +9,7 @@ namespace NeuralNetwork.Learning.Strategies
         where TSample : ISample
     {
 
-        void LearnSample(TNetwork network, TSample sample);
+        Task LearnSample(TNetwork network, TSample sample);
 
         bool StopExpression(int epochIndex, int overallSamples);
 

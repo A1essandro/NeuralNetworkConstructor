@@ -11,6 +11,7 @@ using System.Linq;
 using Xunit;
 using NeuralNetwork.Learning.Samples;
 using NeuralNetwork.Learning.Strategies;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -51,7 +52,7 @@ namespace Tests
         }
 
         [Fact]
-        public void ConstructorNetwokrXORTest()
+        public async Task ConstructorNetwokrXORTest()
         {
             var network = new NetworkConstructor<Network, double, double>()
                 .AddInputNodes<InputNode>("0_1", "0_2")
@@ -80,22 +81,22 @@ namespace Tests
             };
             var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
             var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
-            learning.Learn(network);
+            await learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });
-            var output = network.Output().First();
+            var output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
 
             network.Input(new double[] { 1, 1 });
-            output = network.Output().First();
+            output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
             network.Input(new double[] { 0, 0 });
-            output = network.Output().First();
+            output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
             network.Input(new double[] { 0, 1 });
-            output = network.Output().First();
+            output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
         }
 

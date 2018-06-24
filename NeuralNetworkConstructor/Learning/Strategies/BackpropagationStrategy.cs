@@ -3,6 +3,7 @@ using NeuralNetwork.Networks;
 using NeuralNetwork.Structure.Nodes;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Learning.Strategies
 {
@@ -26,9 +27,9 @@ namespace NeuralNetwork.Learning.Strategies
             _algorithm = new Algorithm();
         }
 
-        public override void LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample)
+        public override async Task LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample)
         {
-            _algorithm.Teach(network, sample.Input, sample.Output, _force);
+            await _algorithm.Teach(network, sample.Input, sample.Output, _force);
         }
 
         public override bool StopExpression(int epochIndex, int overallSamples)
@@ -45,10 +46,10 @@ namespace NeuralNetwork.Learning.Strategies
         private class Algorithm
         {
 
-            public void Teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
+            public async Task Teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
             {
                 network.Input(input);
-                var output = network.Output().ToArray();
+                var output = (await network.Output()).ToArray();
                 var outputLayer = true;
                 var sigmas = new List<NeuronSigma>();
 
@@ -59,12 +60,14 @@ namespace NeuralNetwork.Learning.Strategies
                     {
                         var neuron = (Neuron)node;
 
-                        var sigma = outputLayer
+                        var sigmaTask = outputLayer
                             ? SigmaCalcForOutputLayer(expectation.ToArray(), neuron, output, oIndex)
                             : SigmaCalcForInnerLayers(sigmas, neuron);
 
+                        var sigma = await sigmaTask.ConfigureAwait(false);
+
                         sigmas.Add(new NeuronSigma(neuron, sigma));
-                        ChangeWeights(neuron, sigma, force);
+                        await ChangeWeights(neuron, sigma, force);
                         oIndex++;
                     }
                     outputLayer = false;
@@ -73,28 +76,31 @@ namespace NeuralNetwork.Learning.Strategies
 
             #region Private
 
-            private static double SigmaCalcForInnerLayers(IEnumerable<NeuronSigma> sigmas, ISlaveNode neuron)
+            private static async Task<double> SigmaCalcForInnerLayers(IEnumerable<NeuronSigma> sigmas, ISlaveNode neuron)
             {
-                return GetDerivative(neuron) * GetChildSigmas(sigmas, neuron);
+                var derivative = await GetDerivative(neuron).ConfigureAwait(false);
+                return derivative * GetChildSigmas(sigmas, neuron);
             }
 
-            private static double SigmaCalcForOutputLayer(IReadOnlyList<double> expectation, ISlaveNode neuron, IReadOnlyList<double> output, int oIndex)
+            private static async Task<double> SigmaCalcForOutputLayer(IReadOnlyList<double> expectation, ISlaveNode neuron, IReadOnlyList<double> output, int oIndex)
             {
-                return GetDerivative(neuron) * (expectation[oIndex] - output[oIndex]);
+                var derivative = await GetDerivative(neuron).ConfigureAwait(false);
+                return derivative * (expectation[oIndex] - output[oIndex]);
             }
 
-            private static double GetDerivative(ISlaveNode neuron)
+            private static async Task<double> GetDerivative(ISlaveNode neuron)
             {
-                var x = neuron.Summator.GetSum(neuron);
+                var x = await neuron.Summator.GetSum(neuron).ConfigureAwait(false);
                 var derivative = neuron.Function.GetDerivative(x);
                 return derivative;
             }
 
-            private void ChangeWeights(ISlaveNode neuron, double sigma, double force)
+            private async Task ChangeWeights(ISlaveNode neuron, double sigma, double force)
             {
                 foreach (var synapse in neuron.Synapses)
                 {
-                    synapse.ChangeWeight(force * sigma * synapse.MasterNode.Output());
+                    var masterNodeOutput = await synapse.MasterNode.Output().ConfigureAwait(false);
+                    synapse.ChangeWeight(force * sigma * masterNodeOutput);
                 }
             }
 

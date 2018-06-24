@@ -6,9 +6,7 @@ namespace NeuralNetwork.Structure.Summators
     public interface ISummator
     {
 
-        double GetSum(ISlaveNode node);
-
-        Task<double> GetSumAsync(ISlaveNode node);
+        Task<double> GetSum(ISlaveNode node);
 
     }
 }

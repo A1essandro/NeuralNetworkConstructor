@@ -41,39 +41,39 @@ namespace Tests
 
             var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
             var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
-            learning.Learn(network);
+            await learning.Learn(network);
 
             network.Input(new double[] { 1, 0 });
-            var output = network.Output().First();
+            var output = (await network.Output()).First();
             network.Refresh();
-            var outputAsync = (await network.OutputAsync()).First();
+            var Output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
-            Assert.True(Math.Abs(1 - outputAsync) < DELTA);
+            Assert.True(Math.Abs(1 - Output) < DELTA);
 
             network.Input(new double[] { 1, 1 });
-            output = network.Output().First();
+            output = (await network.Output()).First();
             network.Refresh();
-            outputAsync = (await network.OutputAsync()).First();
+            Output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
-            Assert.True(Math.Abs(0 - outputAsync) < DELTA);
+            Assert.True(Math.Abs(0 - Output) < DELTA);
 
             network.Input(new double[] { 0, 0 });
-            output = network.Output().First();
+            output = (await network.Output()).First();
             network.Refresh();
-            outputAsync = (await network.OutputAsync()).First();
+            Output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
-            Assert.True(Math.Abs(0 - outputAsync) < DELTA);
+            Assert.True(Math.Abs(0 - Output) < DELTA);
 
             network.Input(new double[] { 0, 1 });
-            output = network.Output().First();
+            output = (await network.Output()).First();
             network.Refresh();
-            outputAsync = (await network.OutputAsync()).First();
+            Output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
-            Assert.True(Math.Abs(1 - outputAsync) < DELTA);
+            Assert.True(Math.Abs(1 - Output) < DELTA);
         }
 
         [Fact]
-        public void TestTeachLite()
+        public async Task TestTeachLite()
         {
             var inputLayer = new InputLayer(new InputNode(), new Bias());
             var innerLayer = new Layer(new Neuron(new Rectifier()));
@@ -92,10 +92,10 @@ namespace Tests
             var strategy = new BackpropagationStrategy(THETA, DELTA, ushort.MaxValue);
             var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
 
-            learning.Learn(network);
+            await learning.Learn(network);
 
             network.Input(new double[] { 1 });
-            var output = network.Output().First();
+            var output = (await network.Output()).First();
             Assert.True(Math.Abs(output) < DELTA);
         }
     }

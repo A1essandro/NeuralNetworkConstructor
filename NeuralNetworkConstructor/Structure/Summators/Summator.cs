@@ -10,14 +10,9 @@ namespace NeuralNetwork.Structure.Summators
     public class Summator : ISummator
     {
 
-        public double GetSum(ISlaveNode node)
+        public async Task<double> GetSum(ISlaveNode node)
         {
-            return node.Synapses.Sum(x => x.Output());
-        }
-
-        public async Task<double> GetSumAsync(ISlaveNode node)
-        {
-            var tasks = node.Synapses.Select(async x => await x.OutputAsync());
+            var tasks = node.Synapses.Select(async x => await x.Output().ConfigureAwait(false));
             return (await Task.WhenAll(tasks).ConfigureAwait(false)).Sum();
         }
 

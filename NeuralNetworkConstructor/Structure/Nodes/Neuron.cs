@@ -80,7 +80,7 @@ namespace NeuralNetwork.Structure.Nodes
 
         #region IOutput
 
-        public async Task<double> OutputAsync()
+        public async Task<double> Output()
         {
             await _waitHandle.WaitAsync();
             if (_calculatedOutput != null)
@@ -90,29 +90,12 @@ namespace NeuralNetwork.Structure.Nodes
                 return _calculatedOutput.Value;
             }
 
-            var sum = await Summator.GetSumAsync(this);
+            var sum = await Summator.GetSum(this);
             _calculatedOutput = Function != null
                 ? Function.GetEquation(sum)
                 : sum;
             _waitHandle.Set();
 
-            OnOutputCalculated?.Invoke(this);
-            OnOutput?.Invoke(_calculatedOutput.Value);
-
-            return _calculatedOutput.Value;
-        }
-
-        public virtual double Output()
-        {
-            if (_calculatedOutput != null)
-            {
-                OnOutput?.Invoke(_calculatedOutput.Value);
-                return _calculatedOutput.Value;
-            }
-
-            _calculatedOutput = Function != null
-                ? Function.GetEquation(Summator.GetSum(this))
-                : Summator.GetSum(this);
             OnOutputCalculated?.Invoke(this);
             OnOutput?.Invoke(_calculatedOutput.Value);
 

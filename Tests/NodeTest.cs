@@ -3,6 +3,7 @@ using NeuralNetwork.Structure.ActivationFunctions;
 using NeuralNetwork.Structure.Synapses;
 using System;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -13,31 +14,31 @@ namespace Tests
         private static Random Random => new Random();
 
         [Fact]
-        public void TestInputNode()
+        public async Task TestInputNode()
         {
             var node = new InputNode();
             var value = Random.NextDouble();
             node.Input(value);
 
-            Assert.Equal(value, node.Output());
+            Assert.Equal(value, await node.Output());
         }
 
         [Fact]
-        public void TestBias()
+        public async Task TestBias()
         {
-            Assert.Equal(1, new Bias().Output());
+            Assert.Equal(1, await new Bias().Output());
         }
 
         [Fact]
-        public void TestNeuron()
+        public async Task TestNeuron()
         {
             var synapse = new Synapse(new Bias(), 0.5);
             var neuron = new Neuron(new Rectifier(), new[] { synapse });
-            Assert.Equal(0.5, neuron.Output());
+            Assert.Equal(0.5, await neuron.Output());
         }
 
         [Fact]
-        public void TestNeuronEvent()
+        public async Task TestNeuronEvent()
         {
             var synapse = new Synapse(new Bias(), 0.5);
             var neuron = new Neuron(new Logistic(), new[] { synapse });
@@ -46,15 +47,15 @@ namespace Tests
             var testDouble = double.MinValue;
 
             neuron.OnOutputCalculated += (n) => { testBool = true; };
-            neuron.OnOutputCalculated += (n) => { testDouble = n.Output(); };
-            var output = neuron.Output();
+            neuron.OnOutputCalculated += async (n) => { testDouble = await n.Output(); };
+            var output = await neuron.Output();
 
             Assert.True(testBool);
             Assert.Equal(output, testDouble);
         }
 
         [Fact]
-        public void TestContext()
+        public async Task TestContext()
         {
             var neuron = new Neuron(new Rectifier());
             var input = new InputNode();
@@ -64,14 +65,14 @@ namespace Tests
             context.AddSynapse(new Synapse(neuron));
 
             input.Input(1);
-            neuron.Output(); //Direct call
-            Assert.Equal(0, context.Output());
-            neuron.Output(); //Direct call
-            Assert.Equal(1, context.Output());
+            await neuron.Output(); //Direct call
+            Assert.Equal(0, await context.Output());
+            await neuron.Output(); //Direct call
+            Assert.Equal(1, await context.Output());
         }
 
         [Fact]
-        public void TestEvents()
+        public async Task TestEvents()
         {
             var neuron = new Neuron(new Rectifier());
             var inputNeuron = new InputNode();
@@ -87,7 +88,7 @@ namespace Tests
             inputNeuron.OnInput += (result) => { input++; };
 
             inputNeuron.Input(1);
-            neuron.Output();
+            await neuron.Output();
 
             Assert.True(output == 3);
             Assert.True(input == 2);

@@ -11,13 +11,7 @@ namespace NeuralNetwork.Common
         /// Getting output
         /// </summary>
         /// <returns>Calculated output</returns>
-        T Output();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        Task<T> OutputAsync();
+        Task<T> Output();
 
         event Action<T> OnOutput;
 

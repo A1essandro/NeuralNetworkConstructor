@@ -48,21 +48,9 @@ namespace NeuralNetwork.Structure.Synapses
             Weight += delta;
         }
 
-        /// <summary>
-        /// Calculate output data from master node via weight
-        /// </summary>
-        /// <returns></returns>
-        public double Output()
+        public async Task<double> Output()
         {
-            var result = Weight * MasterNode.Output();
-            OnOutput?.Invoke(result);
-
-            return result;
-        }
-
-        public async Task<double> OutputAsync()
-        {
-            var result = Weight * await MasterNode.OutputAsync().ConfigureAwait(false);
+            var result = Weight * await MasterNode.Output().ConfigureAwait(false);
             OnOutput?.Invoke(result);
 
             return result;

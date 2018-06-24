@@ -62,21 +62,9 @@ namespace NeuralNetwork.Networks
 
         #region IOutputSet
 
-        /// <summary>
-        /// Start calculation for current input values and get result.
-        /// </summary>
-        /// <returns>Output value of each neuron in output-layer</returns>
-        public virtual IEnumerable<double> Output()
+        public virtual async Task<IEnumerable<double>> Output()
         {
-            var result = OutputLayer.Nodes.Select(n => n.Output());
-            OnOutput?.Invoke(result);
-
-            return result;
-        }
-
-        public virtual async Task<IEnumerable<double>> OutputAsync()
-        {
-            var tasks = OutputLayer.Nodes.Select(async n => await n.OutputAsync());
+            var tasks = OutputLayer.Nodes.Select(async n => await n.Output());
             var result = await Task.WhenAll(tasks).ConfigureAwait(false);
 
             OnOutput?.Invoke(result);
