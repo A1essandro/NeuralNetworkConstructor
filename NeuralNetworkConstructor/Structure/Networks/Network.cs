@@ -64,7 +64,7 @@ namespace NeuralNetwork.Networks
 
         public virtual async Task<IEnumerable<double>> Output()
         {
-            var tasks = OutputLayer.Nodes.Select(async n => await n.Output());
+            var tasks = OutputLayer.Nodes.Select(async n => await n.Output().ConfigureAwait(false));
             var result = await Task.WhenAll(tasks).ConfigureAwait(false);
 
             OnOutput?.Invoke(result);
@@ -78,22 +78,18 @@ namespace NeuralNetwork.Networks
         /// Write input value to each input-neuron (<see cref="IInput{double}"/>) in input-layer.
         /// </summary>
         /// <param name="input"></param>
-        public virtual void Input(IEnumerable<double> input)
+        public virtual async Task Input(IEnumerable<double> input)
         {
             Contract.Requires(input != null, nameof(input));
 
             OnInput?.Invoke(input);
 
-            Refresh();
-            InputLayer.Input(input);
+            await Task.WhenAll(Refresh(), InputLayer.Input(input)).ConfigureAwait(false);
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            foreach (IRefreshable layer in Layers)
-            {
-                layer.Refresh();
-            }
+            await Task.WhenAll(Layers.Select(l => l.Refresh())).ConfigureAwait(false);
         }
 
         protected virtual T GetClone<T>() where T : Network

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Structure.Layers
 {
@@ -46,12 +47,11 @@ namespace NeuralNetwork.Structure.Layers
             }
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            foreach (var node in _nodes?.Where(n => n is IRefreshable).Select(n => n as IRefreshable))
-            {
-                node.Refresh();
-            }
+            await Task.WhenAll(Nodes?.Where(n => n is IRefreshable)
+                                .Select(n => n as IRefreshable)
+                                .Select(n => n.Refresh())).ConfigureAwait(false);
         }
     }
 }

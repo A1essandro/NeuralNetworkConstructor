@@ -15,10 +15,14 @@ namespace NeuralNetwork.Structure.Nodes
         public event Action<double> OnOutput;
         public event Action<double> OnInput;
 
-        public void Input(double input)
+        public async Task Input(double input)
         {
-            OnInput?.Invoke(input);
-            _data = input;
+            await Task.Run(() =>
+            {
+                OnInput?.Invoke(input);
+                _data = input;
+            }).ConfigureAwait(false);
+
         }
 
         public async Task<double> Output()

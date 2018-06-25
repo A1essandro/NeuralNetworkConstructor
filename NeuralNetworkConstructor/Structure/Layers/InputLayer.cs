@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Structure.Layers
 {
@@ -44,28 +45,22 @@ namespace NeuralNetwork.Structure.Layers
 
         public event Action<IEnumerable<double>> OnInput;
 
-        public void Input(IEnumerable<double> input)
+        public async Task Input(IEnumerable<double> input)
         {
             Contract.Requires(input.Count() == _getInputNodes().Count(), nameof(input));
 
             OnInput?.Invoke(input);
 
-            var index = 0;
             var inputs = _getInputNodes().ToArray();
 
-            foreach (var value in input)
-            {
-                inputs[index].Input(value);
-                index++;
-            }
+            await Task.WhenAll(input.Select((value, index) => inputs[index].Input(value))).ConfigureAwait(false);
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            foreach (var node in Nodes?.Where(n => n is IRefreshable).Select(n => n as IRefreshable))
-            {
-                node.Refresh();
-            }
+            await Task.WhenAll(Nodes?.Where(n => n is IRefreshable)
+                                .Select(n => n as IRefreshable)
+                                .Select(n => n.Refresh())).ConfigureAwait(false);
         }
 
         private IEnumerable<IInputNode> _getInputNodes() => Nodes.Where(x => !(x is Bias)).Select(x => x as IInputNode);

@@ -18,7 +18,7 @@ namespace Tests
         {
             var node = new InputNode();
             var value = Random.NextDouble();
-            node.Input(value);
+            await node.Input(value);
 
             Assert.Equal(value, await node.Output());
         }
@@ -64,7 +64,7 @@ namespace Tests
             var context = new Context((Func<double, double>)null, 1);
             context.AddSynapse(new Synapse(neuron));
 
-            input.Input(1);
+            await input.Input(1);
             await neuron.Output(); //Direct call
             Assert.Equal(0, await context.Output());
             await neuron.Output(); //Direct call
@@ -87,7 +87,7 @@ namespace Tests
             inputNeuron.OnInput += (result) => { input++; };
             inputNeuron.OnInput += (result) => { input++; };
 
-            inputNeuron.Input(1);
+            await inputNeuron.Input(1);
             await neuron.Output();
 
             Assert.True(output == 3);

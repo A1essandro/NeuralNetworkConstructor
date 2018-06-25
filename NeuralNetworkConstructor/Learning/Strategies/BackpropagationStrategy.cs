@@ -48,7 +48,7 @@ namespace NeuralNetwork.Learning.Strategies
 
             public async Task Teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
             {
-                network.Input(input);
+                await network.Input(input);
                 var output = (await network.Output()).ToArray();
                 var outputLayer = true;
                 var sigmas = new List<NeuronSigma>();

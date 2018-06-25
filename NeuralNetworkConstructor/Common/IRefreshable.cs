@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace NeuralNetwork.Common
 {
@@ -8,7 +9,7 @@ namespace NeuralNetwork.Common
     /// </summary>
     public interface IRefreshable
     {
-        void Refresh();
+        Task Refresh();
     }
 
     /// <summary>
