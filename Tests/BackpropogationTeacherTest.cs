@@ -39,37 +39,39 @@ namespace Tests
                 new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
             };
 
-            var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
-            var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
-            await learning.Learn(network);
+            await network.Input(new double[] { 1, 0 });
+            var beforeLearning = (await network.Output()).First();
+
+            var strategy = new BackpropagationStrategy();
+            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9999 };
+            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+            await learning.Learn(samples);
+
+            await network.Input(new double[] { 1, 0 });
+            var afterLearning = (await network.Output()).First();
+
+            Console.WriteLine(beforeLearning + " -> " + afterLearning);
+            Assert.True(beforeLearning < afterLearning);
 
             await network.Input(new double[] { 1, 0 });
             var output = (await network.Output()).First();
             await network.Refresh();
-            var Output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
-            Assert.True(Math.Abs(1 - Output) < DELTA);
 
             await network.Input(new double[] { 1, 1 });
             output = (await network.Output()).First();
             await network.Refresh();
-            Output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
-            Assert.True(Math.Abs(0 - Output) < DELTA);
 
             await network.Input(new double[] { 0, 0 });
             output = (await network.Output()).First();
             await network.Refresh();
-            Output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
-            Assert.True(Math.Abs(0 - Output) < DELTA);
 
             await network.Input(new double[] { 0, 1 });
             output = (await network.Output()).First();
             await network.Refresh();
-            Output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
-            Assert.True(Math.Abs(1 - Output) < DELTA);
         }
 
         [Fact]
@@ -89,10 +91,11 @@ namespace Tests
                 new LearningSample<double, double>(new double[] { 0 }, new double[] { 1 }),
             };
 
-            var strategy = new BackpropagationStrategy(THETA, DELTA, ushort.MaxValue);
-            var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
+            var strategy = new BackpropagationStrategy();
+            var settings = new LearningSettings { Repeats = 10000, Theta = THETA };
+            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
 
-            await learning.Learn(network);
+            await learning.Learn(samples);
 
             await network.Input(new double[] { 1 });
             var output = (await network.Output()).First();

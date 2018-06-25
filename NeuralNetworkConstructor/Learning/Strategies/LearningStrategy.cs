@@ -10,14 +10,7 @@ namespace NeuralNetwork.Learning.Strategies
         where TSample : ISample
     {
 
-        public abstract Task LearnSample(TNetwork network, TSample sample);
-
-        public abstract bool StopExpression(int epochIndex, int overallSamples);
-
-        public virtual void OnEpochStart(int epochIndex)
-        {
-            //empty
-        }
+        public abstract Task LearnSample(TNetwork network, TSample sample, double theta);
 
     }
 }

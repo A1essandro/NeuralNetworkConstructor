@@ -79,9 +79,10 @@ namespace Tests
                 new LearningSample<double, double>(new double[] { 0, 0 }, new double[] { 0 }),
                 new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
             };
-            var strategy = new BackpropagationStrategy(THETA, DELTA, 10000);
-            var learning = new Learning<Network, ILearningSample<double, double>>(strategy, samples);
-            await learning.Learn(network);
+            var strategy = new BackpropagationStrategy();
+            var settings = new LearningSettings { Repeats = 10000, Theta = THETA };
+            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+            await learning.Learn(samples);
 
             await network.Input(new double[] { 1, 0 });
             var output = (await network.Output()).First();
