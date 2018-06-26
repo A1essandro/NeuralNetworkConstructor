@@ -5,7 +5,7 @@
     <Version>$(Version)</Version>
     <PackageVersion>$(PackageVersion)</PackageVersion>
     <Authors>Alexander Yermakov</Authors>
-    <PackageTags>neural network</PackageTags>
+    <PackageTags>neural network, neurons, backpropagation, network learning</PackageTags>
     <PackageLicenseUrl>https://github.com/A1essandro/NeuralNetworkConstructor/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/A1essandro/NeuralNetworkConstructor</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>

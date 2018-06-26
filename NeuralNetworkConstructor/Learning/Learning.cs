@@ -27,15 +27,15 @@ namespace NeuralNetworkConstructor.Learning
         }
 
         public async Task Learn(IEnumerable<TSample> samples)
-        {            
+        {
             var theta = _settings.Theta;
+            var random = new Random();
+            var epochSamples = samples;
 
             for (var epoch = 0; epoch < _settings.Repeats; epoch++)
             {
                 if (_settings.ShuffleEveryEpoch)
                 {
-                    var random = new Random();
-                    var epochSamples = samples;
                     var shuffleTask = Task.Run(() =>
                     {
                         epochSamples = samples.OrderBy(a => random.NextDouble());
