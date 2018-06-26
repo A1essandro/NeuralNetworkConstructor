@@ -8,8 +8,8 @@ using System.Collections.Generic;
 
 namespace NeuralNetwork.Constructor
 {
-    public class NetworkConstructor<TNetwork, TInput, TOutput>
-        where TNetwork : INetwork<TInput, TOutput>, new()
+    public class NetworkConstructor<TNetwork>
+        where TNetwork : INetwork, new()
     {
 
         private readonly TNetwork _currentNetwork = new TNetwork();
@@ -30,7 +30,7 @@ namespace NeuralNetwork.Constructor
             throw new InvalidOperationException();
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddLayer<TLayer>(string identity, bool withBias = false)
+        public NetworkConstructor<TNetwork> AddLayer<TLayer>(string identity, bool withBias = false)
             where TLayer : ILayer<INotInputNode>, new()
         {
             var layer = new TLayer();
@@ -48,7 +48,7 @@ namespace NeuralNetwork.Constructor
 
         #region Nodes
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddNode<TNode>(string identity)
+        public NetworkConstructor<TNetwork> AddNode<TNode>(string identity)
             where TNode : INotInputNode, new()
         {
             var node = new TNode();
@@ -58,7 +58,7 @@ namespace NeuralNetwork.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddNode(string identity, INotInputNode node)
+        public NetworkConstructor<TNetwork> AddNode(string identity, INotInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
             _currentLayer.Nodes.Add(node);
@@ -66,7 +66,7 @@ namespace NeuralNetwork.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddInputNode<TNode>(string identity)
+        public NetworkConstructor<TNetwork> AddInputNode<TNode>(string identity)
             where TNode : IMasterNode, new()
         {
             var node = new TNode();
@@ -76,7 +76,7 @@ namespace NeuralNetwork.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddInputNodes<TNode>(params string[] identities)
+        public NetworkConstructor<TNetwork> AddInputNodes<TNode>(params string[] identities)
             where TNode : IInputNode, new()
         {
             foreach(var identity in identities)
@@ -87,14 +87,14 @@ namespace NeuralNetwork.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddInputNode(string identity, IInputNode node)
+        public NetworkConstructor<TNetwork> AddInputNode(string identity, IInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
             _currentNetwork.InputLayer.Nodes.Add(node);
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddNeuron<TNode>(string identity, IActivationFunction func)
+        public NetworkConstructor<TNetwork> AddNeuron<TNode>(string identity, IActivationFunction func)
             where TNode : ISlaveNode, new()
         {
             var node = new TNode();
@@ -106,7 +106,7 @@ namespace NeuralNetwork.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddNeuron(string identity, ISlaveNode node)
+        public NetworkConstructor<TNetwork> AddNeuron(string identity, ISlaveNode node)
         {
             _currentNode = node;
             _tryAddToDictionary(_nodes, identity, node);
@@ -119,7 +119,7 @@ namespace NeuralNetwork.Constructor
 
         #region Synapses
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddSynapse<TSynapse>(string masterNodeIdentity, double? weight = null)
+        public NetworkConstructor<TNetwork> AddSynapse<TSynapse>(string masterNodeIdentity, double? weight = null)
             where TSynapse : ISynapse, new()
         {
             var masterNode = _nodes[masterNodeIdentity];
@@ -138,7 +138,7 @@ namespace NeuralNetwork.Constructor
             return this;
         }
 
-        public NetworkConstructor<TNetwork, TInput, TOutput> AddSynapses<TSynapse>(string masterNodesLayer = null)
+        public NetworkConstructor<TNetwork> AddSynapses<TSynapse>(string masterNodesLayer = null)
             where TSynapse : ISynapse, new()
         {
             if (masterNodesLayer == null)

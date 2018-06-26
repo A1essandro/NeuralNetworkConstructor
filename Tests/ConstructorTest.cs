@@ -24,7 +24,7 @@ namespace Tests
         [Fact]
         public void ConstructorNetwokrStructureTest()
         {
-            var network = new NetworkConstructor<Network, double, double>()
+            var network = new NetworkConstructor<Network>()
                 .AddInputNodes<InputNode>("0_1", "0_2", "0_3")
                 .AddInputNode<Bias>("0_4")
                 .AddLayer<Layer>("1")
@@ -54,7 +54,7 @@ namespace Tests
         [Fact]
         public async Task ConstructorNetwokrXORTest()
         {
-            var network = new NetworkConstructor<Network, double, double>()
+            var network = new NetworkConstructor<Network>()
                 .AddInputNodes<InputNode>("0_1", "0_2")
                 .AddInputNode<Bias>("0_4")
                 .AddLayer<Layer>("1")
