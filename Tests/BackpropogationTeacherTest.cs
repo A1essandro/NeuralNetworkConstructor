@@ -50,7 +50,6 @@ namespace Tests
             await network.Input(new double[] { 1, 0 });
             var afterLearning = (await network.Output()).First();
 
-            Console.WriteLine(beforeLearning + " -> " + afterLearning);
             Assert.True(beforeLearning < afterLearning);
 
             await network.Input(new double[] { 1, 0 });

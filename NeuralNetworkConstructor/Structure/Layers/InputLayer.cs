@@ -58,9 +58,8 @@ namespace NeuralNetwork.Structure.Layers
 
         public async Task Refresh()
         {
-            await Task.WhenAll(Nodes?.Where(n => n is IRefreshable)
-                                .Select(n => n as IRefreshable)
-                                .Select(n => n.Refresh())).ConfigureAwait(false);
+            
+            await Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh())).ConfigureAwait(false);
         }
 
         private IEnumerable<IInputNode> _getInputNodes() => Nodes.Where(x => !(x is Bias)).Select(x => x as IInputNode);
