@@ -1,16 +1,16 @@
-﻿using NeuralNetwork.Constructor;
-using NeuralNetwork.Learning;
-using NeuralNetwork.Networks;
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.ActivationFunctions;
-using NeuralNetwork.Structure.Synapses;
+﻿using NeuralNetworkConstructor.Constructor;
+using NeuralNetworkConstructor.Learning;
+using NeuralNetworkConstructor.Networks;
+using NeuralNetworkConstructor.Structure.Layers;
+using NeuralNetworkConstructor.Structure.Nodes;
+using NeuralNetworkConstructor.Structure.ActivationFunctions;
+using NeuralNetworkConstructor.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using NeuralNetwork.Learning.Samples;
-using NeuralNetwork.Learning.Strategies;
+using NeuralNetworkConstructor.Learning.Samples;
+using NeuralNetworkConstructor.Learning.Strategies;
 using System.Threading.Tasks;
 
 namespace Tests

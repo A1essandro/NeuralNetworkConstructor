@@ -1,14 +1,14 @@
-﻿using NeuralNetwork.Common;
-using NeuralNetwork.Structure.ActivationFunctions;
-using NeuralNetwork.Structure.Summators;
-using NeuralNetwork.Structure.Synapses;
+﻿using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Structure.ActivationFunctions;
+using NeuralNetworkConstructor.Structure.Summators;
+using NeuralNetworkConstructor.Structure.Synapses;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Structure.Nodes
+namespace NeuralNetworkConstructor.Structure.Nodes
 {
 
     [DataContract]

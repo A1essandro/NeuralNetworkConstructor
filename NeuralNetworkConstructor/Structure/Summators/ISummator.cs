@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using NeuralNetwork.Structure.Nodes;
+using NeuralNetworkConstructor.Structure.Nodes;
 
-namespace NeuralNetwork.Structure.Summators
+namespace NeuralNetworkConstructor.Structure.Summators
 {
     public interface ISummator
     {

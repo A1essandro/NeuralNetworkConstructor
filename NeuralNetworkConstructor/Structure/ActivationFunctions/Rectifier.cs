@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace NeuralNetwork.Structure.ActivationFunctions
+namespace NeuralNetworkConstructor.Structure.ActivationFunctions
 {
 
     /// <summary>

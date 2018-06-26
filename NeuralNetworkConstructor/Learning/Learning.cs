@@ -1,12 +1,12 @@
-﻿using NeuralNetwork.Learning.Samples;
-using NeuralNetwork.Learning.Strategies;
-using NeuralNetwork.Networks;
+﻿using NeuralNetworkConstructor.Learning.Samples;
+using NeuralNetworkConstructor.Learning.Strategies;
+using NeuralNetworkConstructor.Networks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Learning
+namespace NeuralNetworkConstructor.Learning
 {
     public class Learning<TNetwork, TSample> : ILearning<TNetwork, TSample>
         where TNetwork : INetwork

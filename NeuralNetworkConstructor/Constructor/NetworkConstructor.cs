@@ -1,12 +1,12 @@
-﻿using NeuralNetwork.Networks;
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.ActivationFunctions;
-using NeuralNetwork.Structure.Synapses;
+﻿using NeuralNetworkConstructor.Networks;
+using NeuralNetworkConstructor.Structure.Layers;
+using NeuralNetworkConstructor.Structure.Nodes;
+using NeuralNetworkConstructor.Structure.ActivationFunctions;
+using NeuralNetworkConstructor.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 
-namespace NeuralNetwork.Constructor
+namespace NeuralNetworkConstructor.Constructor
 {
     public class NetworkConstructor<TNetwork>
         where TNetwork : INetwork, new()

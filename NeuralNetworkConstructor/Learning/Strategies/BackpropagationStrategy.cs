@@ -1,11 +1,11 @@
-﻿using NeuralNetwork.Learning.Samples;
-using NeuralNetwork.Networks;
-using NeuralNetwork.Structure.Nodes;
+﻿using NeuralNetworkConstructor.Learning.Samples;
+using NeuralNetworkConstructor.Networks;
+using NeuralNetworkConstructor.Structure.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Learning.Strategies
+namespace NeuralNetworkConstructor.Learning.Strategies
 {
     public class BackpropagationStrategy : LearningStrategy<INetwork<double, double>, ILearningSample<double, double>>
     {

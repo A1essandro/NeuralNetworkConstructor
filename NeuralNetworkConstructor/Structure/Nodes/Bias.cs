@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Structure.Nodes
+namespace NeuralNetworkConstructor.Structure.Nodes
 {
     public class Bias : IMasterNode, INotInputNode
     {

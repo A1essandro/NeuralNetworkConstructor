@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using NeuralNetwork.Common;
-using NeuralNetwork.Structure.Nodes;
+using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Structure.Nodes;
 
-namespace NeuralNetwork.Structure.Layers
+namespace NeuralNetworkConstructor.Structure.Layers
 {
     public interface IInputLayer : ILayer<IMasterNode>, IInput<IEnumerable<double>>
     {

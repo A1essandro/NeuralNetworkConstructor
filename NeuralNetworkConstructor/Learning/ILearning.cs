@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Learning
+namespace NeuralNetworkConstructor.Learning
 {
     public interface ILearning<TNetwork, in TSample>
     {

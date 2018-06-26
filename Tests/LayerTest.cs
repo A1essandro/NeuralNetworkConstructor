@@ -1,7 +1,7 @@
-﻿using NeuralNetwork.Common;
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.ActivationFunctions;
+﻿using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Structure.Layers;
+using NeuralNetworkConstructor.Structure.Nodes;
+using NeuralNetworkConstructor.Structure.ActivationFunctions;
 using System;
 using System.Linq;
 using Xunit;

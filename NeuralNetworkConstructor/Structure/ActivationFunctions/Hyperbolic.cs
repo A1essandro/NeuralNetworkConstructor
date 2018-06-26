@@ -1,5 +1,5 @@
 using System;
-using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetworkConstructor.Structure.ActivationFunctions;
 
 namespace NeuralNetworkConstructor.Structure.ActivationFunctions
 {

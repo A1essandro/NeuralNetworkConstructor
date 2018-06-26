@@ -1,7 +1,7 @@
-﻿using NeuralNetwork.Common;
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.Synapses;
+﻿using NeuralNetworkConstructor.Common;
+using NeuralNetworkConstructor.Structure.Layers;
+using NeuralNetworkConstructor.Structure.Nodes;
+using NeuralNetworkConstructor.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Networks
+namespace NeuralNetworkConstructor.Networks
 {
 
     [DataContract]

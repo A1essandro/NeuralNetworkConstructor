@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NeuralNetwork.Learning.Samples
+namespace NeuralNetworkConstructor.Learning.Samples
 {
     public class LearningSample<TInput, TOutput> : ILearningSample<TInput, TOutput>
     {

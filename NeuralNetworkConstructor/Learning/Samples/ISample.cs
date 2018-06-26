@@ -1,4 +1,4 @@
-namespace NeuralNetwork.Learning.Samples
+namespace NeuralNetworkConstructor.Learning.Samples
 {
     public interface ISample
     {

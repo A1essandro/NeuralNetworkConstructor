@@ -1,4 +1,4 @@
-namespace NeuralNetwork.Learning
+namespace NeuralNetworkConstructor.Learning
 {
     public class LearningSettings
     {

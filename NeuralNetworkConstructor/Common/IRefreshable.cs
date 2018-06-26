@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace NeuralNetwork.Common
+namespace NeuralNetworkConstructor.Common
 {
 
     /// <summary>

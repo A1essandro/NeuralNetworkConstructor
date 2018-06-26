@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using NeuralNetwork.Learning.Samples;
-using NeuralNetwork.Networks;
+using NeuralNetworkConstructor.Learning.Samples;
+using NeuralNetworkConstructor.Networks;
 
-namespace NeuralNetwork.Learning.Strategies
+namespace NeuralNetworkConstructor.Learning.Strategies
 {
     public interface ILearningStrategy<in TNetwork, in TSample>
         where TNetwork : INetwork

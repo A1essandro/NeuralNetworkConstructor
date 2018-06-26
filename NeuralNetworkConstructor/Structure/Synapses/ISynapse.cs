@@ -1,7 +1,7 @@
-﻿using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Common;
+﻿using NeuralNetworkConstructor.Structure.Nodes;
+using NeuralNetworkConstructor.Common;
 
-namespace NeuralNetwork.Structure.Synapses
+namespace NeuralNetworkConstructor.Structure.Synapses
 {
 
     /// <summary>
