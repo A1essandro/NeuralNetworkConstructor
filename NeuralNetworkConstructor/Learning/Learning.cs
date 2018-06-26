@@ -27,18 +27,25 @@ namespace NeuralNetwork.Learning
         }
 
         public async Task Learn(IEnumerable<TSample> samples)
-        {
-            var random = new Random();
+        {            
             var theta = _settings.Theta;
 
             for (var epoch = 0; epoch < _settings.Repeats; epoch++)
             {
                 if (_settings.ShuffleEveryEpoch)
                 {
-                    samples = samples.OrderBy(a => random.NextDouble());
+                    var random = new Random();
+                    var epochSamples = samples;
+                    var shuffleTask = Task.Run(() =>
+                    {
+                        epochSamples = samples.OrderBy(a => random.NextDouble());
+                    });
+                    await Task.WhenAll(shuffleTask, _learnEpoch(epochSamples, theta)).ConfigureAwait(false);
                 }
-
-                await _learnEpoch(samples, theta).ConfigureAwait(false);
+                else
+                {
+                    await _learnEpoch(samples, theta).ConfigureAwait(false);
+                }
 
                 theta *= _settings.ThetaFactorPerEpoch;
             }

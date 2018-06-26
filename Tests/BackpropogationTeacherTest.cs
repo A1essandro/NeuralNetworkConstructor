@@ -43,7 +43,7 @@ namespace Tests
             var beforeLearning = (await network.Output()).First();
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9999 };
+            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9999, ShuffleEveryEpoch = true };
             var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
             await learning.Learn(samples);
 
