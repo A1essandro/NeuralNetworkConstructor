@@ -4,6 +4,7 @@ using NeuralNetworkConstructor.Networks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning
@@ -26,7 +27,7 @@ namespace NeuralNetworkConstructor.Learning
             _settings = settings;
         }
 
-        public async Task Learn(IEnumerable<TSample> samples)
+        public async Task Learn(IEnumerable<TSample> samples, CancellationToken ct = default(CancellationToken))
         {
             var theta = _settings.Theta;
             var random = new Random();
@@ -47,6 +48,7 @@ namespace NeuralNetworkConstructor.Learning
                     await _learnEpoch(samples, theta).ConfigureAwait(false);
                 }
 
+                ct.ThrowIfCancellationRequested();
                 theta *= _settings.ThetaFactorPerEpoch;
             }
         }

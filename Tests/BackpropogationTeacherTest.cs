@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xunit;
 using NeuralNetworkConstructor.Learning.Samples;
 using NeuralNetworkConstructor.Learning.Strategies;
+using System.Threading;
 
 namespace Tests
 {
@@ -71,6 +72,39 @@ namespace Tests
             output = (await network.Output()).First();
             await network.Refresh();
             Assert.True(Math.Abs(1 - output) < DELTA);
+        }
+
+        [Fact]
+        public async Task TestCancel()
+        {
+            IInputLayer inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
+            var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
+            var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
+
+            Synapse.Generator.EachToEach(inputLayer, innerLayer);
+            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+
+            var network = new Network(inputLayer, innerLayer, outputLayer);
+            var samples = new List<ILearningSample<double, double>>
+            {
+                new LearningSample<double, double>(new double[] { 0, 1 }, new double[] { 1 }),
+                new LearningSample<double, double>(new double[] { 1, 0 }, new double[] { 1 }),
+                new LearningSample<double, double>(new double[] { 0, 0 }, new double[] { 0 }),
+                new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
+            };
+
+            var strategy = new BackpropagationStrategy();
+            var settings = new LearningSettings { Repeats = 20000 };
+            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+
+            var cts = new CancellationTokenSource();
+            var task = Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                cts.Cancel();
+            });
+
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await learning.Learn(samples, cts.Token));
         }
 
         [Fact]
