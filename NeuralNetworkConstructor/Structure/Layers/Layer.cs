@@ -47,9 +47,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
             }
         }
 
-        public async Task Refresh()
-        {
-            await Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh())).ConfigureAwait(false);
-        }
+        public Task Refresh() => Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
+
     }
 }

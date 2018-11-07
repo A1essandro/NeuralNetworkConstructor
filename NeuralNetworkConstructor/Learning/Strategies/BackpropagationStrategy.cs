@@ -10,9 +10,9 @@ namespace NeuralNetworkConstructor.Learning.Strategies
     public class BackpropagationStrategy : LearningStrategy<INetwork<double, double>, ILearningSample<double, double>>
     {
 
-        public override async Task LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample, double theta)
+        public override Task LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample, double theta)
         {
-            await _teach(network, sample.Input, sample.Output, theta).ConfigureAwait(false);
+            return _teach(network, sample.Input, sample.Output, theta);
         }
 
         private async Task _teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
