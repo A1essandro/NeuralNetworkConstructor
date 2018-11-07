@@ -35,7 +35,8 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         #endregion
 
         private double? _calculatedOutput;
-        private readonly AsyncAutoResetEvent _waitHandle = new AsyncAutoResetEvent(true);
+
+        private AsyncAutoResetEvent _waitHandle = new AsyncAutoResetEvent(true);
 
         #region public properties
 
@@ -123,6 +124,12 @@ namespace NeuralNetworkConstructor.Structure.Nodes
             {
                 _calculatedOutput = null;
             }).ConfigureAwait(false);
+        }
+
+        [OnDeserializing]
+        private void Deserialize(StreamingContext ctx)
+        {
+            _waitHandle = new AsyncAutoResetEvent(true);
         }
 
     }
