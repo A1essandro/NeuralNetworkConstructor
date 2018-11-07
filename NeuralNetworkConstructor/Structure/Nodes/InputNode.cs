@@ -25,13 +25,13 @@ namespace NeuralNetworkConstructor.Structure.Nodes
 
         }
 
-        public async Task<double> Output()
+        public Task<double> Output()
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 OnOutput?.Invoke(_data);
                 return _data;
-            }).ConfigureAwait(false);
+            });
         }
     }
 }

@@ -118,13 +118,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// Zeroing of output calculation
         /// Should be called after entry new Input data
         /// </summary>
-        public async Task Refresh()
-        {
-            await Task.Run(() =>
-            {
-                _calculatedOutput = null;
-            }).ConfigureAwait(false);
-        }
+        public Task Refresh() => Task.Run(() => { _calculatedOutput = null; });
 
         [OnDeserializing]
         private void Deserialize(StreamingContext ctx)

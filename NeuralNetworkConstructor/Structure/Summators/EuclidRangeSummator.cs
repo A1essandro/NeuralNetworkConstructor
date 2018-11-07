@@ -9,10 +9,7 @@ namespace NeuralNetworkConstructor.Structure.Summators
     public class EuclidRangeSummator : ISummator
     {
 
-        public async Task<double> GetSum(ISlaveNode node)
-        {
-            return await GetEuclidRange(node);
-        }
+        public Task<double> GetSum(ISlaveNode node) => GetEuclidRange(node);
 
         public async static Task<double> GetEuclidRange(ISlaveNode node)
         {

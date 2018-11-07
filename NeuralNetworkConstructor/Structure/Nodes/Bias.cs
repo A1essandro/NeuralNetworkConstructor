@@ -8,9 +8,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         public event Action<double> OnOutput;
         private const double VALUE = 1.0; 
 
-        public async Task<double> Output()
-        {
-            return await Task.FromResult(VALUE).ConfigureAwait(false);
-        }
+        public Task<double> Output() => Task.FromResult(VALUE);
+
     }
 }
