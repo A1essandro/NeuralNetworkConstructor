@@ -44,6 +44,8 @@ namespace NeuralNetworkConstructor.Normalizer
                 min = typedValues.Min(x => x);
 
                 _calculateConvertibleItem(value as IConvertible, min.ToDouble(null), max.ToDouble(null));
+
+                return _values[value];
             }
 
             return default(NormalizedValue<T>); //TODO
