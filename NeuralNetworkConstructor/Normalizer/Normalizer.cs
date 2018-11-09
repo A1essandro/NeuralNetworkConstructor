@@ -1,32 +1,25 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Normalizer
 {
     public class Normalizer<T>
     {
 
-        private Dictionary<T, NormalizedValue<T>> _values = new Dictionary<T, NormalizedValue<T>>();
+        private ConcurrentDictionary<T, NormalizedValue<T>> _values = new ConcurrentDictionary<T, NormalizedValue<T>>();
 
-        public void Set(IEnumerable<T> values)
+        public virtual void Set(IEnumerable<T> values)
         {
-            var firstValue = values.FirstOrDefault();
-            if (firstValue is IConvertible)
-            {
-                IConvertible max, min;
-                var typedValues = values.Select(x => x as IConvertible);
-                max = typedValues.Max(x => x);
-                min = typedValues.Min(x => x);
+            var dict = values.ToDictionary(x => x.GetHashCode(), x => x)
+                .OrderBy(x => x.Key);
 
-                _calculateConvertible(typedValues.Distinct(), min.ToDouble(null), max.ToDouble(null));
-                return;
-            }
+            var min = (double)dict.First().Key;
+            var max = (double)dict.Last().Key;
 
-            foreach (var value in values.Distinct())
-            {
-                //TODO
-            }
+            Parallel.ForEach(dict, item => _calculateConvertibleItem(item, min, max));
         }
 
         public NormalizedValue<T> Get(T value)
@@ -36,35 +29,22 @@ namespace NeuralNetworkConstructor.Normalizer
                 return _values[value];
             }
 
-            if (value is IConvertible)
-            {
-                IConvertible max, min;
-                var typedValues = _values.Select(x => x.Value as IConvertible);
-                max = typedValues.Max(x => x);
-                min = typedValues.Min(x => x);
+            var dict = _values.ToDictionary(x => x.GetHashCode(), x => x)
+                .OrderBy(x => x.Key);
 
-                _calculateConvertibleItem(value as IConvertible, min.ToDouble(null), max.ToDouble(null));
+            var min = (double)dict.First().Key;
+            var max = (double)dict.Last().Key;
 
-                return _values[value];
-            }
+            _calculateConvertibleItem(new KeyValuePair<int, T>(value.GetHashCode(), value), min, max);
 
-            return default(NormalizedValue<T>); //TODO
+            return _values[value];
         }
 
-        private void _calculateConvertible(IEnumerable<IConvertible> values, double min, double max)
+        private void _calculateConvertibleItem(KeyValuePair<int, T> value, double min, double max)
         {
-            foreach (var value in values)
-            {
-                _calculateConvertibleItem(value, min, max);
-            }
-        }
-
-        private void _calculateConvertibleItem(IConvertible value, double min, double max)
-        {
-            var tvalue = (T)value;
-            var normalized = (value.ToDouble(null) - min) / (max - min);
-            var item = new NormalizedValue<T>(tvalue, normalized);
-            _values.Add(tvalue, item);
+            var normalized = (value.Key - min) / (max - min);
+            var item = new NormalizedValue<T>(value.Value, normalized);
+            _values.TryAdd(value.Value, item);
         }
     }
 }
