@@ -9,11 +9,38 @@ namespace NeuralNetworkConstructor.Normalizer
     public class Normalizer<T>
     {
 
-        private ConcurrentDictionary<T, NormalizedValue<T>> _values = new ConcurrentDictionary<T, NormalizedValue<T>>();
+        private static readonly Func<T, int> DefaultConverter = x => x.GetHashCode();
+
+        private readonly ConcurrentDictionary<T, NormalizedValue<T>> _values = new ConcurrentDictionary<T, NormalizedValue<T>>();
+        private readonly int _factor = 1;
+        private readonly Func<T, int> _converter = DefaultConverter;
+
+        #region ctor
+
+        public Normalizer()
+        {}
+
+        public Normalizer(int factor)
+        {
+            _factor = factor;
+        }
+
+        public Normalizer(Func<T, int> converter)
+        {
+            _converter = converter;
+        }
+
+        public Normalizer(Func<T, int> converter, int factor)
+        {
+            _converter = converter;
+            _factor = factor;
+        }
+
+        #endregion
 
         public virtual void Set(IEnumerable<T> values)
         {
-            var dict = values.ToDictionary(x => x.GetHashCode(), x => x)
+            var dict = values.ToDictionary(_converter, x => x)
                 .OrderBy(x => x.Key);
 
             var min = (double)dict.First().Key;
@@ -29,20 +56,20 @@ namespace NeuralNetworkConstructor.Normalizer
                 return _values[value];
             }
 
-            var dict = _values.ToDictionary(x => x.GetHashCode(), x => x)
+            var dict = _values.ToDictionary(x => _converter(x.Key), x => x)
                 .OrderBy(x => x.Key);
 
             var min = (double)dict.First().Key;
             var max = (double)dict.Last().Key;
 
-            _calculateConvertibleItem(new KeyValuePair<int, T>(value.GetHashCode(), value), min, max);
+            _calculateConvertibleItem(new KeyValuePair<int, T>(_converter(value), value), min, max);
 
             return _values[value];
         }
 
         private void _calculateConvertibleItem(KeyValuePair<int, T> value, double min, double max)
         {
-            var normalized = (value.Key - min) / (max - min);
+            var normalized = _factor * (value.Key - min) / (max - min);
             var item = new NormalizedValue<T>(value.Value, normalized);
             _values.TryAdd(value.Value, item);
         }
