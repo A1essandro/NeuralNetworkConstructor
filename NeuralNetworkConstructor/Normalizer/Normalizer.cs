@@ -73,5 +73,6 @@ namespace NeuralNetworkConstructor.Normalizer
             var item = new NormalizedValue<T>(value.Value, normalized);
             _values.TryAdd(value.Value, item);
         }
+
     }
 }

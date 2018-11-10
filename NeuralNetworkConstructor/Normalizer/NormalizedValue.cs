@@ -13,5 +13,7 @@ namespace NeuralNetworkConstructor.Normalizer
             Normalized = normalized;
         }
 
+        public static implicit operator double(NormalizedValue<TValue> v) => v.Normalized;
+
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NeuralNetworkConstructor.Normalizer;
+using NeuralNetworkConstructor.Structure.Nodes;
 using Xunit;
 
 namespace Tests
@@ -28,6 +29,18 @@ namespace Tests
 
             Assert.Equal(0, normalizer.Get(cities[0]).Normalized);
             Assert.Equal(1, normalizer.Get(cities[2]).Normalized);
+        }
+
+        [Fact]
+        public async Task TestImplicitCast()
+        {
+            var normalizer = new Normalizer<int>(2);
+            normalizer.Set(new int[] { 4500, 7000, 10000, 42422 });
+
+            var node = new InputNode();
+            await node.Input(normalizer.Get(4500));
+            
+            Assert.Equal(0, await node.Output());
         }
 
     }
