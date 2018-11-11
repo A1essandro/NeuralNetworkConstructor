@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NeuralNetworkConstructor.Normalizer;
@@ -39,8 +40,25 @@ namespace Tests
 
             var node = new InputNode();
             await node.Input(normalizer.Get(4500));
-            
+
             Assert.Equal(0, await node.Output());
+        }
+
+        [Fact]
+        public void TestVector()
+        {
+            var weights = new int[] { 26500, 29600, 57000, 18400, 188900 };
+            var crew = new int[] { 4, 4, 5, 5, 6 };
+            var normalizerWeights = new Normalizer<int>();
+            normalizerWeights.Set(weights);
+            var normalizerCrew = new Normalizer<int>();
+            normalizerCrew.Set(crew);
+
+            var vector = new NormalizersVector<int>(normalizerWeights, normalizerCrew);
+            var normalized = vector.Get(new int[] { 18400, 6 });
+
+            Assert.Equal<double>(0, normalized.First());
+            Assert.Equal<double>(1, normalized.Last());
         }
 
     }

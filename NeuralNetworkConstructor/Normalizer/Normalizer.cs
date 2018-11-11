@@ -40,7 +40,7 @@ namespace NeuralNetworkConstructor.Normalizer
 
         public virtual void Set(IEnumerable<T> values)
         {
-            var dict = values.ToDictionary(_converter, x => x)
+            var dict = values.Distinct().ToDictionary(_converter, x => x)
                 .OrderBy(x => x.Key);
 
             var min = (double)dict.First().Key;
