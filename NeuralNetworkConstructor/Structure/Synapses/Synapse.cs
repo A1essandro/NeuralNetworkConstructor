@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using NeuralNetworkConstructor.Structure.Layers;
-using System.Diagnostics.Contracts;
-using NeuralNetworkConstructor.Common;
-using System.Threading.Tasks;
-using System.Runtime.Serialization;
+﻿using NeuralNetworkConstructor.Structure.Layers;
 using NeuralNetworkConstructor.Structure.Nodes;
+using System;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Structure.Synapses
 {

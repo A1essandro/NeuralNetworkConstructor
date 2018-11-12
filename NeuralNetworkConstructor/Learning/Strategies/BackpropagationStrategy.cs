@@ -1,5 +1,6 @@
 ﻿using NeuralNetworkConstructor.Learning.Samples;
 using NeuralNetworkConstructor.Networks;
+using NeuralNetworkConstructor.Structure.Layers;
 using NeuralNetworkConstructor.Structure.Nodes;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,25 +31,36 @@ namespace NeuralNetworkConstructor.Learning.Strategies
 
             foreach (var layer in network.Layers.Reverse())
             {
-                var oIndex = 0;
+                if (isOutputLayer)
+                {
+                    await CalculateSigmasForOutputLayer(sigmas, layer, force, output, expectationArr);
+
+                    isOutputLayer = false;
+                    continue;
+                }
+
                 foreach (var node in layer.Nodes.OfType<Neuron>())
                 {
-                    var sigma = await CalculateSigma(output, isOutputLayer, sigmas, expectationArr, oIndex, node).ConfigureAwait(false);
+                    var sigma = await SigmaCalcForInnerLayers(sigmas, node).ConfigureAwait(false);
 
                     sigmas.Add(new NeuronSigma(node, sigma));
                     await ChangeWeights(node, sigma, force).ConfigureAwait(false);
-                    oIndex++;
                 }
-                isOutputLayer = false;
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Task<double> CalculateSigma(double[] output, bool isOutputLayer, List<NeuronSigma> sigmas, double[] expectationArr, int oIndex, Neuron neuron)
+        private static async Task CalculateSigmasForOutputLayer(List<NeuronSigma> sigmas, ILayer<INotInputNode> layer, double force, double[] output, double[] expectationArr)
         {
-            return isOutputLayer
-                ? SigmaCalcForOutputLayer(expectationArr, neuron, output, oIndex)
-                : SigmaCalcForInnerLayers(sigmas, neuron);
+            var oIndex = 0;
+            foreach (var node in layer.Nodes.OfType<Neuron>())
+            {
+                var sigma = await SigmaCalcForOutputLayer(expectationArr, node, output, oIndex).ConfigureAwait(false);
+
+                sigmas.Add(new NeuronSigma(node, sigma));
+                await ChangeWeights(node, sigma, force).ConfigureAwait(false);
+                oIndex++;
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -47,18 +47,15 @@ namespace NeuralNetworkConstructor.Structure.Layers
 
         public Task Input(IEnumerable<double> input)
         {
-            Contract.Requires(input.Count() == _getInputNodes().Count(), nameof(input));
+            var inputNodes = Nodes.OfType<IInputNode>().Where(x => !(x is Bias)).ToArray();
+            Contract.Requires(input.Count() == inputNodes.Length, nameof(input));
 
             OnInput?.Invoke(input);
 
-            var inputs = _getInputNodes().ToArray();
-
-            return Task.WhenAll(input.Select((value, index) => inputs[index].Input(value)));
+            return Task.WhenAll(input.Select((value, index) => inputNodes[index].Input(value)));
         }
 
         public Task Refresh() => Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
-
-        private IEnumerable<IInputNode> _getInputNodes() => Nodes.Where(x => !(x is Bias)).Select(x => x as IInputNode);
 
     }
 }

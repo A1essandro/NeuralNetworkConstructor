@@ -1,6 +1,5 @@
 ﻿using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.ActivationFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

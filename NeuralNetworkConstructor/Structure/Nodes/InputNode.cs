@@ -17,20 +17,15 @@ namespace NeuralNetworkConstructor.Structure.Nodes
 
         public Task Input(double input)
         {
-            return Task.Run(() =>
-            {
-                OnInput?.Invoke(input);
-                _data = input;
-            });
+            OnInput?.Invoke(input);
+            _data = input;
+            return Task.CompletedTask;
         }
 
         public Task<double> Output()
         {
-            return Task.Run(() =>
-            {
-                OnOutput?.Invoke(_data);
-                return _data;
-            });
+            OnOutput?.Invoke(_data);
+            return Task.FromResult(_data);
         }
     }
 }
