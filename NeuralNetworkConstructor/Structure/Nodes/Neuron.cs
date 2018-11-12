@@ -2,10 +2,10 @@
 using NeuralNetworkConstructor.Structure.ActivationFunctions;
 using NeuralNetworkConstructor.Structure.Summators;
 using NeuralNetworkConstructor.Structure.Synapses;
-using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Structure.Nodes
@@ -36,7 +36,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
 
         private double? _calculatedOutput;
 
-        private AsyncAutoResetEvent _waitHandle = new AsyncAutoResetEvent(true);
+        private AutoResetEvent _waitHandle = new AutoResetEvent(true);
 
         #region public properties
 
@@ -83,7 +83,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
 
         public async Task<double> Output()
         {
-            await _waitHandle.WaitAsync();
+            _waitHandle.WaitOne();
             if (_calculatedOutput != null)
             {
                 _waitHandle.Set();
@@ -127,7 +127,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         [OnDeserializing]
         private void Deserialize(StreamingContext ctx)
         {
-            _waitHandle = new AsyncAutoResetEvent(true);
+            _waitHandle = new AutoResetEvent(true);
         }
 
     }
