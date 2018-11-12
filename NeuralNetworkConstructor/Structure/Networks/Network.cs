@@ -1,7 +1,6 @@
 ﻿using NeuralNetworkConstructor.Common;
 using NeuralNetworkConstructor.Structure.Layers;
 using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -64,7 +63,7 @@ namespace NeuralNetworkConstructor.Networks
 
         public virtual async Task<IEnumerable<double>> Output()
         {
-            var tasks = OutputLayer.Nodes.Select(async n => await n.Output().ConfigureAwait(false));
+            var tasks = OutputLayer.Nodes.Select(n => n.Output());
             var result = await Task.WhenAll(tasks).ConfigureAwait(false);
 
             OnOutput?.Invoke(result);

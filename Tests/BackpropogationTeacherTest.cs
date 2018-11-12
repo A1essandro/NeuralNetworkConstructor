@@ -125,7 +125,7 @@ namespace Tests
             };
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA };
+            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9995 };
             var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
 
             await learning.Learn(samples);

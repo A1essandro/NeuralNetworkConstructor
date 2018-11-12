@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using NeuralNetworkConstructor.Structure.Nodes;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using NeuralNetworkConstructor.Structure.Nodes;
 
 namespace NeuralNetworkConstructor.Structure.Summators
 {
@@ -12,7 +12,7 @@ namespace NeuralNetworkConstructor.Structure.Summators
 
         public async Task<double> GetSum(ISlaveNode node)
         {
-            var tasks = node.Synapses.Select(async x => await x.Output().ConfigureAwait(false));
+            var tasks = node.Synapses.Select(x => x.Output());
             return (await Task.WhenAll(tasks).ConfigureAwait(false)).Sum();
         }
 

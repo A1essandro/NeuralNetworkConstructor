@@ -91,11 +91,11 @@ namespace NeuralNetworkConstructor.Structure.Synapses
             {
                 foreach (INode mNode in master.Nodes)
                 {
-                    foreach (var sNode in slave.Nodes.Where(n => n is Neuron))
+                    foreach (var sNode in slave.Nodes.OfType<Neuron>())
                     {
                         var weight = weightGenerator?.Invoke();
                         var synapse = new Synapse(mNode, weight);
-                        (sNode as Neuron)?.AddSynapse(synapse);
+                        sNode.AddSynapse(synapse);
                     }
                 }
             }

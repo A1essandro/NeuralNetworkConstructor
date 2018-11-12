@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NeuralNetworkConstructor.Structure.Nodes;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NeuralNetworkConstructor.Structure.Nodes;
 
 namespace NeuralNetworkConstructor.Structure.Summators
 {

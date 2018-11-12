@@ -24,10 +24,10 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         #region serialization data
 
         [DataMember]
-        private ISummator _summator;
+        private readonly ISummator _summator;
 
         [DataMember]
-        private ICollection<ISynapse> _synapses = new List<ISynapse>();
+        private readonly ICollection<ISynapse> _synapses = new List<ISynapse>();
 
         [DataMember]
         private IActivationFunction _actFunction;
@@ -118,7 +118,11 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// Zeroing of output calculation
         /// Should be called after entry new Input data
         /// </summary>
-        public Task Refresh() => Task.Run(() => { _calculatedOutput = null; });
+        public Task Refresh()
+        {
+            _calculatedOutput = null;
+            return Task.CompletedTask;
+        }
 
         [OnDeserializing]
         private void Deserialize(StreamingContext ctx)

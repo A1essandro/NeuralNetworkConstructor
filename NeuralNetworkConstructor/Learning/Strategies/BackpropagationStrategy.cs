@@ -2,7 +2,9 @@
 using NeuralNetworkConstructor.Networks;
 using NeuralNetworkConstructor.Structure.Nodes;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning.Strategies
@@ -15,64 +17,74 @@ namespace NeuralNetworkConstructor.Learning.Strategies
             return _teach(network, sample.Input, sample.Output, theta);
         }
 
+        #region Private
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async Task _teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
         {
             await network.Input(input);
             var output = (await network.Output().ConfigureAwait(false)).ToArray();
-            var outputLayer = true;
+            var isOutputLayer = true;
             var sigmas = new List<NeuronSigma>();
+            var expectationArr = expectation.ToArray();
 
             foreach (var layer in network.Layers.Reverse())
             {
                 var oIndex = 0;
-                foreach (var node in layer.Nodes.Where(n => n is Neuron))
+                foreach (var node in layer.Nodes.OfType<Neuron>())
                 {
-                    var neuron = (Neuron)node;
+                    var sigma = await CalculateSigma(output, isOutputLayer, sigmas, expectationArr, oIndex, node).ConfigureAwait(false);
 
-                    var sigmaTask = outputLayer
-                        ? SigmaCalcForOutputLayer(expectation.ToArray(), neuron, output, oIndex)
-                        : SigmaCalcForInnerLayers(sigmas, neuron);
-
-                    var sigma = await sigmaTask.ConfigureAwait(false);
-
-                    sigmas.Add(new NeuronSigma(neuron, sigma));
-                    await ChangeWeights(neuron, sigma, force).ConfigureAwait(false);
+                    sigmas.Add(new NeuronSigma(node, sigma));
+                    await ChangeWeights(node, sigma, force).ConfigureAwait(false);
                     oIndex++;
                 }
-                outputLayer = false;
+                isOutputLayer = false;
             }
         }
 
-        #region Private
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Task<double> CalculateSigma(double[] output, bool isOutputLayer, List<NeuronSigma> sigmas, double[] expectationArr, int oIndex, Neuron neuron)
+        {
+            return isOutputLayer
+                ? SigmaCalcForOutputLayer(expectationArr, neuron, output, oIndex)
+                : SigmaCalcForInnerLayers(sigmas, neuron);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static async Task<double> SigmaCalcForInnerLayers(IEnumerable<NeuronSigma> sigmas, ISlaveNode neuron)
         {
             var derivative = await GetDerivative(neuron).ConfigureAwait(false);
             return derivative * GetChildSigmas(sigmas, neuron);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static async Task<double> SigmaCalcForOutputLayer(IReadOnlyList<double> expectation, ISlaveNode neuron, IReadOnlyList<double> output, int oIndex)
         {
             var derivative = await GetDerivative(neuron).ConfigureAwait(false);
             return derivative * (expectation[oIndex] - output[oIndex]);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static async Task<double> GetDerivative(ISlaveNode neuron)
         {
             var x = await neuron.Summator.GetSum(neuron).ConfigureAwait(false);
-            var derivative = neuron.Function.GetDerivative(x);
-            return derivative;
+            return neuron.Function.GetDerivative(x);
         }
 
-        private async Task ChangeWeights(ISlaveNode neuron, double sigma, double force)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static async Task ChangeWeights(ISlaveNode neuron, double sigma, double force)
         {
-            foreach (var synapse in neuron.Synapses)
+            var tasks = neuron.Synapses.Select(async synapse =>
             {
                 var masterNodeOutput = await synapse.MasterNode.Output().ConfigureAwait(false);
                 synapse.ChangeWeight(force * sigma * masterNodeOutput);
-            }
+            });
+
+            await Task.WhenAll(tasks);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static double GetChildSigmas(IEnumerable<NeuronSigma> sigmas, INode neuron)
         {
             double sigma = 0;
@@ -86,7 +98,8 @@ namespace NeuralNetworkConstructor.Learning.Strategies
             return sigma;
         }
 
-        private class NeuronSigma
+        [DebuggerDisplay("Neuron:{Neuron}; Sigma:{Sigma};")]
+        private struct NeuronSigma
         {
 
             public NeuronSigma(Neuron neuron, double sigma)
