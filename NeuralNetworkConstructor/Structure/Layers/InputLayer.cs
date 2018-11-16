@@ -57,5 +57,10 @@ namespace NeuralNetworkConstructor.Structure.Layers
 
         public Task Refresh() => Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
 
+        public void Add(IMasterNode node)
+        {
+            _nodes.Add(node);
+        }
+
     }
 }

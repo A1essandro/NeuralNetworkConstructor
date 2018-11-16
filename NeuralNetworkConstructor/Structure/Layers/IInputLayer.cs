@@ -4,7 +4,7 @@ using NeuralNetworkConstructor.Structure.Nodes;
 
 namespace NeuralNetworkConstructor.Structure.Layers
 {
-    public interface IInputLayer : ILayer<IMasterNode>, IInput<IEnumerable<double>>
+    public interface IInputLayer : ILayer<IMasterNode>, IInput<IEnumerable<double>>, IEditableLayer<IMasterNode>
     {
     }
 

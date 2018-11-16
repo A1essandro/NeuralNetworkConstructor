@@ -12,7 +12,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
     [DataContract]
     [KnownType(typeof(Neuron))]
     [KnownType(typeof(Bias))]
-    public class Layer : ILayer<INotInputNode>
+    public class Layer : ILayer<INotInputNode>, IEditableLayer<INotInputNode>
     {
 
         [DataMember]
@@ -47,6 +47,11 @@ namespace NeuralNetworkConstructor.Structure.Layers
         }
 
         public Task Refresh() => Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
+
+        public void Add(INotInputNode node)
+        {
+            _nodes.Add(node);
+        }
 
     }
 }

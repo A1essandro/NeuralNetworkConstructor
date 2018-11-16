@@ -13,11 +13,11 @@ namespace NeuralNetworkConstructor.Constructor
     {
 
         private readonly TNetwork _currentNetwork = new TNetwork();
-        private ILayer<INotInputNode> _currentLayer;
+        private IEditableLayer<INotInputNode> _currentLayer;
         private ISlaveNode _currentNode;
 
         private readonly IDictionary<string, INode> _nodes = new Dictionary<string, INode>();
-        private readonly IDictionary<string, ILayer<INotInputNode>> _layers = new Dictionary<string, ILayer<INotInputNode>>();
+        private readonly IDictionary<string, IEditableLayer<INotInputNode>> _layers = new Dictionary<string, IEditableLayer<INotInputNode>>();
 
         private void _tryAddToDictionary<T>(IDictionary<string, T> dict, string key, T value)
         {
@@ -31,16 +31,16 @@ namespace NeuralNetworkConstructor.Constructor
         }
 
         public NetworkConstructor<TNetwork> AddLayer<TLayer>(string identity, bool withBias = false)
-            where TLayer : ILayer<INotInputNode>, new()
+            where TLayer : IEditableLayer<INotInputNode>, new()
         {
             var layer = new TLayer();
             _currentLayer = layer;
-            _tryAddToDictionary<ILayer<INotInputNode>>(_layers, identity, layer);
-            _currentNetwork.Layers.Add(layer);
+            _tryAddToDictionary<IEditableLayer<INotInputNode>>(_layers, identity, layer);
+            _currentNetwork.Layers.Add((ILayer<INotInputNode>)layer);
 
             if (withBias)
             {
-                _currentLayer.Nodes.Add(new Bias());
+                _currentLayer.Add(new Bias());
             }
 
             return this;
@@ -53,7 +53,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Nodes.Add(node);
+            _currentLayer.Add(node);
 
             return this;
         }
@@ -61,7 +61,7 @@ namespace NeuralNetworkConstructor.Constructor
         public NetworkConstructor<TNetwork> AddNode(string identity, INotInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Nodes.Add(node);
+            _currentLayer.Add(node);
 
             return this;
         }
@@ -71,7 +71,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
-            _currentNetwork.InputLayer.Nodes.Add(node);
+            _currentNetwork.InputLayer.Add(node);
 
             return this;
         }
@@ -90,7 +90,7 @@ namespace NeuralNetworkConstructor.Constructor
         public NetworkConstructor<TNetwork> AddInputNode(string identity, IInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
-            _currentNetwork.InputLayer.Nodes.Add(node);
+            _currentNetwork.InputLayer.Add(node);
             return this;
         }
 
@@ -101,7 +101,7 @@ namespace NeuralNetworkConstructor.Constructor
             node.Function = func;
             _currentNode = node;
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Nodes.Add(node);
+            _currentLayer.Add(node);
 
             return this;
         }
@@ -110,7 +110,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             _currentNode = node;
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Nodes.Add(node);
+            _currentLayer.Add(node);
 
             return this;
         }
@@ -147,7 +147,7 @@ namespace NeuralNetworkConstructor.Constructor
             }
             else
             {
-                var layer = _layers[masterNodesLayer];
+                var layer = _layers[masterNodesLayer] as ILayer<INotInputNode>;
                 foreach (var masterNode in layer.Nodes)
                 {
                     var synapse = new TSynapse
