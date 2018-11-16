@@ -12,25 +12,21 @@ namespace NeuralNetworkConstructor.Structure.Layers
     [DataContract]
     [KnownType(typeof(Neuron))]
     [KnownType(typeof(Bias))]
-    public class Layer : ILayer<INotInputNode>, IEditableLayer<INotInputNode>
+    public class Layer : ILayer<INotInputNode>
     {
 
         [DataMember]
-        private IList<INotInputNode> _nodes = new List<INotInputNode>();
+        protected List<INotInputNode> NodeList = new List<INotInputNode>();
 
-        public IEnumerable<INotInputNode> Nodes => _nodes;
+        public IEnumerable<INotInputNode> Nodes => NodeList;
 
-        public Layer()
+        public Layer(IEnumerable<INotInputNode> nodes)
         {
-        }
-
-        public Layer(IList<INotInputNode> nodes)
-        {
-            _nodes = nodes;
+            NodeList = nodes.ToList();
         }
 
         public Layer(params INotInputNode[] nodes)
-            : this(nodes.ToList())
+            : this(nodes.AsEnumerable())
         {
         }
 
@@ -38,20 +34,15 @@ namespace NeuralNetworkConstructor.Structure.Layers
         {
             for (var i = 0; i < qty; i++)
             {
-                _nodes.Add(getter());
+                NodeList.Add(getter());
             }
             foreach (var node in other)
             {
-                _nodes.Add(node);
+                NodeList.Add(node);
             }
         }
 
-        public Task Refresh() => Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
-
-        public void Add(INotInputNode node)
-        {
-            _nodes.Add(node);
-        }
+        public Task Refresh() => Task.WhenAll(NodeList?.OfType<IRefreshable>().Select(n => n.Refresh()));
 
     }
 }
