@@ -60,7 +60,13 @@ namespace NeuralNetworkConstructor.Structure.Layers
             NodeList.Add(node);
         }
 
-        public Task Refresh() => Task.WhenAll(NodeList.OfType<IRefreshable>().Select(n => n.Refresh()));
+        public void Refresh()
+        {
+            foreach (var n in NodeList.OfType<IRefreshable>())
+            {
+                n.Refresh();
+            }
+        }
 
         public async Task<IEnumerable<double>> Output()
         {

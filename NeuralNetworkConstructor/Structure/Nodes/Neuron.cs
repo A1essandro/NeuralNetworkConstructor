@@ -118,10 +118,9 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// Zeroing of output calculation
         /// Should be called after entry new Input data
         /// </summary>
-        public Task Refresh()
+        public void Refresh()
         {
             _calculatedOutput = null;
-            return Task.CompletedTask;
         }
 
         [OnDeserializing]

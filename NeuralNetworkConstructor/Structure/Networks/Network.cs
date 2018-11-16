@@ -82,14 +82,11 @@ namespace NeuralNetworkConstructor.Networks
 
             OnInput?.Invoke(input);
 
-            await Refresh().ConfigureAwait(false);
+            Refresh();
             await InputLayer.Input(input).ConfigureAwait(false);
         }
 
-        public Task Refresh()
-        {
-            return Task.WhenAll(Layers.Select(l => l.Refresh()));
-        }
+        public void Refresh() => Parallel.ForEach(Layers, l => l.Refresh());
 
         protected virtual T GetClone<T>() where T : Network
         {

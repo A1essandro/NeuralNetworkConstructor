@@ -29,7 +29,7 @@ namespace Tests
 
             var output1 = await network.Output();
             var output2 = await network.Output();
-            await network.Refresh();
+            network.Refresh();
             var outputAsync = await network.Output();
 
             Assert.Equal(output1.First(), output2.First());

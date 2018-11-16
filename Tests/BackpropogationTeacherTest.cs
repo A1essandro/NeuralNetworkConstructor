@@ -55,22 +55,22 @@ namespace Tests
 
             await network.Input(new double[] { 1, 0 });
             var output = (await network.Output()).First();
-            await network.Refresh();
+            network.Refresh();
             Assert.True(Math.Abs(1 - output) < DELTA);
 
             await network.Input(new double[] { 1, 1 });
             output = (await network.Output()).First();
-            await network.Refresh();
+            network.Refresh();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
             await network.Input(new double[] { 0, 0 });
             output = (await network.Output()).First();
-            await network.Refresh();
+            network.Refresh();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
             await network.Input(new double[] { 0, 1 });
             output = (await network.Output()).First();
-            await network.Refresh();
+            network.Refresh();
             Assert.True(Math.Abs(1 - output) < DELTA);
         }
 

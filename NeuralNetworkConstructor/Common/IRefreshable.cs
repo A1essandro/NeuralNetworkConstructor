@@ -9,7 +9,7 @@ namespace NeuralNetworkConstructor.Common
     /// </summary>
     public interface IRefreshable
     {
-        Task Refresh();
+        void Refresh();
     }
 
     /// <summary>
