@@ -39,7 +39,7 @@ namespace Tests
             normalizer.Set(new int[] { 4500, 7000, 10000, 42422 });
 
             var node = new InputNode();
-            await node.Input(normalizer.Get(4500));
+            node.Input(normalizer.Get(4500));
 
             Assert.Equal(0, await node.Output());
         }

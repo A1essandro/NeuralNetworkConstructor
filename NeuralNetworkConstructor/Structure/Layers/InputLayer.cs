@@ -33,14 +33,18 @@ namespace NeuralNetworkConstructor.Structure.Layers
 
         public event Action<IEnumerable<double>> OnInput;
 
-        public Task Input(IEnumerable<double> input)
+        public void Input(IEnumerable<double> input)
         {
             var inputNodes = Nodes.OfType<IInputNode>().Where(x => !(x is Bias)).ToArray();
             Contract.Requires(input.Count() == inputNodes.Length, nameof(input));
 
             OnInput?.Invoke(input);
 
-            return Task.WhenAll(input.Select((value, index) => inputNodes[index].Input(value)));
+            var index = 0;
+            foreach (var value in input)
+            {
+                inputNodes[index++].Input(value);
+            }
         }
 
         private static Type[] GetKnownType() => new Type[] { typeof(BaseLayer<IMasterNode>) };

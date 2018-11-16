@@ -31,7 +31,7 @@ namespace Tests
             Assert.Equal(neuronsQty + 1, layer.Nodes.Count());
             Assert.IsType<InputNode>(layer.Nodes.ToArray()[5]);
             Assert.IsType<Bias>(layer.Nodes.Last());
-            Assert.ThrowsAsync<NullReferenceException>(async () => await (layer.Nodes.Last() as IInputNode).Input(1));
+            Assert.Throws<NullReferenceException>(() => (layer.Nodes.Last() as IInputNode).Input(1));
         }
 
     }

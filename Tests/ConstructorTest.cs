@@ -84,19 +84,19 @@ namespace Tests
             var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
             await learning.Learn(samples);
 
-            await network.Input(new double[] { 1, 0 });
+            network.Input(new double[] { 1, 0 });
             var output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
 
-            await network.Input(new double[] { 1, 1 });
+            network.Input(new double[] { 1, 1 });
             output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
-            await network.Input(new double[] { 0, 0 });
+            network.Input(new double[] { 0, 0 });
             output = (await network.Output()).First();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
-            await network.Input(new double[] { 0, 1 });
+            network.Input(new double[] { 0, 1 });
             output = (await network.Output()).First();
             Assert.True(Math.Abs(1 - output) < DELTA);
         }

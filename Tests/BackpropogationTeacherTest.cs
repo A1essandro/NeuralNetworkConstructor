@@ -40,7 +40,7 @@ namespace Tests
                 new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
             };
 
-            await network.Input(new double[] { 1, 0 });
+            network.Input(new double[] { 1, 0 });
             var beforeLearning = (await network.Output()).First();
 
             var strategy = new BackpropagationStrategy();
@@ -48,27 +48,27 @@ namespace Tests
             var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
             await learning.Learn(samples);
 
-            await network.Input(new double[] { 1, 0 });
+            network.Input(new double[] { 1, 0 });
             var afterLearning = (await network.Output()).First();
 
             Assert.True(beforeLearning < afterLearning);
 
-            await network.Input(new double[] { 1, 0 });
+            network.Input(new double[] { 1, 0 });
             var output = (await network.Output()).First();
             network.Refresh();
             Assert.True(Math.Abs(1 - output) < DELTA);
 
-            await network.Input(new double[] { 1, 1 });
+            network.Input(new double[] { 1, 1 });
             output = (await network.Output()).First();
             network.Refresh();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
-            await network.Input(new double[] { 0, 0 });
+            network.Input(new double[] { 0, 0 });
             output = (await network.Output()).First();
             network.Refresh();
             Assert.True(Math.Abs(0 - output) < DELTA);
 
-            await network.Input(new double[] { 0, 1 });
+            network.Input(new double[] { 0, 1 });
             output = (await network.Output()).First();
             network.Refresh();
             Assert.True(Math.Abs(1 - output) < DELTA);
@@ -130,7 +130,7 @@ namespace Tests
 
             await learning.Learn(samples);
 
-            await network.Input(new double[] { 1 });
+            network.Input(new double[] { 1 });
             var output = (await network.Output()).First();
             Assert.True(Math.Abs(output) < DELTA);
         }

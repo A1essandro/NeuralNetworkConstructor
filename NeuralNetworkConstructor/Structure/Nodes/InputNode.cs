@@ -15,11 +15,10 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         public event Action<double> OnOutput;
         public event Action<double> OnInput;
 
-        public Task Input(double input)
+        public void Input(double input)
         {
             OnInput?.Invoke(input);
             _data = input;
-            return Task.CompletedTask;
         }
 
         public Task<double> Output()

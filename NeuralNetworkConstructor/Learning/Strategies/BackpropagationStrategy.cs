@@ -23,7 +23,7 @@ namespace NeuralNetworkConstructor.Learning.Strategies
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private async Task _teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
         {
-            await network.Input(input);
+            network.Input(input);
             var output = (await network.Output().ConfigureAwait(false)).ToArray();
             var isOutputLayer = true;
             var sigmas = new List<NeuronSigma>();

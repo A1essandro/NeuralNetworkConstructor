@@ -11,7 +11,7 @@ namespace NeuralNetworkConstructor.Common
         /// Write input value
         /// </summary>
         /// <param name="input">Input value to write</param>
-        Task Input(T input);
+        void Input(T input);
 
         event Action<T> OnInput;
 

@@ -76,14 +76,14 @@ namespace NeuralNetworkConstructor.Networks
         /// Write input value to each input-neuron (<see cref="IInput{double}"/>) in input-layer.
         /// </summary>
         /// <param name="input"></param>
-        public virtual async Task Input(IEnumerable<double> input)
+        public virtual void Input(IEnumerable<double> input)
         {
             Contract.Requires(input != null, nameof(input));
 
             OnInput?.Invoke(input);
 
             Refresh();
-            await InputLayer.Input(input).ConfigureAwait(false);
+            InputLayer.Input(input);
         }
 
         public void Refresh() => Parallel.ForEach(Layers, l => l.Refresh());

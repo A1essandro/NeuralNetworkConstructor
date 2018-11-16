@@ -25,7 +25,7 @@ namespace Tests
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            await network.Input(new[] { 0.1, 1.0 });
+            network.Input(new[] { 0.1, 1.0 });
 
             var output1 = await network.Output();
             var output2 = await network.Output();
@@ -53,7 +53,7 @@ namespace Tests
             network.OnInput += (result) => { input++; };
             network.OnInput += (result) => { input++; };
 
-            await network.Input(new double[] { 1, 0 });
+            network.Input(new double[] { 1, 0 });
             await network.Output();
 
             Assert.True(output == 2);
@@ -73,8 +73,8 @@ namespace Tests
             var clone = Network.Clone(network);
 
             var input = new[] { 0.1, 1.0 };
-            await network.Input(input);
-            await clone.Input(input);
+            network.Input(input);
+            clone.Input(input);
             var networkOutput = (await network.Output()).ToArray();
             var cloneOutput = (await clone.Output()).ToArray();
 
