@@ -13,11 +13,11 @@ namespace NeuralNetworkConstructor.Constructor
     {
 
         private readonly TNetwork _currentNetwork = new TNetwork();
-        private IEditableLayer<INotInputNode> _currentLayer;
+        private ILayer<INotInputNode> _currentLayer;
         private ISlaveNode _currentNode;
 
         private readonly IDictionary<string, INode> _nodes = new Dictionary<string, INode>();
-        private readonly IDictionary<string, IEditableLayer<INotInputNode>> _layers = new Dictionary<string, IEditableLayer<INotInputNode>>();
+        private readonly IDictionary<string, ILayer<INotInputNode>> _layers = new Dictionary<string, ILayer<INotInputNode>>();
 
         private void _tryAddToDictionary<T>(IDictionary<string, T> dict, string key, T value)
         {
@@ -31,11 +31,11 @@ namespace NeuralNetworkConstructor.Constructor
         }
 
         public NetworkConstructor<TNetwork> AddLayer<TLayer>(string identity, bool withBias = false)
-            where TLayer : IEditableLayer<INotInputNode>, new()
+            where TLayer : ILayer<INotInputNode>, new()
         {
             var layer = new TLayer();
             _currentLayer = layer;
-            _tryAddToDictionary<IEditableLayer<INotInputNode>>(_layers, identity, layer);
+            _tryAddToDictionary<ILayer<INotInputNode>>(_layers, identity, layer);
             _currentNetwork.Layers.Add((ILayer<INotInputNode>)layer);
 
             if (withBias)

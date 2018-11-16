@@ -12,7 +12,6 @@ using Xunit;
 using NeuralNetworkConstructor.Learning.Samples;
 using NeuralNetworkConstructor.Learning.Strategies;
 using System.Threading.Tasks;
-using NeuralNetworkConstructor.Constructor.Structure.Layers;
 
 namespace Tests
 {
@@ -28,7 +27,7 @@ namespace Tests
             var network = new NetworkConstructor<Network>()
                 .AddInputNodes<InputNode>("0_1", "0_2", "0_3")
                 .AddInputNode<Bias>("0_4")
-                .AddLayer<EditableLayer>("1")
+                .AddLayer<Layer>("1")
                 .AddNeuron<Neuron>("1_1", new Rectifier())
                 .AddSynapses<Synapse>()
                 .AddNeuron<Neuron>("1_2", new Linear())
@@ -38,7 +37,7 @@ namespace Tests
                 .AddNeuron<Neuron>("1_4", new Logistic())
                 .AddSynapses<Synapse>()
                 .AddNode<Bias>("1_5")
-                .AddLayer<EditableLayer>("2")
+                .AddLayer<Layer>("2")
                 .AddNeuron<Neuron>("2_1", new Rectifier())
                 .AddSynapses<Synapse>("1")
                 .AddNeuron<Neuron>("2_2", new Rectifier())
@@ -58,7 +57,7 @@ namespace Tests
             var network = new NetworkConstructor<Network>()
                 .AddInputNodes<InputNode>("0_1", "0_2")
                 .AddInputNode<Bias>("0_4")
-                .AddLayer<EditableLayer>("1")
+                .AddLayer<Layer>("1")
                 .AddNeuron<Neuron>("1_1", new Logistic())
                 .AddSynapses<Synapse>()
                 .AddNeuron<Neuron>("1_2", new Logistic())
@@ -68,7 +67,7 @@ namespace Tests
                 .AddNeuron<Neuron>("1_4", new Logistic())
                 .AddSynapses<Synapse>()
                 .AddNode<Bias>("1_5")
-                .AddLayer<EditableLayer>("2")
+                .AddLayer<Layer>("2")
                 .AddNeuron<Neuron>("2_1", new Logistic())
                 .AddSynapses<Synapse>("1")
                 .Complete();

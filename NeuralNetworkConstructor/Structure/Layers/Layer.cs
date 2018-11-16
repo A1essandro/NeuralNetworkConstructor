@@ -20,6 +20,10 @@ namespace NeuralNetworkConstructor.Structure.Layers
 
         public IEnumerable<INotInputNode> Nodes => NodeList;
 
+        public Layer()
+        {
+        }
+
         public Layer(IEnumerable<INotInputNode> nodes)
         {
             NodeList = nodes.ToList();
@@ -43,6 +47,11 @@ namespace NeuralNetworkConstructor.Structure.Layers
         }
 
         public Task Refresh() => Task.WhenAll(NodeList?.OfType<IRefreshable>().Select(n => n.Refresh()));
+
+        public void Add(INotInputNode node)
+        {
+            NodeList.Add(node);
+        }
 
     }
 }
