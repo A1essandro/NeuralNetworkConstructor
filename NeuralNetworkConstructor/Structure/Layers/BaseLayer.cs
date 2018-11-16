@@ -18,6 +18,8 @@ namespace NeuralNetworkConstructor.Structure.Layers
         [DataMember]
         protected List<TNode> NodeList = new List<TNode>();
 
+        public event Action<IEnumerable<double>> OnOutput;
+
         public IEnumerable<TNode> Nodes => NodeList.AsReadOnly();
 
         public BaseLayer()
@@ -59,6 +61,15 @@ namespace NeuralNetworkConstructor.Structure.Layers
         }
 
         public Task Refresh() => Task.WhenAll(NodeList.OfType<IRefreshable>().Select(n => n.Refresh()));
+
+        public async Task<IEnumerable<double>> Output()
+        {
+            var result = await Task.WhenAll(Nodes.Select(n => n.Output())).ConfigureAwait(false);
+
+            OnOutput?.Invoke(result);
+
+            return result;
+        }
 
     }
 }

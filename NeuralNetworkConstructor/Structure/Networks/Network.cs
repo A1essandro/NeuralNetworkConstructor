@@ -63,8 +63,7 @@ namespace NeuralNetworkConstructor.Networks
 
         public virtual async Task<IEnumerable<double>> Output()
         {
-            var tasks = OutputLayer.Nodes.Select(n => n.Output());
-            var result = await Task.WhenAll(tasks).ConfigureAwait(false);
+            var result = await OutputLayer.Output().ConfigureAwait(false);
 
             OnOutput?.Invoke(result);
 
