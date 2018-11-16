@@ -46,9 +46,9 @@ namespace Tests
                 .AddSynapses<Synapse>("1")
                 .Complete();
 
-            Assert.Equal(4, network.InputLayer.Nodes.Count);
+            Assert.Equal(4, network.InputLayer.Nodes.Count());
             Assert.Equal(2, network.Layers.Count);
-            Assert.Equal(5, network.Layers.First().Nodes.Count);
+            Assert.Equal(5, network.Layers.First().Nodes.Count());
         }
 
         [Fact]

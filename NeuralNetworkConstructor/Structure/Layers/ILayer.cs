@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace NeuralNetworkConstructor.Structure.Layers
 {
 
-    public interface ILayer<TNode> : IRefreshable
+    public interface ILayer<out TNode> : IRefreshable
         where TNode : INode
     {
 
-        IList<TNode> Nodes { get; }
+        IEnumerable<TNode> Nodes { get; }
 
     }
 

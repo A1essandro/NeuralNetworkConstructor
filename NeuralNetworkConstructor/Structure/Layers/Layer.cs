@@ -18,7 +18,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
         [DataMember]
         private IList<INotInputNode> _nodes = new List<INotInputNode>();
 
-        public IList<INotInputNode> Nodes => _nodes;
+        public IEnumerable<INotInputNode> Nodes => _nodes;
 
         public Layer()
         {

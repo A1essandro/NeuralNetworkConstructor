@@ -19,7 +19,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
         [DataMember]
         private IList<IMasterNode> _nodes = new List<IMasterNode>();
 
-        public IList<IMasterNode> Nodes => _nodes;
+        public IEnumerable<IMasterNode> Nodes => _nodes;
 
         public InputLayer(IList<IMasterNode> nodes)
         {
