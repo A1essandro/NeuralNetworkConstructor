@@ -2,6 +2,7 @@
 using NeuralNetworkConstructor.Structure.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -12,46 +13,29 @@ namespace NeuralNetworkConstructor.Structure.Layers
     [DataContract]
     [KnownType(typeof(Neuron))]
     [KnownType(typeof(Bias))]
-    public class Layer : ILayer<INotInputNode>
+    public class Layer : BaseLayer<INotInputNode>, ILayer<INotInputNode>
     {
-
-        [DataMember]
-        private List<INotInputNode> _nodes = new List<INotInputNode>();
-
-        public IEnumerable<INotInputNode> Nodes => _nodes;
 
         public Layer()
         {
         }
 
         public Layer(IEnumerable<INotInputNode> nodes)
+            : base(nodes)
         {
-            _nodes = nodes.ToList();
         }
 
         public Layer(params INotInputNode[] nodes)
-            : this(nodes.AsEnumerable())
+            : base(nodes.AsEnumerable())
         {
         }
 
-        public Layer(Func<INotInputNode> getter, ushort qty, params INotInputNode[] other)
+        public Layer(Func<INotInputNode> getter, int qty, params INotInputNode[] other)
+            : base(getter, qty, other)
         {
-            for (var i = 0; i < qty; i++)
-            {
-                _nodes.Add(getter());
-            }
-            foreach (var node in other)
-            {
-                _nodes.Add(node);
-            }
         }
 
-        public Task Refresh() => Task.WhenAll(_nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
-
-        public void Add(INotInputNode node)
-        {
-            _nodes.Add(node);
-        }
+        private static Type[] GetKnownType() => new Type[] { typeof(BaseLayer<INotInputNode>) };
 
     }
 }

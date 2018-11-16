@@ -13,34 +13,22 @@ namespace NeuralNetworkConstructor.Structure.Layers
     [DataContract]
     [KnownType(typeof(InputNode))]
     [KnownType(typeof(Bias))]
-    public class InputLayer : IInputLayer
+    public class InputLayer : BaseLayer<IMasterNode>, IInputLayer
     {
 
-        [DataMember]
-        private IList<IMasterNode> _nodes = new List<IMasterNode>();
-
-        public IEnumerable<IMasterNode> Nodes => _nodes;
-
-        public InputLayer(IList<IMasterNode> nodes)
+        public InputLayer(IEnumerable<IMasterNode> nodes)
+            : base(nodes)
         {
-            _nodes = nodes;
         }
 
         public InputLayer(params IMasterNode[] nodes)
-            : this(nodes.ToList())
+            : base(nodes.AsEnumerable())
         {
         }
 
-        public InputLayer(Func<IMasterNode> getter, ushort qty, params IMasterNode[] other)
+        public InputLayer(Func<IMasterNode> getter, int qty, params IMasterNode[] other)
+            : base(getter, qty, other)
         {
-            for (var i = 0; i < qty; i++)
-            {
-                _nodes.Add(getter());
-            }
-            foreach (var node in other)
-            {
-                _nodes.Add(node);
-            }
         }
 
         public event Action<IEnumerable<double>> OnInput;
@@ -55,12 +43,6 @@ namespace NeuralNetworkConstructor.Structure.Layers
             return Task.WhenAll(input.Select((value, index) => inputNodes[index].Input(value)));
         }
 
-        public Task Refresh() => Task.WhenAll(Nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
-
-        public void Add(IMasterNode node)
-        {
-            _nodes.Add(node);
-        }
-
+        private static Type[] GetKnownType() => new Type[] { typeof(BaseLayer<IMasterNode>) };
     }
 }
