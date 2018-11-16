@@ -16,9 +16,9 @@ namespace NeuralNetworkConstructor.Structure.Layers
     {
 
         [DataMember]
-        protected List<INotInputNode> NodeList = new List<INotInputNode>();
+        private List<INotInputNode> _nodes = new List<INotInputNode>();
 
-        public IEnumerable<INotInputNode> Nodes => NodeList;
+        public IEnumerable<INotInputNode> Nodes => _nodes;
 
         public Layer()
         {
@@ -26,7 +26,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
 
         public Layer(IEnumerable<INotInputNode> nodes)
         {
-            NodeList = nodes.ToList();
+            _nodes = nodes.ToList();
         }
 
         public Layer(params INotInputNode[] nodes)
@@ -38,19 +38,19 @@ namespace NeuralNetworkConstructor.Structure.Layers
         {
             for (var i = 0; i < qty; i++)
             {
-                NodeList.Add(getter());
+                _nodes.Add(getter());
             }
             foreach (var node in other)
             {
-                NodeList.Add(node);
+                _nodes.Add(node);
             }
         }
 
-        public Task Refresh() => Task.WhenAll(NodeList?.OfType<IRefreshable>().Select(n => n.Refresh()));
+        public Task Refresh() => Task.WhenAll(_nodes?.OfType<IRefreshable>().Select(n => n.Refresh()));
 
         public void Add(INotInputNode node)
         {
-            NodeList.Add(node);
+            _nodes.Add(node);
         }
 
     }
