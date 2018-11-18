@@ -21,28 +21,28 @@ namespace NeuralNetworkConstructor.Networks
         #region serialization data
 
         [DataMember]
-        private ICollection<ILayer<INotInputNode>> _layers;
+        private ICollection<IReadOnlyLayer<INotInputNode>> _layers;
         [DataMember]
-        private IInputLayer _inputLayer;
+        private IReadOnlyLayer<IMasterNode> _inputLayer;
 
         #endregion
 
         public event Action<IEnumerable<double>> OnOutput;
         public event Action<IEnumerable<double>> OnInput;
 
-        public IInputLayer InputLayer => _inputLayer;
-        public virtual ICollection<ILayer<INotInputNode>> Layers => _layers;
-        public virtual ILayer<INotInputNode> OutputLayer => Layers.Last();
+        public IReadOnlyLayer<IMasterNode> InputLayer => _inputLayer;
+        public virtual ICollection<IReadOnlyLayer<INotInputNode>> Layers => _layers;
+        public virtual IReadOnlyLayer<INotInputNode> OutputLayer => Layers.Last();
 
         #region ctors
 
         public Network()
         {
-            _layers = new List<ILayer<INotInputNode>>();
+            _layers = new List<IReadOnlyLayer<INotInputNode>>();
             _inputLayer = new InputLayer();
         }
 
-        public Network(IInputLayer inputLayer, ICollection<ILayer<INotInputNode>> layers)
+        public Network(IReadOnlyLayer<IMasterNode> inputLayer, ICollection<IReadOnlyLayer<INotInputNode>> layers)
         {
             Contract.Requires(layers != null, nameof(layers));
             Contract.Requires(layers.Count >= 1, nameof(layers));
@@ -52,7 +52,7 @@ namespace NeuralNetworkConstructor.Networks
             _layers = layers;
         }
 
-        public Network(IInputLayer inputLayer, params ILayer<INotInputNode>[] layers)
+        public Network(IReadOnlyLayer<IMasterNode> inputLayer, params IReadOnlyLayer<INotInputNode>[] layers)
             : this(inputLayer, layers.ToList())
         {
         }
@@ -83,7 +83,13 @@ namespace NeuralNetworkConstructor.Networks
             OnInput?.Invoke(input);
 
             Refresh();
-            InputLayer.Input(input);
+
+            var inputNodes = _inputLayer.Nodes.OfType<IInputNode>().Where(x => !(x is Bias)).ToArray();
+            var index = 0;
+            foreach (var value in input)
+            {
+                inputNodes[index++].Input(value);
+            }
         }
 
         public void Refresh() => Parallel.ForEach(Layers, l => l.Refresh());

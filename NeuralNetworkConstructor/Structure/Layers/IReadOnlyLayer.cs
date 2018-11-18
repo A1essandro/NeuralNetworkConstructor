@@ -11,6 +11,8 @@ namespace NeuralNetworkConstructor.Structure.Layers
 
         IEnumerable<TNode> Nodes { get; }
 
+        int NodesQuantity { get; }
+
     }
 
 }

@@ -9,11 +9,11 @@ namespace NeuralNetworkConstructor.Networks
     public interface INetwork : IRefreshable
     {
 
-        IInputLayer InputLayer { get; }
+        IReadOnlyLayer<IMasterNode> InputLayer { get; }
 
-        ICollection<ILayer<INotInputNode>> Layers { get; }
+        ICollection<IReadOnlyLayer<INotInputNode>> Layers { get; }
 
-        ILayer<INotInputNode> OutputLayer { get; }
+        IReadOnlyLayer<INotInputNode> OutputLayer { get; }
 
     }
 

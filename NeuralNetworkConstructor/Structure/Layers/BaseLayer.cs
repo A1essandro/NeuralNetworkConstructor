@@ -11,7 +11,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
 {
 
     [DataContract]
-    public abstract class BaseLayer<TNode> : ILayer<TNode>
+    public abstract class BaseLayer<TNode> : ILayer<TNode>, IReadOnlyLayer<TNode>
         where TNode : INode
     {
 
@@ -21,6 +21,8 @@ namespace NeuralNetworkConstructor.Structure.Layers
         public event Action<IEnumerable<double>> OnOutput;
 
         public IEnumerable<TNode> Nodes => NodeList.AsReadOnly();
+
+        public int NodesQuantity => NodeList.Count;
 
         public BaseLayer()
         {
@@ -38,14 +40,14 @@ namespace NeuralNetworkConstructor.Structure.Layers
         {
         }
 
-        public BaseLayer(Func<TNode> getter, int qty, params TNode[] other)
+        public BaseLayer(Func<TNode> factory, int qty, params TNode[] other)
         {
-            Contract.Assert(getter != null, nameof(getter));
+            Contract.Assert(factory != null, nameof(factory));
             Contract.Assert(qty >= 0, nameof(qty));
 
             for (var i = 0; i < qty; i++)
             {
-                NodeList.Add(getter());
+                NodeList.Add(factory());
             }
             foreach (var node in other)
             {
