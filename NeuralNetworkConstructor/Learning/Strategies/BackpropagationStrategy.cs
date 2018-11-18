@@ -50,7 +50,7 @@ namespace NeuralNetworkConstructor.Learning.Strategies
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static async Task CalculateSigmasForOutputLayer(List<NeuronSigma> sigmas, ILayer<INotInputNode> layer, double force, double[] output, double[] expectationArr)
+        private static async Task CalculateSigmasForOutputLayer(List<NeuronSigma> sigmas, IReadOnlyLayer<INotInputNode> layer, double force, double[] output, double[] expectationArr)
         {
             var oIndex = 0;
             foreach (var node in layer.Nodes.OfType<Neuron>())

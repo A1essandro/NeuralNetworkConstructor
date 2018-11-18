@@ -71,7 +71,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
-            _currentNetwork.InputLayer.AddNode(node);
+            ((ILayer<IMasterNode>)_currentNetwork.InputLayer).AddNode(node);
 
             return this;
         }
@@ -90,7 +90,7 @@ namespace NeuralNetworkConstructor.Constructor
         public NetworkConstructor<TNetwork> AddInputNode(string identity, IInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
-            _currentNetwork.InputLayer.AddNode(node);
+            ((ILayer<IMasterNode>)_currentNetwork.InputLayer).AddNode(node);
             return this;
         }
 
