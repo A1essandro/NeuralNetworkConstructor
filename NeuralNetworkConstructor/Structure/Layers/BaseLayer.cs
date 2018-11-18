@@ -53,11 +53,18 @@ namespace NeuralNetworkConstructor.Structure.Layers
             }
         }
 
-        public void Add(TNode node)
+        public void AddNode(TNode node)
         {
             Contract.Assert(node != null, nameof(node));
 
             NodeList.Add(node);
+        }
+
+        public bool RemoveNode(TNode node)
+        {
+            Contract.Assert(node != null, nameof(node));
+
+            return NodeList.Remove(node);
         }
 
         public void Refresh()

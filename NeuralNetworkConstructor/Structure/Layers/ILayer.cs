@@ -6,7 +6,9 @@ namespace NeuralNetworkConstructor.Structure.Layers
         where TNode : INode
     {
 
-        void Add(TNode node);
+        void AddNode(TNode node);
+
+        bool RemoveNode(TNode node);
 
     }
 }

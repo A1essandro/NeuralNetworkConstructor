@@ -40,7 +40,7 @@ namespace NeuralNetworkConstructor.Constructor
 
             if (withBias)
             {
-                _currentLayer.Add(new Bias());
+                _currentLayer.AddNode(new Bias());
             }
 
             return this;
@@ -53,7 +53,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Add(node);
+            _currentLayer.AddNode(node);
 
             return this;
         }
@@ -61,7 +61,7 @@ namespace NeuralNetworkConstructor.Constructor
         public NetworkConstructor<TNetwork> AddNode(string identity, INotInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Add(node);
+            _currentLayer.AddNode(node);
 
             return this;
         }
@@ -71,7 +71,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             var node = new TNode();
             _tryAddToDictionary(_nodes, identity, node);
-            _currentNetwork.InputLayer.Add(node);
+            _currentNetwork.InputLayer.AddNode(node);
 
             return this;
         }
@@ -90,7 +90,7 @@ namespace NeuralNetworkConstructor.Constructor
         public NetworkConstructor<TNetwork> AddInputNode(string identity, IInputNode node)
         {
             _tryAddToDictionary(_nodes, identity, node);
-            _currentNetwork.InputLayer.Add(node);
+            _currentNetwork.InputLayer.AddNode(node);
             return this;
         }
 
@@ -101,7 +101,7 @@ namespace NeuralNetworkConstructor.Constructor
             node.Function = func;
             _currentNode = node;
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Add(node);
+            _currentLayer.AddNode(node);
 
             return this;
         }
@@ -110,7 +110,7 @@ namespace NeuralNetworkConstructor.Constructor
         {
             _currentNode = node;
             _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.Add(node);
+            _currentLayer.AddNode(node);
 
             return this;
         }
