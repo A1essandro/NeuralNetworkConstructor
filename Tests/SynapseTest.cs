@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using NeuralNetworkConstructor.Structure.Synapses.Generators;
 
 namespace Tests
 {
@@ -23,11 +24,9 @@ namespace Tests
         [Fact]
         public void TestConstructorWithRandomWeight()
         {
-            var synapse1 = new Synapse(new Bias());
-            var synapse2 = new Synapse(new Bias());
+            var synapse = new Synapse();
 
-            Assert.NotEqual(synapse2.Weight, synapse1.Weight);
-            Assert.True(Math.Abs(synapse1.Weight) <= 1);
+            Assert.Equal(0, synapse.Weight);
         }
 
         [Fact]
@@ -40,8 +39,8 @@ namespace Tests
                 new Neuron(new Rectifier()), new Neuron(new Rectifier())
             });
 
-            var rand = new Random();
-            Synapse.Generator.EachToEach(master, slave, () => rand.NextDouble() - 0.5);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(master, slave);
 
             Assert.Equal(2, (slave.Nodes.First() as Neuron).Synapses.Count);
         }

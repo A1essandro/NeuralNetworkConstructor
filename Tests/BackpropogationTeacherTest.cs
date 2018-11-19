@@ -12,6 +12,7 @@ using Xunit;
 using NeuralNetworkConstructor.Learning.Samples;
 using NeuralNetworkConstructor.Learning.Strategies;
 using System.Threading;
+using NeuralNetworkConstructor.Structure.Synapses.Generators;
 
 namespace Tests
 {
@@ -27,9 +28,10 @@ namespace Tests
             IInputLayer inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
             var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
-
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
             var samples = new List<ILearningSample<double, double>>
@@ -81,8 +83,9 @@ namespace Tests
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
             var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
 
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
             var samples = new List<ILearningSample<double, double>>
@@ -114,8 +117,9 @@ namespace Tests
             var innerLayer = new Layer(new Neuron(new Rectifier()));
             var outputLayer = new Layer(new Neuron(new Rectifier()));
 
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 

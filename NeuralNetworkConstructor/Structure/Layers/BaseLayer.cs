@@ -11,7 +11,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
 {
 
     [DataContract]
-    public abstract class BaseLayer<TNode> : ILayer<TNode>, IReadOnlyLayer<TNode>
+    public abstract class BaseLayer<TNode> : ILayer<TNode>
         where TNode : INode
     {
 

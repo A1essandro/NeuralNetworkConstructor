@@ -62,7 +62,7 @@ namespace Tests
             neuron.AddSynapse(new Synapse(input, 1));
 
             var context = new Context((Func<double, double>)null, 1);
-            context.AddSynapse(new Synapse(neuron));
+            context.AddSynapse(new Synapse(neuron, new Random().NextDouble()));
 
             input.Input(1);
             await neuron.Output(); //Direct call

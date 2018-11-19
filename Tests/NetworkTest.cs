@@ -4,6 +4,7 @@ using NeuralNetworkConstructor.Structure.Layers;
 using NeuralNetworkConstructor.Structure.Nodes;
 using NeuralNetworkConstructor.Structure.Summators;
 using NeuralNetworkConstructor.Structure.Synapses;
+using NeuralNetworkConstructor.Structure.Synapses.Generators;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,8 +21,9 @@ namespace Tests
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
             var outputLayer = new Layer(() => new Neuron(new Rectifier()), 2);
 
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>();
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
@@ -42,7 +44,8 @@ namespace Tests
             var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var outputLayer = new Layer(new Neuron(new Gaussian(), new EuclidRangeSummator()));
 
-            Synapse.Generator.EachToEach(inputLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>();
+            generator.Generate(inputLayer, outputLayer);
 
             var network = new Network(inputLayer, outputLayer);
 
@@ -66,8 +69,11 @@ namespace Tests
             var inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Rectifier()), 3, new Bias());
             var outputLayer = new Layer(() => new Neuron(new Logistic()), 2);
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+
+            var generator = new EachToEachSynapseGenerator<Synapse>();
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
+
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
             var clone = Network.Clone(network);
