@@ -14,7 +14,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
         private readonly int _w;
         private readonly int _h;
 
-        public new TNode[,] Nodes { get; private set; }
+        public TNode[,] Projection { get; private set; }
 
         public Layer2D(IEnumerable<TNode> nodes, int sizeW, int sizeH)
             : base(nodes)
@@ -24,7 +24,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
             _w = sizeW;
             _h = sizeH;
 
-            Nodes = DistributeNodesToArray(nodes.ToArray(), _w, _h);
+            Projection = DistributeNodesToArray(nodes.ToArray(), _w, _h);
         }
 
         public Layer2D(Func<TNode> factory, int qty, int sizeW, int sizeH, params TNode[] other)
@@ -33,7 +33,7 @@ namespace NeuralNetworkConstructor.Structure.Layers
             _w = sizeW;
             _h = sizeH;
 
-            Nodes = DistributeNodesToArray(NodeList.ToArray(), _w, _h);
+            Projection = DistributeNodesToArray(NodeList.ToArray(), _w, _h);
         }
 
         private static TNode[,] DistributeNodesToArray(TNode[] nodes, int sizeW, int sizeH)
