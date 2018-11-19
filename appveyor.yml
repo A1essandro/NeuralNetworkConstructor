@@ -1,4 +1,4 @@
-version: 0.3.{build}
+version: 0.3.{build}-alpha
 image: Visual Studio 2017
 dotnet_csproj:
   patch: true
@@ -25,4 +25,4 @@ deploy:
   artifact: /.*\.nupkg/
   on:
     #appveor_repo_tag: true
-    branch: master
+    branch: 0.3
