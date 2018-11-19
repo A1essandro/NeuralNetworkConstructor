@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using NeuralNetworkConstructor.Structure.Layers;
 using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.Synapses.Factory;
+using NeuralNetworkConstructor.Structure.Synapses;
 
-namespace NeuralNetworkConstructor.Structure.Synapses.Generators
+namespace NeuralNetworkConstructor.Constructor.Generators
 {
     public class EachToEachSynapseGenerator<TSynapse> : ISynapseGenerator<TSynapse>
         where TSynapse : ISynapse, new()

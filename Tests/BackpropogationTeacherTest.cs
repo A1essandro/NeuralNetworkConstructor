@@ -12,7 +12,7 @@ using Xunit;
 using NeuralNetworkConstructor.Learning.Samples;
 using NeuralNetworkConstructor.Learning.Strategies;
 using System.Threading;
-using NeuralNetworkConstructor.Structure.Synapses.Generators;
+using NeuralNetworkConstructor.Constructor.Generators;
 
 namespace Tests
 {

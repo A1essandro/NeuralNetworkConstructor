@@ -4,7 +4,7 @@ using NeuralNetworkConstructor.Structure.Layers;
 using NeuralNetworkConstructor.Structure.Nodes;
 using NeuralNetworkConstructor.Structure.Summators;
 using NeuralNetworkConstructor.Structure.Synapses;
-using NeuralNetworkConstructor.Structure.Synapses.Generators;
+using NeuralNetworkConstructor.Constructor.Generators;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;

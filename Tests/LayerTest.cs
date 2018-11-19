@@ -9,7 +9,7 @@ using NeuralNetworkConstructor.Structure.Layers.Projections;
 using NeuralNetworkConstructor.Structure.Synapses;
 using NeuralNetworkConstructor.Networks;
 using System.Threading.Tasks;
-using NeuralNetworkConstructor.Structure.Synapses.Generators;
+using NeuralNetworkConstructor.Constructor.Generators;
 
 namespace Tests
 {
