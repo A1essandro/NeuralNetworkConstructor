@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning
 {
-    public class Learning<TNetwork> : ILearning<TNetwork>
+    public class Learning<TNetwork> : ILearning<TNetwork, ILearningSample>
         where TNetwork : INetwork
     {
 
         public LearningSettings Settings { get; }
 
         private readonly TNetwork _network;
-        private readonly ILearningStrategy<TNetwork> _strategy;
+        private readonly ILearningStrategy<TNetwork, ILearningSample> _strategy;
         private readonly LearningSettings _settings;
 
-        public Learning(TNetwork network, ILearningStrategy<TNetwork> strategy, LearningSettings settings)
+        public Learning(TNetwork network, ILearningStrategy<TNetwork, ILearningSample> strategy, LearningSettings settings)
         {
             _network = network;
             _strategy = strategy;
