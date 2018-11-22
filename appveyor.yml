@@ -25,4 +25,4 @@ deploy:
   artifact: /.*\.nupkg/
   on:
     #appveor_repo_tag: true
-    branch: master
+    branch: 0.3
