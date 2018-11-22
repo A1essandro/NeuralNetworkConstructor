@@ -15,7 +15,7 @@ namespace NeuralNetworkConstructor.Networks
     [DataContract]
     [KnownType(typeof(InputLayer))]
     [KnownType(typeof(Layer))]
-    public class Network : INetwork<double, double>
+    public class Network : INetwork
     {
 
         #region serialization data
