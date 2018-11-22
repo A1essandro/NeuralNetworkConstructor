@@ -9,25 +9,24 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning
 {
-    public class Learning<TNetwork, TSample> : ILearning<TNetwork, TSample>
+    public class Learning<TNetwork> : ILearning<TNetwork>
         where TNetwork : INetwork
-        where TSample : ISample
     {
 
         public LearningSettings Settings { get; }
 
         private readonly TNetwork _network;
-        private readonly ILearningStrategy<TNetwork, TSample> _strategy;
+        private readonly ILearningStrategy<TNetwork> _strategy;
         private readonly LearningSettings _settings;
 
-        public Learning(TNetwork network, ILearningStrategy<TNetwork, TSample> strategy, LearningSettings settings)
+        public Learning(TNetwork network, ILearningStrategy<TNetwork> strategy, LearningSettings settings)
         {
             _network = network;
             _strategy = strategy;
             _settings = settings;
         }
 
-        public async Task Learn(IEnumerable<TSample> samples, CancellationToken ct = default(CancellationToken))
+        public async Task Learn(IEnumerable<ILearningSample> samples, CancellationToken ct = default(CancellationToken))
         {
             var theta = _settings.Theta;
             var random = new Random();
@@ -53,7 +52,7 @@ namespace NeuralNetworkConstructor.Learning
             }
         }
 
-        private async Task _learnEpoch(IEnumerable<TSample> samples, double theta)
+        private async Task _learnEpoch(IEnumerable<ILearningSample> samples, double theta)
         {
             foreach (var sample in samples)
             {

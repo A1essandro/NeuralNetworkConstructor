@@ -5,12 +5,11 @@ using NeuralNetworkConstructor.Networks;
 
 namespace NeuralNetworkConstructor.Learning.Strategies
 {
-    public abstract class LearningStrategy<TNetwork, TSample> : ILearningStrategy<TNetwork, TSample>
+    public abstract class LearningStrategy<TNetwork> : ILearningStrategy<TNetwork>
         where TNetwork : INetwork
-        where TSample : ISample
     {
 
-        public abstract Task LearnSample(TNetwork network, TSample sample, double theta);
+        public abstract Task LearnSample(TNetwork network, ILearningSample sample, double theta);
 
     }
 }

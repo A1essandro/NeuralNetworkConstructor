@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Learning.Samples
 {
-    public interface ILearningSample<TInput, TOutput> : ISample
+    public interface ILearningSample : ISample
     {
 
-        IEnumerable<TInput> Input { get; }
+        IEnumerable<double> Input { get; }
 
-        IEnumerable<TOutput> Output { get; }
+        IEnumerable<double> Output { get; }
 
     }
 }

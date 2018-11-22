@@ -4,12 +4,11 @@ using NeuralNetworkConstructor.Networks;
 
 namespace NeuralNetworkConstructor.Learning.Strategies
 {
-    public interface ILearningStrategy<in TNetwork, in TSample>
+    public interface ILearningStrategy<in TNetwork>
         where TNetwork : INetwork
-        where TSample : ISample
     {
 
-        Task LearnSample(TNetwork network, TSample sample, double theta);
+        Task LearnSample(TNetwork network, ILearningSample sample, double theta);
 
     }
 }

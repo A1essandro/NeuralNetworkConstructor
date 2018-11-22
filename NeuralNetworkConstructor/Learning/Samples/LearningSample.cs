@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Learning.Samples
 {
-    public class LearningSample<TInput, TOutput> : ILearningSample<TInput, TOutput>
+    public class LearningSample : ILearningSample
     {
 
-        public IEnumerable<TInput> Input { get; }
+        public IEnumerable<double> Input { get; }
 
-        public IEnumerable<TOutput> Output { get; }
+        public IEnumerable<double> Output { get; }
 
-        public LearningSample(IEnumerable<TInput> input, IEnumerable<TOutput> output)
+        public LearningSample(IEnumerable<double> input, IEnumerable<double> output)
         {
             Input = input;
             Output = output;

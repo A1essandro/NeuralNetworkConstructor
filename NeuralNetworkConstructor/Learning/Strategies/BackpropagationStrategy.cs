@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning.Strategies
 {
-    public class BackpropagationStrategy : LearningStrategy<INetwork<double, double>, ILearningSample<double, double>>
+    public class BackpropagationStrategy : LearningStrategy<INetwork<double, double>>
     {
 
-        public override Task LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample, double theta)
+        public override Task LearnSample(INetwork<double, double> network, ILearningSample sample, double theta)
         {
             return _teach(network, sample.Input, sample.Output, theta);
         }
