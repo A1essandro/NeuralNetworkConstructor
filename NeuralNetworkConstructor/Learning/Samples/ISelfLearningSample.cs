@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 namespace NeuralNetworkConstructor.Learning.Samples
 {
-    public interface ISelfLearningSample<out T> : ISample
+    public interface ISelfLearningSample : ISample
     {
 
-        IEnumerable<T> Input { get; }
+        IEnumerable<double> Input { get; }
 
     }
 }
