@@ -6,8 +6,7 @@ using NeuralNetworkConstructor.Networks;
 
 namespace NeuralNetworkConstructor.Learning
 {
-    public interface ILearning<TNetwork, TSample>
-        where TNetwork : INetwork
+    public interface ILearning<in TSample>
         where TSample : ISample
     {
         Task Learn(IEnumerable<TSample> samples, CancellationToken ct = default(CancellationToken));

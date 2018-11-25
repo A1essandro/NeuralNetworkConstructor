@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning
 {
-    public class Learning<TNetwork> : ILearning<TNetwork, ILearningSample>
+    public class Learning<TNetwork> : ILearning<ILearningSample>
         where TNetwork : INetwork
     {
 
