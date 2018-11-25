@@ -80,7 +80,7 @@ namespace Tests
                 new LearningSample(new double[] { 1, 1 }, new double[] { 0 })
             };
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA };
+            var settings = new LearningSettings { EpochRepeats = 10000, InitialTheta = THETA };
             var learning = new Learning<Network>(network, strategy, settings);
             await learning.Learn(samples);
 

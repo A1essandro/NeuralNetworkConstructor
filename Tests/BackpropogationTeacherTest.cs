@@ -28,7 +28,7 @@ namespace Tests
             IInputLayer inputLayer = new InputLayer(() => new InputNode(), 2, new Bias());
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
             var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
-            
+
             var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
             generator.Generate(inputLayer, innerLayer);
             generator.Generate(innerLayer, outputLayer);
@@ -46,7 +46,13 @@ namespace Tests
             var beforeLearning = (await network.Output()).First();
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9999, ShuffleEveryEpoch = true };
+            var settings = new LearningSettings
+            {
+                EpochRepeats = 10000,
+                InitialTheta = THETA,
+                ThetaFactorPerEpoch = epoch => 0.9999,
+                ShuffleEveryEpoch = true
+            };
             var learning = new Learning<Network>(network, strategy, settings);
             await learning.Learn(samples);
 
@@ -97,7 +103,7 @@ namespace Tests
             };
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 20000 };
+            var settings = new LearningSettings { EpochRepeats = 20000 };
             var learning = new Learning<Network>(network, strategy, settings);
 
             var cts = new CancellationTokenSource();
@@ -129,7 +135,12 @@ namespace Tests
             };
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9995 };
+            var settings = new LearningSettings
+            {
+                EpochRepeats = 10000,
+                InitialTheta = THETA,
+                ThetaFactorPerEpoch = epoch => 0.9995
+            };
             var learning = new Learning<Network>(network, strategy, settings);
 
             await learning.Learn(samples);
