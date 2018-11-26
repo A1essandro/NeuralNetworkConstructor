@@ -53,7 +53,7 @@ namespace Tests
                 ThetaFactorPerEpoch = epoch => 0.9999,
                 ShuffleEveryEpoch = true
             };
-            var learning = new Learning<Network>(network, strategy, settings);
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
             await learning.Learn(samples);
 
             network.Input(new double[] { 1, 0 });
@@ -104,7 +104,7 @@ namespace Tests
 
             var strategy = new BackpropagationStrategy();
             var settings = new LearningSettings { EpochRepeats = 20000 };
-            var learning = new Learning<Network>(network, strategy, settings);
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
 
             var cts = new CancellationTokenSource();
             var task = Task.Run(async () =>
@@ -141,7 +141,7 @@ namespace Tests
                 InitialTheta = THETA,
                 ThetaFactorPerEpoch = epoch => 0.9995
             };
-            var learning = new Learning<Network>(network, strategy, settings);
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
 
             await learning.Learn(samples);
 
