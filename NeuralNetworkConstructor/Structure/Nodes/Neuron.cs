@@ -4,6 +4,7 @@ using NeuralNetworkConstructor.Structure.Summators;
 using NeuralNetworkConstructor.Structure.Synapses;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -64,7 +65,6 @@ namespace NeuralNetworkConstructor.Structure.Nodes
 
         #endregion
 
-        public event Action<Neuron> OnOutputCalculated;
         public event Action<double> OnOutput;
 
         #region ctors
@@ -104,7 +104,6 @@ namespace NeuralNetworkConstructor.Structure.Nodes
             _calculatedOutput = _actFunction.GetEquation(sum);
             _waitHandle.Set();
 
-            OnOutputCalculated?.Invoke(this);
             OnOutput?.Invoke(_calculatedOutput.Value);
 
             return _calculatedOutput.Value;
@@ -118,6 +117,8 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// <param name="synapse"></param>
         public void AddSynapse(ISynapse synapse)
         {
+            Contract.Requires(synapse != null, nameof(synapse));
+
             _synapses.Add(synapse);
         }
 

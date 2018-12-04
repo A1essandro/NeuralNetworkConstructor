@@ -38,23 +38,6 @@ namespace Tests
         }
 
         [Fact]
-        public async Task TestNeuronEvent()
-        {
-            var synapse = new Synapse(new Bias(), 0.5);
-            var neuron = new Neuron(new Logistic(), new[] { synapse });
-
-            var testBool = false;
-            var testDouble = double.MinValue;
-
-            neuron.OnOutputCalculated += (n) => { testBool = true; };
-            neuron.OnOutputCalculated += async (n) => { testDouble = await n.Output(); };
-            var output = await neuron.Output();
-
-            Assert.True(testBool);
-            Assert.Equal(output, testDouble);
-        }
-
-        [Fact]
         public async Task TestContext()
         {
             var neuron = new Neuron(new Rectifier());
