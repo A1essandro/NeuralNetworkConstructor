@@ -17,15 +17,24 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// </summary>
         ICollection<ISynapse> Synapses { get; }
 
-        ISummator Summator { get; }
-
         /// <summary>
         /// Adding synapse from master node to this node
         /// </summary>
         /// <param name="synapse"></param>
         void AddSynapse(ISynapse synapse);
 
+        /// <summary>
+        /// Activation function
+        /// </summary>
+        /// <value></value>
         IActivationFunction Function { get; set; }
 
+        /// <summary>
+        /// Summator
+        /// </summary>
+        /// <value></value>
+        ISummator Summator { get; set; }
+
     }
+
 }

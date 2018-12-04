@@ -29,7 +29,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// </summary>
         public ICollection<ISynapse> Synapses { get; }
 
-        public ISummator Summator { get; }
+        public ISummator Summator { get; set; }
 
         /// <summary>
         /// Delay between input and appropriate output

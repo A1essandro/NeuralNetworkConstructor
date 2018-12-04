@@ -25,10 +25,10 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         #region serialization data
 
         [DataMember]
-        private readonly ISummator _summator;
+        private readonly ICollection<ISynapse> _synapses = new List<ISynapse>();
 
         [DataMember]
-        private readonly ICollection<ISynapse> _synapses = new List<ISynapse>();
+        private ISummator _summator;
 
         [DataMember]
         private IActivationFunction _actFunction;
@@ -50,7 +50,11 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// </summary>
         public ICollection<ISynapse> Synapses => _synapses;
 
-        public ISummator Summator => _summator;
+        public ISummator Summator
+        {
+            get => _summator;
+            set => _summator = value;
+        }
 
         public IActivationFunction Function
         {
