@@ -40,18 +40,20 @@ namespace Tests
         [Fact]
         public async Task TestContext()
         {
-            var neuron = new Neuron(new Rectifier());
+            var neuron = new Neuron();
             var input = new InputNode();
             neuron.AddSynapse(new Synapse(input, 1));
 
-            var context = new Context((Func<double, double>)null, 1);
-            context.AddSynapse(new Synapse(neuron));
+            var context = new Context(null, 1);
+            var synapse = new Synapse(neuron);
+            context.AddSynapse(synapse);
 
             input.Input(1);
-            await neuron.Output(); //Direct call
+            var secondCallResult = await synapse.Output(); //Direct call
             Assert.Equal(0, await context.Output());
-            await neuron.Output(); //Direct call
-            Assert.Equal(1, await context.Output());
+            Assert.Equal(0, await context.Output());
+            context.Refresh();
+            Assert.Equal(secondCallResult, await context.Output());
         }
 
         [Fact]

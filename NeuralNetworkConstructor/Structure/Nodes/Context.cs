@@ -14,22 +14,12 @@ namespace NeuralNetworkConstructor.Structure.Nodes
     /// <summary>
     /// Node with memory for Elman networks or Jordan networks
     /// </summary>
-    public class Context : ISlaveNode
+    public class Context : Neuron
     {
 
-        private readonly Func<double, double> _activationFunction;
-        private readonly Queue<double[]> _memory;
-        private INode[] _masterNodes;
-        private double[] _currentMemoryChunk;
+        private readonly Queue<double> _memory;
 
-        public event Action<double> OnOutput;
-
-        /// <summary>
-        /// Collection of synapses to this node
-        /// </summary>
-        public ICollection<ISynapse> Synapses { get; }
-
-        public ISummator Summator { get; set; }
+        private double _currentValue;
 
         /// <summary>
         /// Delay between input and appropriate output
@@ -43,73 +33,32 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// <param name="delay"><see cref="Delay"/></param>
         /// <param name="synapses"><see cref="Synapses"/> Create empty list if null</param>
         /// <param name="summator"></param>
-        public Context(Func<double, double> function, ushort delay = 1,
-            ICollection<ISynapse> synapses = null, ISummator summator = null)
+        public Context(IActivationFunction function = null, ushort delay = 1, ICollection<ISynapse> synapses = null, ISummator summator = null)
+            : base(function ?? Neuron.DefaultActivationFunction, synapses ?? new List<ISynapse>(), summator ?? Neuron.DefaultSummator)
         {
-            _activationFunction = function;
-            Synapses = synapses;
-            _memory = new Queue<double[]>();
+            _memory = new Queue<double>(Enumerable.Repeat(0.0, delay));
             Delay = delay;
-            Summator = summator ?? new Summator();
-            Synapses = synapses ?? new List<ISynapse>();
-            _calculateMasterNeurons();
         }
 
         /// <summary>
         /// Calculates output with delay <see cref="Delay"/>
         /// </summary>
         /// <returns></returns>
-        public async Task<double> Output()
+        public override async Task<double> Output()
         {
-            double output = 0;
-
-            foreach (var mNode in _masterNodes.Where(n => !(n is IRefreshable<INode>)))
+            if (_memory.Count < Delay)
             {
-                //TODO: if master node have master-relation only with Contexts nodes - this line out of reach:
-                _currentMemoryChunk[Array.IndexOf(_masterNodes, mNode)] = await mNode.Output();
+                _memory.Enqueue(await base.Output());
+                _currentValue = _memory.Dequeue(); //TODO: not correct
             }
 
-            if (_memory.Count == Delay)
-            {
-                output = _memory.Dequeue().Sum();
-            }
-            _memory.Enqueue(_currentMemoryChunk);
-
-            _currentMemoryChunk = new double[_masterNodes.Length];
-            var result = _activationFunction?.Invoke(output) ?? output;
-            OnOutput?.Invoke(result);
-
-            return result;
+            return _currentValue;
         }
 
-        /// <summary>
-        /// Adding synapse from master node to this node
-        /// </summary>
-        /// <param name="synapse">Synapse adding to synapses <see cref="Synapses"/></param>
-        public void AddSynapse(ISynapse synapse)
+        public override void Refresh()
         {
-            Contract.Requires(synapse != null, nameof(synapse));
-
-            Synapses.Add(synapse);
-            _calculateMasterNeurons();
-        }
-
-        public IActivationFunction Function { get; set; }
-
-        private void _onMasterNeuronCalculated(INode neuron)
-        {
-            var index = Array.IndexOf(_masterNodes, neuron);
-            _currentMemoryChunk[index] = neuron.Output().Result;
-        }
-
-        private void _calculateMasterNeurons()
-        {
-            _masterNodes = Synapses.Select(s => s.MasterNode).ToArray();
-            foreach (var neuron in _masterNodes.Where(n => n is IRefreshable<INode>))
-            {
-                (neuron as IRefreshable<INode>).OnOutputCalculated += _onMasterNeuronCalculated;
-            }
-            _currentMemoryChunk = new double[_masterNodes.Length];
+            base.Refresh();
+            _currentValue = _memory.Dequeue();
         }
 
     }

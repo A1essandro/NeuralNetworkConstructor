@@ -36,9 +36,9 @@ namespace NeuralNetworkConstructor.Structure.Nodes
 
         #endregion
 
-        private static IActivationFunction DefaultActivationFunction = new AsIs();
+        protected static IActivationFunction DefaultActivationFunction = new AsIs();
 
-        private static ISummator DefaultSummator = new Summator();
+        protected static ISummator DefaultSummator = new Summator();
 
         private double? _calculatedOutput;
 
@@ -86,11 +86,18 @@ namespace NeuralNetworkConstructor.Structure.Nodes
             _synapses = synapses;
         }
 
+        public Neuron(IActivationFunction function, ICollection<ISynapse> synapses, ISummator summator)
+            : this(function)
+        {
+            _synapses = synapses;
+            _summator = summator;
+        }
+
         #endregion
 
         #region IOutput
 
-        public async Task<double> Output()
+        public virtual async Task<double> Output()
         {
             _waitHandle.WaitOne();
             if (_calculatedOutput != null)
@@ -115,7 +122,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// Adding synapse from master node to this node
         /// </summary>
         /// <param name="synapse"></param>
-        public void AddSynapse(ISynapse synapse)
+        public virtual void AddSynapse(ISynapse synapse)
         {
             Contract.Requires(synapse != null, nameof(synapse));
 
@@ -126,7 +133,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// Zeroing of output calculation
         /// Should be called after entry new Input data
         /// </summary>
-        public void Refresh()
+        public virtual void Refresh()
         {
             _calculatedOutput = null;
         }
