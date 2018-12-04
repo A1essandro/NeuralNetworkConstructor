@@ -45,7 +45,7 @@ namespace Tests
             neuron.AddSynapse(new Synapse(input, 1));
 
             var context = new Context(null, 1);
-            var synapse = new Synapse(neuron);
+            var synapse = new Synapse(neuron, 0.5);
             context.AddSynapse(synapse);
 
             input.Input(1);

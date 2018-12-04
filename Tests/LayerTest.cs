@@ -9,6 +9,7 @@ using NeuralNetworkConstructor.Structure.Layers.Projections;
 using NeuralNetworkConstructor.Structure.Synapses;
 using NeuralNetworkConstructor.Networks;
 using System.Threading.Tasks;
+using NeuralNetworkConstructor.Constructor.Generators;
 
 namespace Tests
 {
@@ -59,9 +60,10 @@ namespace Tests
             var inner1 = new Layer(() => new Neuron(new Rectifier()), inner1Qty, new Bias());
             var outer = new Layer(() => new Neuron(new Rectifier()), outerQty);
 
-            Synapse.Generator.EachToEach(input, inner0);
-            Synapse.Generator.EachToEach(inner0, inner1);
-            Synapse.Generator.EachToEach(inner1, outer);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(input, inner0);
+            generator.Generate(inner0, inner1);
+            generator.Generate(inner1, outer);
 
             var network = new Network(input, inner0, inner1, outer);
             network.Input(new double[] { 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1 });

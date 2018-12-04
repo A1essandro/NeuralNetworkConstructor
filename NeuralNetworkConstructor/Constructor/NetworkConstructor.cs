@@ -79,7 +79,7 @@ namespace NeuralNetworkConstructor.Constructor
         public NetworkConstructor<TNetwork> AddInputNodes<TNode>(params string[] identities)
             where TNode : IInputNode, new()
         {
-            foreach(var identity in identities)
+            foreach (var identity in identities)
             {
                 AddInputNode<TNode>(identity);
             }
@@ -147,12 +147,14 @@ namespace NeuralNetworkConstructor.Constructor
             }
             else
             {
+                var rand = new Random();
                 var layer = _layers[masterNodesLayer] as ILayer<INotInputNode>;
                 foreach (var masterNode in layer.Nodes)
                 {
                     var synapse = new TSynapse
                     {
-                        MasterNode = masterNode
+                        MasterNode = masterNode,
+                        Weight = (rand.NextDouble() - 0.5) * 2
                     };
 
                     _currentNode.Synapses.Add(synapse);

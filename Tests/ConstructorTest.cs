@@ -72,16 +72,16 @@ namespace Tests
                 .AddSynapses<Synapse>("1")
                 .Complete();
 
-            var samples = new List<ILearningSample<double, double>>
+            var samples = new List<ILearningSample>
             {
-                new LearningSample<double, double>(new double[] { 0, 1 }, new double[] { 1 }),
-                new LearningSample<double, double>(new double[] { 1, 0 }, new double[] { 1 }),
-                new LearningSample<double, double>(new double[] { 0, 0 }, new double[] { 0 }),
-                new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
+                new LearningSample(new double[] { 0, 1 }, new double[] { 1 }),
+                new LearningSample(new double[] { 1, 0 }, new double[] { 1 }),
+                new LearningSample(new double[] { 0, 0 }, new double[] { 0 }),
+                new LearningSample(new double[] { 1, 1 }, new double[] { 0 })
             };
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA };
-            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+            var settings = new LearningSettings { EpochRepeats = 10000, InitialTheta = THETA };
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
             await learning.Learn(samples);
 
             network.Input(new double[] { 1, 0 });

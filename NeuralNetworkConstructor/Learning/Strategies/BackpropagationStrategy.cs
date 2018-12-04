@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning.Strategies
 {
-    public class BackpropagationStrategy : LearningStrategy<INetwork<double, double>, ILearningSample<double, double>>
+    public class BackpropagationStrategy : ILearningStrategy<INetwork, ILearningSample>
     {
 
-        public override Task LearnSample(INetwork<double, double> network, ILearningSample<double, double> sample, double theta)
+        public Task LearnSample(INetwork network, ILearningSample sample, double theta)
         {
             return _teach(network, sample.Input, sample.Output, theta);
         }
@@ -21,7 +21,7 @@ namespace NeuralNetworkConstructor.Learning.Strategies
         #region Private
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async Task _teach(INetwork<double, double> network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
+        private async Task _teach(INetwork network, IEnumerable<double> input, IEnumerable<double> expectation, double force)
         {
             network.Input(input);
             var output = (await network.Output().ConfigureAwait(false)).ToArray();

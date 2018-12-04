@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace NeuralNetworkConstructor.Networks
 {
 
-    public interface INetwork : IRefreshable
+    public interface INetwork : IRefreshable, IInput<IEnumerable<double>>, IOutput<IEnumerable<double>>
     {
 
         IReadOnlyLayer<IMasterNode> InputLayer { get; }
@@ -14,11 +14,6 @@ namespace NeuralNetworkConstructor.Networks
         ICollection<IReadOnlyLayer<INotInputNode>> Layers { get; }
 
         IReadOnlyLayer<INotInputNode> OutputLayer { get; }
-
-    }
-
-    public interface INetwork<TInput, TOutput> : INetwork, IInput<IEnumerable<TInput>>, IOutput<IEnumerable<TOutput>>
-    {
 
     }
 

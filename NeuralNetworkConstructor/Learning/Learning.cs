@@ -4,12 +4,13 @@ using NeuralNetworkConstructor.Networks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeuralNetworkConstructor.Learning
 {
-    public class Learning<TNetwork, TSample> : ILearning<TNetwork, TSample>
+    public class Learning<TNetwork, TSample> : ILearning<TSample>
         where TNetwork : INetwork
         where TSample : ISample
     {
@@ -27,36 +28,47 @@ namespace NeuralNetworkConstructor.Learning
             _settings = settings;
         }
 
-        public async Task Learn(IEnumerable<TSample> samples, CancellationToken ct = default(CancellationToken))
+        public Task Learn(IEnumerable<TSample> samples, CancellationToken ct = default(CancellationToken))
         {
-            var theta = _settings.Theta;
-            var random = new Random();
-            var epochSamples = samples;
-
-            for (var epoch = 0; epoch < _settings.Repeats; epoch++)
+            if (_settings.ShuffleEveryEpoch)
             {
-                if (_settings.ShuffleEveryEpoch)
-                {
-                    var shuffleTask = Task.Run(() =>
-                    {
-                        epochSamples = samples.OrderBy(a => random.NextDouble());
-                    });
-                    await Task.WhenAll(shuffleTask, _learnEpoch(epochSamples, theta)).ConfigureAwait(false);
-                }
-                else
-                {
-                    await _learnEpoch(samples, theta).ConfigureAwait(false);
-                }
-
-                ct.ThrowIfCancellationRequested();
-                theta *= _settings.ThetaFactorPerEpoch;
+                return _learnWithShuffle(samples, ct);
+            }
+            else
+            {
+                return _learnWithoutShuffle(samples, ct);
             }
         }
 
-        private async Task _learnEpoch(IEnumerable<TSample> samples, double theta)
+        private async Task _learnWithoutShuffle(IEnumerable<TSample> samples, CancellationToken ct)
+        {
+            var theta = _settings.InitialTheta;
+            for (var epoch = 0; epoch < _settings.EpochRepeats; epoch++)
+            {
+                await _learnEpoch(samples, theta, ct).ConfigureAwait(false);
+                theta *= _settings.ThetaFactorPerEpoch(epoch);
+            }
+        }
+
+        private async Task _learnWithShuffle(IEnumerable<TSample> samples, CancellationToken ct)
+        {
+            var theta = _settings.InitialTheta;
+            var random = new Random();
+            for (var epoch = 0; epoch < _settings.EpochRepeats; epoch++)
+            {
+                var epochSamples = samples.OrderBy(a => random.Next());
+                await _learnEpoch(epochSamples, theta, ct).ConfigureAwait(false);
+
+                theta *= _settings.ThetaFactorPerEpoch(epoch);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async Task _learnEpoch(IEnumerable<TSample> samples, double theta, CancellationToken ct)
         {
             foreach (var sample in samples)
             {
+                ct.ThrowIfCancellationRequested();
                 await _strategy.LearnSample(_network, sample, theta).ConfigureAwait(false);
             }
         }

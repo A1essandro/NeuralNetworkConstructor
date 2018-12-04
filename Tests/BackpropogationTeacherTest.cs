@@ -12,6 +12,7 @@ using Xunit;
 using NeuralNetworkConstructor.Learning.Samples;
 using NeuralNetworkConstructor.Learning.Strategies;
 using System.Threading;
+using NeuralNetworkConstructor.Constructor.Generators;
 
 namespace Tests
 {
@@ -28,24 +29,31 @@ namespace Tests
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
             var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
 
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
-            var samples = new List<ILearningSample<double, double>>
+            var samples = new List<ILearningSample>
             {
-                new LearningSample<double, double>(new double[] { 0, 1 }, new double[] { 1 }),
-                new LearningSample<double, double>(new double[] { 1, 0 }, new double[] { 1 }),
-                new LearningSample<double, double>(new double[] { 0, 0 }, new double[] { 0 }),
-                new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
+                new LearningSample(new double[] { 0, 1 }, new double[] { 1 }),
+                new LearningSample(new double[] { 1, 0 }, new double[] { 1 }),
+                new LearningSample(new double[] { 0, 0 }, new double[] { 0 }),
+                new LearningSample(new double[] { 1, 1 }, new double[] { 0 })
             };
 
             network.Input(new double[] { 1, 0 });
             var beforeLearning = (await network.Output()).First();
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9999, ShuffleEveryEpoch = true };
-            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+            var settings = new LearningSettings
+            {
+                EpochRepeats = 10000,
+                InitialTheta = THETA,
+                ThetaFactorPerEpoch = epoch => 0.9999,
+                ShuffleEveryEpoch = true
+            };
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
             await learning.Learn(samples);
 
             network.Input(new double[] { 1, 0 });
@@ -81,21 +89,22 @@ namespace Tests
             var innerLayer = new Layer(() => new Neuron(new Logistic(0.888)), 3, new Bias());
             var outputLayer = new Layer(new Neuron(new Logistic(0.777)));
 
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
-            var samples = new List<ILearningSample<double, double>>
+            var samples = new List<ILearningSample>
             {
-                new LearningSample<double, double>(new double[] { 0, 1 }, new double[] { 1 }),
-                new LearningSample<double, double>(new double[] { 1, 0 }, new double[] { 1 }),
-                new LearningSample<double, double>(new double[] { 0, 0 }, new double[] { 0 }),
-                new LearningSample<double, double>(new double[] { 1, 1 }, new double[] { 0 })
+                new LearningSample(new double[] { 0, 1 }, new double[] { 1 }),
+                new LearningSample(new double[] { 1, 0 }, new double[] { 1 }),
+                new LearningSample(new double[] { 0, 0 }, new double[] { 0 }),
+                new LearningSample(new double[] { 1, 1 }, new double[] { 0 })
             };
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 20000 };
-            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+            var settings = new LearningSettings { EpochRepeats = 20000 };
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
 
             var cts = new CancellationTokenSource();
             var task = Task.Run(async () =>
@@ -114,19 +123,25 @@ namespace Tests
             var innerLayer = new Layer(new Neuron(new Rectifier()));
             var outputLayer = new Layer(new Neuron(new Rectifier()));
 
-            Synapse.Generator.EachToEach(inputLayer, innerLayer);
-            Synapse.Generator.EachToEach(innerLayer, outputLayer);
+            var generator = new EachToEachSynapseGenerator<Synapse>(new Random());
+            generator.Generate(inputLayer, innerLayer);
+            generator.Generate(innerLayer, outputLayer);
 
             var network = new Network(inputLayer, innerLayer, outputLayer);
 
-            var samples = new List<ILearningSample<double, double>>
+            var samples = new List<ILearningSample>
             {
-                new LearningSample<double, double>(new double[] { 0 }, new double[] { 1 }),
+                new LearningSample(new double[] { 0 }, new double[] { 1 }),
             };
 
             var strategy = new BackpropagationStrategy();
-            var settings = new LearningSettings { Repeats = 10000, Theta = THETA, ThetaFactorPerEpoch = 0.9995 };
-            var learning = new Learning<Network, ILearningSample<double, double>>(network, strategy, settings);
+            var settings = new LearningSettings
+            {
+                EpochRepeats = 10000,
+                InitialTheta = THETA,
+                ThetaFactorPerEpoch = epoch => 0.9995
+            };
+            var learning = new Learning<Network, ILearningSample>(network, strategy, settings);
 
             await learning.Learn(samples);
 
