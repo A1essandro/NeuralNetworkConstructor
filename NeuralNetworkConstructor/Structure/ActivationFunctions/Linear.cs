@@ -24,9 +24,7 @@ namespace NeuralNetworkConstructor.Structure.ActivationFunctions
 
         public double GetEquation(double x) => _multiplier * x;
 
-        public double GetDerivative(double x)
-        {
-            throw new System.NotImplementedException();
-        }
+        public double GetDerivative(double x) => _multiplier;
+
     }
 }

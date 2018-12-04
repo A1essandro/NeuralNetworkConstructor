@@ -18,6 +18,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
     [KnownType(typeof(Logistic))]
     [KnownType(typeof(Linear))]
     [KnownType(typeof(Gaussian))]
+    [KnownType(typeof(AsIs))]
     public class Neuron : ISlaveNode, IRefreshable
     {
 
@@ -33,6 +34,10 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         private IActivationFunction _actFunction;
 
         #endregion
+
+        private static IActivationFunction DefaultActivationFunction = new AsIs();
+
+        private static ISummator DefaultSummator = new Summator();
 
         private double? _calculatedOutput;
 
@@ -61,14 +66,14 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         #region ctors
 
         public Neuron()
+            : this(DefaultActivationFunction, DefaultSummator)
         {
-            _summator = new Summator();
         }
 
         public Neuron(IActivationFunction function, ISummator summator = null)
         {
             _actFunction = function;
-            _summator = summator ?? new Summator();
+            _summator = summator ?? DefaultSummator;
         }
 
         public Neuron(IActivationFunction function, ICollection<ISynapse> synapses)
@@ -91,10 +96,8 @@ namespace NeuralNetworkConstructor.Structure.Nodes
                 return _calculatedOutput.Value;
             }
 
-            var sum = await Summator.GetSum(this);
-            _calculatedOutput = Function != null
-                ? Function.GetEquation(sum)
-                : sum;
+            var sum = await _summator.GetSum(this);
+            _calculatedOutput = _actFunction.GetEquation(sum);
             _waitHandle.Set();
 
             OnOutputCalculated?.Invoke(this);
@@ -111,7 +114,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// <param name="synapse"></param>
         public void AddSynapse(ISynapse synapse)
         {
-            Synapses.Add(synapse);
+            _synapses.Add(synapse);
         }
 
         /// <summary>
