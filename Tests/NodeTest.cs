@@ -4,6 +4,8 @@ using NeuralNetworkConstructor.Structure.Synapses;
 using System;
 using Xunit;
 using System.Threading.Tasks;
+using Moq;
+using System.Collections.Generic;
 
 namespace Tests
 {
@@ -32,24 +34,27 @@ namespace Tests
         [Fact]
         public async Task TestNeuron()
         {
-            var synapse = new Synapse(new Bias(), 0.5);
-            var neuron = new Neuron(new Rectifier(), new[] { synapse });
+            var synapse = new Mock<ISynapse>();
+            synapse.Setup(x => x.Output()).ReturnsAsync(0.5);
+
+            var func = new Mock<IActivationFunction>();
+            func.Setup(x => x.GetEquation(It.IsAny<double>()))
+                .Returns<double>(x => x);
+
+            var neuron = new Neuron(func.Object, new[] { synapse.Object });
             Assert.Equal(0.5, await neuron.Output());
         }
 
         [Fact]
         public async Task TestContext()
         {
-            var neuron = new Neuron();
-            var input = new InputNode();
-            neuron.AddSynapse(new Synapse(input, 1));
+            var synapse = new Mock<ISynapse>();
+            synapse.Setup(x => x.Output()).ReturnsAsync(0.5);
 
-            var context = new Context(null, 1);
-            var synapse = new Synapse(neuron, 0.5);
-            context.AddSynapse(synapse);
+            var context = new Context(delay: 1);
+            context.AddSynapse(synapse.Object);
 
-            input.Input(1);
-            var secondCallResult = await synapse.Output(); //Direct call
+            var secondCallResult = await synapse.Object.Output();
             Assert.Equal(0, await context.Output());
             Assert.Equal(0, await context.Output());
             context.Refresh();
@@ -59,7 +64,7 @@ namespace Tests
         [Fact]
         public async Task TestEvents()
         {
-            var neuron = new Neuron(new Rectifier());
+            var neuron = new Neuron();
             var inputNeuron = new InputNode();
             neuron.AddSynapse(new Synapse(inputNeuron, 1));
 

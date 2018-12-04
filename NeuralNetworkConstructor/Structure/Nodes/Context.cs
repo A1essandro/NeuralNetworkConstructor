@@ -17,6 +17,8 @@ namespace NeuralNetworkConstructor.Structure.Nodes
     public class Context : Neuron
     {
 
+        private bool _calculated = false;
+
         private readonly Queue<double> _memory;
 
         private double _currentValue;
@@ -46,10 +48,11 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         /// <returns></returns>
         public override async Task<double> Output()
         {
-            if (_memory.Count < Delay)
+            if (!_calculated)
             {
                 _memory.Enqueue(await base.Output());
-                _currentValue = _memory.Dequeue(); //TODO: not correct
+                _currentValue = _memory.Dequeue();
+                _calculated = true;
             }
 
             return _currentValue;
@@ -58,7 +61,7 @@ namespace NeuralNetworkConstructor.Structure.Nodes
         public override void Refresh()
         {
             base.Refresh();
-            _currentValue = _memory.Dequeue();
+            _calculated = false;
         }
 
     }
