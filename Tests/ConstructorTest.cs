@@ -1,12 +1,12 @@
-﻿using NeuralNetwork.Structure.ActivationFunctions;
+﻿using NeuralNetwork.Learning;
+using NeuralNetwork.Learning.Samples;
+using NeuralNetwork.Learning.Strategies;
+using NeuralNetwork.Structure.ActivationFunctions;
 using NeuralNetwork.Structure.Layers;
 using NeuralNetwork.Structure.Networks;
 using NeuralNetwork.Structure.Nodes;
 using NeuralNetwork.Structure.Synapses;
 using NeuralNetworkConstructor.Constructor;
-using NeuralNetworkConstructor.Learning;
-using NeuralNetworkConstructor.Learning.Samples;
-using NeuralNetworkConstructor.Learning.Strategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
