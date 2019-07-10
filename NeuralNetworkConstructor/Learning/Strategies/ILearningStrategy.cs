@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
+using NeuralNetwork.Structure.Networks;
 using NeuralNetworkConstructor.Learning.Samples;
-using NeuralNetworkConstructor.Networks;
 
 namespace NeuralNetworkConstructor.Learning.Strategies
 {

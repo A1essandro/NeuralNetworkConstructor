@@ -1,9 +1,8 @@
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetworkConstructor.Normalizer;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NeuralNetworkConstructor.Normalizer;
-using NeuralNetworkConstructor.Structure.Nodes;
 using Xunit;
 
 namespace Tests

@@ -1,8 +1,8 @@
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Linq;
-using NeuralNetworkConstructor.Structure.Layers;
-using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.Synapses;
 
 namespace NeuralNetworkConstructor.Constructor.Generators
 {

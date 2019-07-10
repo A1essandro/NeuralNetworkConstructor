@@ -1,52 +1,18 @@
-﻿using NeuralNetworkConstructor.Common;
-using NeuralNetworkConstructor.Structure.Layers;
-using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.ActivationFunctions;
+﻿using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Networks;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.Synapses;
+using NeuralNetworkConstructor.Constructor.Generators;
 using System;
 using System.Linq;
-using Xunit;
-using NeuralNetworkConstructor.Structure.Layers.Projections;
-using NeuralNetworkConstructor.Structure.Synapses;
-using NeuralNetworkConstructor.Networks;
 using System.Threading.Tasks;
-using NeuralNetworkConstructor.Constructor.Generators;
+using Xunit;
 
 namespace Tests
 {
     public class LayerTest
     {
-
-        [Fact]
-        public void TestConstructorWithGenerator()
-        {
-            ushort neuronsQty = 15;
-            var layer = new Layer(() => new Neuron(new Rectifier()), neuronsQty, new Bias());
-
-            Assert.Equal(neuronsQty + 1, layer.Nodes.Count());
-            Assert.IsType<Neuron>(layer.Nodes.ToArray()[5]);
-            Assert.IsType<Bias>(layer.Nodes.Last());
-        }
-
-        [Fact]
-        public void TestInputLayer()
-        {
-            ushort neuronsQty = 7;
-            var layer = new InputLayer(() => new InputNode(), neuronsQty, new Bias());
-
-            Assert.Equal(neuronsQty + 1, layer.Nodes.Count());
-            Assert.IsType<InputNode>(layer.Nodes.ToArray()[5]);
-            Assert.IsType<Bias>(layer.Nodes.Last());
-            Assert.Throws<NullReferenceException>(() => (layer.Nodes.Last() as IInputNode).Input(1));
-        }
-
-        [Fact]
-        public void TestInputLayer2D()
-        {
-            ushort neuronsQty = 12;
-            var layer = new Layer2D<IMasterNode>(() => new InputNode(), neuronsQty, 3, 4);
-
-            Assert.Equal(neuronsQty, layer.NodesQuantity);
-        }
 
         [Fact]
         public async Task TestLayers2D()

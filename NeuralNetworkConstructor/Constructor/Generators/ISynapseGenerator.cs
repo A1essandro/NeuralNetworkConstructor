@@ -1,6 +1,6 @@
-using NeuralNetworkConstructor.Structure.Layers;
-using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.Synapses;
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.Synapses;
 
 namespace NeuralNetworkConstructor.Constructor.Generators
 {

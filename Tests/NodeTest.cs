@@ -1,11 +1,10 @@
-﻿using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.ActivationFunctions;
-using NeuralNetworkConstructor.Structure.Synapses;
+﻿using Moq;
+using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.Synapses;
 using System;
-using Xunit;
 using System.Threading.Tasks;
-using Moq;
-using System.Collections.Generic;
+using Xunit;
 
 namespace Tests
 {

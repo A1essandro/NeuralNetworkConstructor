@@ -1,7 +1,7 @@
-﻿using NeuralNetworkConstructor.Learning.Samples;
-using NeuralNetworkConstructor.Networks;
-using NeuralNetworkConstructor.Structure.Layers;
-using NeuralNetworkConstructor.Structure.Nodes;
+﻿using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Networks;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetworkConstructor.Learning.Samples;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

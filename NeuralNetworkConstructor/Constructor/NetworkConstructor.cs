@@ -1,8 +1,8 @@
-﻿using NeuralNetworkConstructor.Networks;
-using NeuralNetworkConstructor.Structure.Layers;
-using NeuralNetworkConstructor.Structure.Nodes;
-using NeuralNetworkConstructor.Structure.ActivationFunctions;
-using NeuralNetworkConstructor.Structure.Synapses;
+﻿using NeuralNetwork.Structure.ActivationFunctions;
+using NeuralNetwork.Structure.Layers;
+using NeuralNetwork.Structure.Networks;
+using NeuralNetwork.Structure.Nodes;
+using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 

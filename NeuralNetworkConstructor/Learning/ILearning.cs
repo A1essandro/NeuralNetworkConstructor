@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NeuralNetworkConstructor.Learning.Samples;
-using NeuralNetworkConstructor.Networks;
 
 namespace NeuralNetworkConstructor.Learning
 {
