@@ -4,7 +4,7 @@ using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Linq;
 
-namespace NeuralNetworkConstructor.Constructor.Generators
+namespace NeuralNetworkConstructor.Generators
 {
     public class EachToEachSynapseGenerator<TSynapse> : ISynapseGenerator<TSynapse>
         where TSynapse : ISynapse, new()

@@ -6,7 +6,7 @@ using NeuralNetwork.Structure.Layers;
 using NeuralNetwork.Structure.Networks;
 using NeuralNetwork.Structure.Nodes;
 using NeuralNetwork.Structure.Synapses;
-using NeuralNetworkConstructor.Constructor;
+using NeuralNetworkConstructor;
 using System;
 using System.Collections.Generic;
 using System.Linq;

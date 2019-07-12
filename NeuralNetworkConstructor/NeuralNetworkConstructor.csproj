@@ -13,7 +13,7 @@
     <RootNamespace>NeuralNetworkConstructor</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NeuralNetwork.Structure" Version="0.1.2" />
+    <PackageReference Include="NeuralNetwork.Structure" Version="0.1.4" />
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />

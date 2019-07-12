@@ -2,7 +2,7 @@
 using NeuralNetwork.Structure.Layers;
 using NeuralNetwork.Structure.Nodes;
 using NeuralNetwork.Structure.Synapses;
-using NeuralNetworkConstructor.Constructor.Generators;
+using NeuralNetworkConstructor.Generators;
 using System;
 using System.Collections.Generic;
 using System.Linq;

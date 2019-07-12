@@ -6,7 +6,7 @@ using NeuralNetwork.Structure.Synapses;
 using System;
 using System.Collections.Generic;
 
-namespace NeuralNetworkConstructor.Constructor
+namespace NeuralNetworkConstructor
 {
     public class NetworkConstructor<TNetwork>
         where TNetwork : INetwork, new()
@@ -35,8 +35,8 @@ namespace NeuralNetworkConstructor.Constructor
         {
             var layer = new TLayer();
             _currentLayer = layer;
-            _tryAddToDictionary<ILayer<INotInputNode>>(_layers, identity, layer);
-            _currentNetwork.Layers.Add((ILayer<INotInputNode>)layer);
+            _tryAddToDictionary(_layers, identity, layer);
+            _currentNetwork.Layers.Add(layer);
 
             if (withBias)
             {
