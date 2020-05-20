@@ -1,38 +1,34 @@
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.Synapses;
-using System;
+using NeuralNetwork.Structure.Contract.Synapses;
+using NeuralNetwork.Structure.Contract.Layers;
+using NeuralNetwork.Structure.Contract.Nodes;
 using System.Linq;
+using System.Collections.Generic;
+using NeuralNetworkConstructor.Factories.Synapses;
 
 namespace NeuralNetworkConstructor.Generators
 {
-    public class EachToEachSynapseGenerator<TSynapse> : ISynapseGenerator<TSynapse>
-        where TSynapse : ISynapse, new()
+    public class EachToEachSynapseGenerator : ISynapseGenerator
     {
 
-        private readonly Random _random;
+        private readonly ISynapseFactory _factory;
 
-        public EachToEachSynapseGenerator() => _random = new Random();
+        public EachToEachSynapseGenerator(ISynapseFactory factory)
+        {
+            _factory = factory;
+        }
 
-        public EachToEachSynapseGenerator(Random random) => _random = random;
-
-        public void Generate(IReadOnlyLayer<INode> masterLayer, IReadOnlyLayer<INotInputNode> slaveLayer)
+        public IEnumerable<ISynapse> Generate<TMasterLayerNode, TSlaveLayerNode>(ILayer<TMasterLayerNode> masterLayer, ILayer<TSlaveLayerNode> slaveLayer)
+            where TMasterLayerNode : INode
+            where TSlaveLayerNode : INotInputNode
         {
             foreach (var mNode in masterLayer.Nodes)
             {
                 foreach (var sNode in slaveLayer.Nodes.OfType<ISlaveNode>())
                 {
-                    var weight = _getRandomWeight();
-                    var synapse = new TSynapse();
-                    synapse.Weight = weight;
-                    synapse.MasterNode = mNode;
-
-                    sNode.AddSynapse(synapse);
+                    yield return _factory.Create(mNode, sNode);
                 }
             }
         }
-
-        private double _getRandomWeight() => (_random.NextDouble() - 0.5) * 2;
 
     }
 }

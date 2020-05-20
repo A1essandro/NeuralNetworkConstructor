@@ -1,6 +1,7 @@
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.Synapses;
+using System.Collections.Generic;
+using NeuralNetwork.Structure.Contract.Layers;
+using NeuralNetwork.Structure.Contract.Nodes;
+using NeuralNetwork.Structure.Contract.Synapses;
 
 namespace NeuralNetworkConstructor.Generators
 {
@@ -9,8 +10,7 @@ namespace NeuralNetworkConstructor.Generators
     /// Generator of synapses between two layers
     /// </summary>
     /// <typeparam name="TSynapse"></typeparam>
-    public interface ISynapseGenerator<TSynapse>
-        where TSynapse : ISynapse, new()
+    public interface ISynapseGenerator
     {
 
         /// <summary>
@@ -18,7 +18,9 @@ namespace NeuralNetworkConstructor.Generators
         /// </summary>
         /// <param name="masterLayer"></param>
         /// <param name="slaveLayer"></param>
-        void Generate(IReadOnlyLayer<INode> masterLayer, IReadOnlyLayer<INotInputNode> slaveLayer);
+        IEnumerable<ISynapse> Generate<TMasterLayerNode, TSlaveLayerNode>(ILayer<TMasterLayerNode> masterLayer, ILayer<TSlaveLayerNode> slaveLayer)
+            where TMasterLayerNode : INode
+            where TSlaveLayerNode : INotInputNode;
 
     }
 }

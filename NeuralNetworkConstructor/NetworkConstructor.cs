@@ -1,188 +1,139 @@
-﻿using NeuralNetwork.Structure.ActivationFunctions;
-using NeuralNetwork.Structure.Layers;
-using NeuralNetwork.Structure.Networks;
-using NeuralNetwork.Structure.Nodes;
-using NeuralNetwork.Structure.Synapses;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using NeuralNetwork.Structure.Contract.Layers;
+using NeuralNetwork.Structure.Contract.Networks;
+using NeuralNetwork.Structure.Contract.Nodes;
+using NeuralNetworkConstructor.Contract;
+using NeuralNetworkConstructor.Factories.Layers;
+using NeuralNetworkConstructor.Factories.Network;
+using NeuralNetworkConstructor.Factories.Nodes;
+using NeuralNetworkConstructor.Factories.Synapses;
+using NeuralNetworkConstructor.Generators;
 
 namespace NeuralNetworkConstructor
 {
-    public class NetworkConstructor<TNetwork>
-        where TNetwork : INetwork, new()
+    public class NetworkConstructor : INetworkCreator<IMultilayerNetwork, ILayerCreator>, ILayerCreator
     {
 
-        private readonly TNetwork _currentNetwork = new TNetwork();
-        private ILayer<INotInputNode> _currentLayer;
-        private ISlaveNode _currentNode;
+        private IMultilayerNetwork _network;
+        private dynamic _currentLayer = null;
 
-        private readonly IDictionary<string, INode> _nodes = new Dictionary<string, INode>();
-        private readonly IDictionary<string, ILayer<INotInputNode>> _layers = new Dictionary<string, ILayer<INotInputNode>>();
-
-        private void _tryAddToDictionary<T>(IDictionary<string, T> dict, string key, T value)
+        public ILayerCreator CreateNetwork(out IMultilayerNetwork network, object context = default, INetworkFactory<IMultilayerNetwork> factory = default)
         {
-            if (!dict.ContainsKey(key))
-            {
-                dict[key] = value;
-                return;
-            }
+            if (factory == default)
+                factory = new NetworkFactory();
 
-            throw new InvalidOperationException();
+            _network = factory.Create(context);
+            _currentLayer = null;
+            network = _network;
+
+            return this;
         }
 
-        public NetworkConstructor<TNetwork> AddLayer<TLayer>(string identity, bool withBias = false)
-            where TLayer : ILayer<INotInputNode>, new()
+        public ILayerCreator AddInputLayer(out ILayer<IMasterNode> inputLayer, object context = default, ILayerFactory<IInputLayer, IMasterNode> factory = default)
         {
-            var layer = new TLayer();
+            if (factory == default)
+                factory = new InputLayerFactory();
+
+            inputLayer = factory.Create(context);
+            _network.InputLayer = inputLayer;
+            _currentLayer = inputLayer;
+
+            return this;
+        }
+
+        public ILayerCreator AddOutputLayer(out ILayer<INotInputNode> layer, object context = default, ILayerFactory<ILayer<INotInputNode>, INotInputNode> factory = default)
+        {
+            if (factory == default)
+                factory = new LayerFactory();
+
+            layer = factory.Create(context);
+            _network.OutputLayer = layer;
             _currentLayer = layer;
-            _tryAddToDictionary(_layers, identity, layer);
-            _currentNetwork.Layers.Add(layer);
 
-            if (withBias)
+            return this;
+        }
+
+        public ILayerCreator AddInnerLayer(out ILayer<INotInputNode> layer, object context = default, ILayerFactory<ILayer<INotInputNode>, INotInputNode> factory = default)
+        {
+            if (!(_network is IMultilayerNetwork))
+                throw new InvalidOperationException($"Network is not {nameof(IMultilayerNetwork)}");
+
+            var network = _network as IMultilayerNetwork;
+
+            if (factory == default)
+                factory = new LayerFactory();
+
+            layer = factory.Create(context);
+            network.AddInnerLayer(factory.Create(context));
+            _currentLayer = layer;
+
+            return this;
+        }
+
+        public ILayerCreator AddNode(object context = default)
+        {
+            AddNode(out var _, context);
+
+            return this;
+        }
+
+        public ILayerCreator AddNode(out INode node, object context = default)
+        {
+            if (_currentLayer is IInputLayer)
             {
-                _currentLayer.AddNode(new Bias());
-            }
-
-            return this;
-        }
-
-        #region Nodes
-
-        public NetworkConstructor<TNetwork> AddNode<TNode>(string identity)
-            where TNode : INotInputNode, new()
-        {
-            var node = new TNode();
-            _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.AddNode(node);
-
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddNode(string identity, INotInputNode node)
-        {
-            _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.AddNode(node);
-
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddInputNode<TNode>(string identity)
-            where TNode : IMasterNode, new()
-        {
-            var node = new TNode();
-            _tryAddToDictionary(_nodes, identity, node);
-            ((ILayer<IMasterNode>)_currentNetwork.InputLayer).AddNode(node);
-
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddInputNodes<TNode>(params string[] identities)
-            where TNode : IInputNode, new()
-        {
-            foreach (var identity in identities)
-            {
-                AddInputNode<TNode>(identity);
-            }
-
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddInputNode(string identity, IInputNode node)
-        {
-            _tryAddToDictionary(_nodes, identity, node);
-            ((ILayer<IMasterNode>)_currentNetwork.InputLayer).AddNode(node);
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddNeuron<TNode>(string identity, IActivationFunction func)
-            where TNode : ISlaveNode, new()
-        {
-            var node = new TNode();
-            node.Function = func;
-            _currentNode = node;
-            _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.AddNode(node);
-
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddNeuron(string identity, ISlaveNode node)
-        {
-            _currentNode = node;
-            _tryAddToDictionary(_nodes, identity, node);
-            _currentLayer.AddNode(node);
-
-            return this;
-        }
-
-        #endregion
-
-        #region Synapses
-
-        public NetworkConstructor<TNetwork> AddSynapse<TSynapse>(string masterNodeIdentity, double? weight = null)
-            where TSynapse : ISynapse, new()
-        {
-            var masterNode = _nodes[masterNodeIdentity];
-            var synapse = new TSynapse
-            {
-                MasterNode = masterNode
-            };
-
-            if (weight.HasValue)
-            {
-                synapse.Weight = weight.Value;
-            }
-
-            _currentNode.Synapses.Add(synapse);
-
-            return this;
-        }
-
-        public NetworkConstructor<TNetwork> AddSynapses<TSynapse>(string masterNodesLayer = null)
-            where TSynapse : ISynapse, new()
-        {
-            if (masterNodesLayer == null)
-            {
-                _addSynapsesToInputLayer<TSynapse>();
+                AddNode<IInputNode>(out var inputNode, new InputNodeFactory(), context);
+                node = inputNode;
             }
             else
             {
-                var rand = new Random();
-                var layer = _layers[masterNodesLayer] as ILayer<INotInputNode>;
-                foreach (var masterNode in layer.Nodes)
-                {
-                    var synapse = new TSynapse
-                    {
-                        MasterNode = masterNode,
-                        Weight = (rand.NextDouble() - 0.5) * 2
-                    };
-
-                    _currentNode.Synapses.Add(synapse);
-                }
+                AddNode<INotInputNode>(out var neuron, new NeuronFactory(), context);
+                node = neuron;
             }
 
             return this;
         }
 
-        private void _addSynapsesToInputLayer<TSynapse>()
-            where TSynapse : ISynapse, new()
+        public ILayerCreator AddNode<TNode>(out TNode node, INodeFactory<TNode> factory, object context = default)
+            where TNode : INode
         {
-            foreach (var masterNode in _currentNetwork.InputLayer.Nodes)
-            {
-                var synapse = new TSynapse
-                {
-                    MasterNode = masterNode
-                };
+            node = factory.Create(context);
+            _currentLayer.AddNode(node);
 
-                _currentNode.Synapses.Add(synapse);
-            }
+            return this;
         }
 
-        #endregion
-
-        public TNetwork Complete()
+        public ILayerCreator AddNodes(int quantity, object context = null)
         {
-            return _currentNetwork;
+            for (int i = 0; i < quantity; i++)
+            {
+                AddNode(context);
+            }
+
+            return this;
+        }
+
+        public ILayerCreator AddSynapse(IMasterNode master, ISlaveNode slave, ISynapseFactory factory, object context = default)
+        {
+            _network.AddSynapse(factory.Create(master, slave, context));
+
+            return this;
+        }
+
+        public ILayerCreator GenerateSynapses<TMasterLayerNode, TSlaveLayerNode>(ILayer<TMasterLayerNode> masterLayer, ILayer<TSlaveLayerNode> slaveLayer, ISynapseGenerator generator = default)
+            where TMasterLayerNode : INode
+            where TSlaveLayerNode : INotInputNode
+        {
+            if (generator == default)
+            {
+                generator = new EachToEachSynapseGenerator(new SynapseFactory());
+            }
+
+            foreach (var synapse in generator.Generate(masterLayer, slaveLayer))
+            {
+                _network.AddSynapse(synapse);
+            }
+
+            return this;
         }
 
     }

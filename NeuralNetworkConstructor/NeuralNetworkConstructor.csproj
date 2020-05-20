@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <PackageId>NeuralNetworkConstructor</PackageId>
@@ -13,9 +13,11 @@
     <RootNamespace>NeuralNetworkConstructor</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NeuralNetwork.Structure" Version="0.1.4" />
-    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+    <PackageReference Include="NeuralNetwork.Structure.Contract" Version="1.0.4"/>
+    <PackageReference Include="NeuralNetwork.Structure" Version="1.0.34"/>
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0"/>
+    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0"/>
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0"/>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
   </ItemGroup>
 </Project>
