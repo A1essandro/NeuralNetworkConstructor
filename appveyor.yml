@@ -8,12 +8,12 @@ dotnet_csproj:
 before_build:
   - choco install "msbuild-sonarqube-runner" -y
   - dotnet restore
-  - SonarScanner.MSBuild.exe begin /k:"neural-network-constructor" /d:"sonar.host.url=https://sonarqube.com" /o:"a1essandro-github" /d:"sonar.login=c2e717505450940ed52170d6a57adb92c475af69"
+  # - SonarScanner.MSBuild.exe begin /k:"neural-network-constructor" /d:"sonar.host.url=https://sonarqube.com" /o:"a1essandro-github" /d:"sonar.login=c2e717505450940ed52170d6a57adb92c475af69"
 build:
   verbosity: normal
   # publish_nuget: true
 after_build:
-  - SonarScanner.MSBuild.exe end /d:"sonar.login=c2e717505450940ed52170d6a57adb92c475af69"
+  # - SonarScanner.MSBuild.exe end /d:"sonar.login=c2e717505450940ed52170d6a57adb92c475af69"
   - dotnet pack NeuralNetworkConstructor -v=n /p:Configuration=Release /p:PackageVersion=%APPVEYOR_BUILD_VERSION%
 artifacts:
 - path: '**\*.nupkg'
